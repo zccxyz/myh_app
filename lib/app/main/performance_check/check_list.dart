@@ -36,7 +36,18 @@ class CheckList extends StatelessWidget {
             trailing: Icon(Icons.chevron_right),
           ),
           Divider(height: 0,),
-
+          ListTile(
+            onTap: (){
+              jump(context, 'no_commission');
+            },
+            leading: Icon(
+              Icons.date_range,
+              color: c1,
+            ),
+            title: Text('未提成业绩'),
+            trailing: Icon(Icons.chevron_right),
+          ),
+          Divider(height: 0,),
         ],
       ),
     );

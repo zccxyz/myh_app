@@ -14,7 +14,15 @@ import 'package:myh_shop/app/main/goods/item_manage.dart';
 import 'package:myh_shop/app/main/goods/plan_manage.dart';
 import 'package:myh_shop/app/main/goods/rank.dart';
 import 'package:myh_shop/app/main/goods/recycle_bin.dart';
+import 'package:myh_shop/app/main/member_manage/birthday.dart';
 import 'package:myh_shop/app/main/member_manage/coupon.dart';
+import 'package:myh_shop/app/main/member_manage/lost_member.dart';
+import 'package:myh_shop/app/main/member_manage/refund_logs.dart';
+import 'package:myh_shop/app/main/member_manage/subscribe.dart';
+import 'package:myh_shop/app/main/member_manage/today_consume.dart';
+import 'package:myh_shop/app/main/member_manage/today_money.dart';
+import 'package:myh_shop/app/main/member_manage/today_shop.dart';
+import 'package:myh_shop/app/main/member_manage/warn_member.dart';
 import 'package:myh_shop/app/main/my/analysis.dart';
 import 'package:myh_shop/app/main/my/clerk_manage.dart';
 import 'package:myh_shop/app/main/my/edit_psw.dart';
@@ -33,7 +41,9 @@ import 'package:myh_shop/app/main/my/staff_manage.dart';
 import 'package:myh_shop/app/main/my/wages.dart';
 import 'package:myh_shop/app/main/performance_check/check_detail.dart';
 import 'package:myh_shop/app/main/performance_check/check_list.dart';
+import 'package:myh_shop/app/main/performance_check/edit_data.dart';
 import 'package:myh_shop/app/main/performance_check/month.dart';
+import 'package:myh_shop/app/main/performance_check/no_commission.dart';
 import 'package:myh_shop/app/main/popularity/index.dart';
 import 'package:myh_shop/app/main/warehouse/early_warning.dart';
 import 'package:myh_shop/app/main/warehouse/ware_list.dart';
@@ -96,6 +106,15 @@ class MyApp extends StatelessWidget {
         'wages': (_) => Wages(),
         'analysis': (_) => Analysis(),
         'staff_manage': (_) => StaffManage(),
+        'birthday': (_) => Birthday(),
+        'today_money': (_) => TodayMoney(),
+        'today_consume': (_) => TodayConsume(),
+        'refund_logs': (_) => RefundLogs(),
+        'today_shop': (_) => TodayShop(),
+        'lost_member': (_) => LostMember(),
+        'warn_member': (_) => WarnMember(),
+        'subscribe': (_) => Subscribe(),
+        'no_commission': (_) => NoCommission(),
       },
       theme: ThemeData(
           canvasColor: bg,

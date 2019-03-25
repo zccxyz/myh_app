@@ -120,6 +120,18 @@ const Map<String, String> methods = {
   'wear_purchase': 'buy/wear_purchase',
   'buycard': 'buy/buycard',
   'buyplan': 'buy/buyplan',
+  'BirthdayDetail': 'member/BirthdayDetail',
+  'memberTotal': 'member/total',
+  'getConsume': 'store/getConsume',
+  'consumeDetail': 'store/consumeDetail',
+  'consumeRefund': 'store/consumeRefund',
+  'toStoreDetail': 'member/toStoreDetail',
+  'LostDetail': 'member/LostDetail',
+  'UnTimeDetail': 'member/UnTimeDetail',
+  'BespeakDetail': 'Bespeak/BespeakDetail',
+  'not_raise_operation': 'achievement/not_raise_operation',
+  'get_day_achievement': 'achievement/get_day_achievement',
+  'raise_detail_operation': 'achievement/raise_detail_operation',
 };
 final UserModel userModel = UserModel();
 final ComeShopModel comeShopModel = ComeShopModel();

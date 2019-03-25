@@ -33,7 +33,9 @@ class _IndexState extends State<Index> {
                     'img/1_03.png',
                     width: 25.0,
                   ),
-                  onPressed: () {})
+                  onPressed: () {
+                    jump(context, 'subscribe');
+                  })
             ],
             pinned: true,
             expandedHeight: 350.0,
@@ -53,47 +55,62 @@ class _IndexState extends State<Index> {
                         right: 15.0),
                     child: Column(
                       children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              '今日总营业额',
-                              style: TextStyle(
-                                  color: Colors.white, fontSize: 16.0),
-                            ),
-                            RichText(
-                                text: TextSpan(
-                                    text: '¥',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.w500),
-                                    children: [
-                                  TextSpan(
-                                      text: '${data['today_money']}',
-                                      style: TextStyle(
-                                          fontSize: 25.0,
-                                          fontWeight: FontWeight.w500)),
-                                ])),
-                          ],
+                        GestureDetector(
+                          onTap: (){
+                            jump(context, 'today_money');
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                '今日总营业额',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 16.0),
+                              ),
+                              RichText(
+                                  text: TextSpan(
+                                      text: '¥',
+                                      style:
+                                          TextStyle(fontWeight: FontWeight.w500),
+                                      children: [
+                                    TextSpan(
+                                        text: '${data['today_money']}',
+                                        style: TextStyle(
+                                            fontSize: 25.0,
+                                            fontWeight: FontWeight.w500)),
+                                  ])),
+                            ],
+                          ),
                         ),
                         Padding(
                           padding: EdgeInsets.only(top: 10.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              RichText(
-                                text: TextSpan(text: '消耗金额', children: [
-                                  TextSpan(text: '    ¥'),
-                                  TextSpan(
-                                      text: '${data['consume_total']}',
-                                      style: TextStyle(fontSize: 20.0)),
-                                ]),
+                              GestureDetector(
+                                onTap: (){
+                                  jump(context, 'today_consume');
+                                },
+                                child: RichText(
+                                  text: TextSpan(text: '消耗金额', children: [
+                                    TextSpan(text: '    ¥'),
+                                    TextSpan(
+                                        text: '${data['consume_total']}',
+                                        style: TextStyle(fontSize: 20.0)),
+                                  ]),
+                                ),
                               ),
-                              RichText(
-                                text: TextSpan(text: '今日到店', children: [
-                                  TextSpan(
-                                      text: '   ${data['arrival_total']}',
-                                      style: TextStyle(fontSize: 20.0)),
-                                ]),
+                              GestureDetector(
+                                onTap: (){
+                                  jump(context, 'today_shop');
+                                },
+                                child: RichText(
+                                  text: TextSpan(text: '今日到店', children: [
+                                    TextSpan(
+                                        text: '   ${data['arrival_total']}',
+                                        style: TextStyle(fontSize: 20.0)),
+                                  ]),
+                                ),
                               )
                             ],
                           ),
@@ -103,19 +120,29 @@ class _IndexState extends State<Index> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              RichText(
-                                text: TextSpan(text: '操作项目/套盒数', children: [
-                                  TextSpan(
-                                      text: '   ${data['items_total']}',
-                                      style: TextStyle(fontSize: 20.0)),
-                                ]),
+                              GestureDetector(
+                                onTap: (){
+                                  jump(context, 'today_consume');
+                                },
+                                child: RichText(
+                                  text: TextSpan(text: '操作项目/套盒数', children: [
+                                    TextSpan(
+                                        text: '   ${data['items_total']}',
+                                        style: TextStyle(fontSize: 20.0)),
+                                  ]),
+                                ),
                               ),
-                              RichText(
-                                text: TextSpan(text: '新客户', children: [
-                                  TextSpan(
-                                      text: '   ${data['arrival_total']}',
-                                      style: TextStyle(fontSize: 20.0)),
-                                ]),
+                              GestureDetector(
+                                onTap: (){
+                                  jump(context, 'today_shop');
+                                },
+                                child: RichText(
+                                  text: TextSpan(text: '新客户', children: [
+                                    TextSpan(
+                                        text: '   ${data['arrival_total']}',
+                                        style: TextStyle(fontSize: 20.0)),
+                                  ]),
+                                ),
                               )
                             ],
                           ),
@@ -137,32 +164,37 @@ class _IndexState extends State<Index> {
                             left: 15.0, right: 15.0, bottom: 15.0, top: 80),
                         width: MediaQuery.of(context).size.width,
                         color: Colors.white,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Image.asset(
-                              'img/1_17.png',
-                              height: 15.0,
-                            ),
-                            data['bir_member'] != null &&
-                                    data['bir_member'].length > 0
-                                ? Expanded(
-                                    child: Swiper(
-                                      itemCount: 3,
-                                      itemBuilder: (_, i) => _item(i),
-                                      scrollDirection: Axis.vertical,
-                                      autoplay: true,
+                        child: GestureDetector(
+                          onTap: () {
+                            jump(context, 'birthday');
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Image.asset(
+                                'img/1_17.png',
+                                height: 15.0,
+                              ),
+                              data['bir_member'] != null &&
+                                      data['bir_member'].length > 0
+                                  ? Expanded(
+                                      child: Swiper(
+                                        itemCount: 3,
+                                        itemBuilder: (_, i) => _item(i),
+                                        scrollDirection: Axis.vertical,
+                                        autoplay: true,
+                                      ),
+                                    )
+                                  : Text(
+                                      '暂无数据',
+                                      style: TextStyle(color: textColor),
                                     ),
-                                  )
-                                : Text(
-                                    '暂无数据',
-                                    style: TextStyle(color: textColor),
-                                  ),
-                            Image.asset(
-                              'img/1_20.png',
-                              height: 15.0,
-                            ),
-                          ],
+                              Image.asset(
+                                'img/1_20.png',
+                                height: 15.0,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       bottom: 10,
@@ -185,73 +217,88 @@ class _IndexState extends State<Index> {
                         child: Row(
                           children: <Widget>[
                             Expanded(
-                                child: Container(
+                                child: GestureDetector(
+                                  onTap: (){
+                                    jump(context, 'lost_member');
+                                  },
+                                  child: Container(
                               height: 88.0,
                               child: Column(
-                                children: <Widget>[
-                                  Image.asset(
-                                    'img/1_07.png',
-                                    height: 30.0,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      '流失人员预警',
-                                      style: TextStyle(
-                                          fontSize: 13.0,
-                                          fontWeight: FontWeight.w300),
+                                  children: <Widget>[
+                                    Image.asset(
+                                      'img/1_07.png',
+                                      height: 30.0,
                                     ),
-                                  ),
-                                  Text(
-                                    '${data['lost_member']}',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 18.0,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )),
-                            Expanded(
-                                child: Container(
-                              height: 88.0,
-                              child: Column(
-                                children: <Widget>[
-                                  Image.asset('img/1_09.png', height: 30.0),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text('游离会员',
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        '流失人员预警',
                                         style: TextStyle(
                                             fontSize: 13.0,
-                                            fontWeight: FontWeight.w300)),
-                                  ),
-                                  Text('${data['untime_member']}',
+                                            fontWeight: FontWeight.w300),
+                                      ),
+                                    ),
+                                    Text(
+                                      '${data['lost_member']}',
                                       style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 18.0)),
-                                ],
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 18.0,
+                                      ),
+                                    ),
+                                  ],
                               ),
-                            )),
+                            ),
+                                )),
                             Expanded(
-                                child: Container(
+                                child: GestureDetector(
+                                  onTap: (){
+                                    jump(context, 'warn_member');
+                                  },
+                                  child: Container(
                               height: 88.0,
                               child: Column(
-                                children: <Widget>[
-                                  Image.asset('img/1_11.png', height: 30.0),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text('新客户追踪',
+                                  children: <Widget>[
+                                    Image.asset('img/1_09.png', height: 30.0),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text('游离会员',
+                                          style: TextStyle(
+                                              fontSize: 13.0,
+                                              fontWeight: FontWeight.w300)),
+                                    ),
+                                    Text('${data['untime_member']}',
                                         style: TextStyle(
-                                            fontSize: 13.0,
-                                            fontWeight: FontWeight.w300)),
-                                  ),
-                                  Text('${data['new_customer']}',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 18.0)),
-                                ],
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 18.0)),
+                                  ],
                               ),
-                            )),
+                            ),
+                                )),
+                            Expanded(
+                                child: GestureDetector(
+                                  onTap: (){
+                                    jump(context, 'new_manage');
+                                  },
+                                  child: Container(
+                              height: 88.0,
+                              child: Column(
+                                  children: <Widget>[
+                                    Image.asset('img/1_11.png', height: 30.0),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text('新客户追踪',
+                                          style: TextStyle(
+                                              fontSize: 13.0,
+                                              fontWeight: FontWeight.w300)),
+                                    ),
+                                    Text('${data['new_customer']}',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 18.0)),
+                                  ],
+                              ),
+                            ),
+                                )),
                           ],
                         ),
                       ),

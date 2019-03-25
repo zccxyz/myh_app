@@ -11,10 +11,10 @@ class DilyWater extends StatefulWidget {
 
 class _DilyWaterState extends State<DilyWater> {
   List list;
-  double cardPayTotal = 0;
-  double consumeTotal = 0;
+  String cardPayTotal = '0';
+  String consumeTotal = '0';
   int count = 0;
-  double totalMoney = 0;
+  String totalMoney = '0';
 
   @override
   void initState() {
@@ -28,16 +28,15 @@ class _DilyWaterState extends State<DilyWater> {
       if (rs['code'] == 1) {
         setState(() {
           list = rs['res']['res'];
-          cardPayTotal = double.parse(rs['res']['card_pay_total'].toString());
-          consumeTotal = double.parse(rs['res']['consume_total'].toString());
+          cardPayTotal = double.parse(rs['res']['card_pay_total'].toString()).toStringAsFixed(2);
+          consumeTotal = double.parse(rs['res']['consume_total'].toString()).toStringAsFixed(2);
           count = int.parse(rs['res']['count'].toString());
-          totalMoney = double.parse(rs['res']['total_money'].toString());
+          totalMoney = double.parse(rs['res']['total_money'].toString()).toStringAsFixed(2);
         });
       } else {
         tip(context, rs['error']);
       }
     }
-    print(rs);
   }
 
   String getType(int type) {
