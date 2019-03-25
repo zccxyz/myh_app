@@ -3,11 +3,20 @@ import 'package:myh_shop/common.dart';
 import 'package:myh_shop/widget/MyButton2.dart';
 
 class CardItem extends StatefulWidget {
+  final Map data;
+  final ValueChanged<Map> onChanged;
+
+  const CardItem(
+    this.data, {
+    Key key, this.onChanged,
+  }) : super(key: key);
+
   @override
-  _CardState createState() => _CardState();
+  _CardState createState() => _CardState(this.data);
 }
 
 class _CardState extends State<CardItem> {
+  Map d;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -20,7 +29,7 @@ class _CardState extends State<CardItem> {
               Padding(
                 padding: const EdgeInsets.only(bottom: 10),
                 child: Text(
-                  '新促织卡',
+                  '${d['card_name']}',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                 ),
               ),
@@ -30,13 +39,13 @@ class _CardState extends State<CardItem> {
                   Expanded(
                     child: RichText(
                         text: TextSpan(
-                            text: '余额：',
+                            //text: '余额：',
                             children: [
                               TextSpan(
                                   text: '¥',
                                   style: TextStyle(color: c1, fontSize: 13)),
                               TextSpan(
-                                  text: '2500',
+                                  text: '${d['price']}',
                                   style: TextStyle(color: c1, fontSize: 16)),
                             ],
                             style: TextStyle(
@@ -49,7 +58,7 @@ class _CardState extends State<CardItem> {
                             text: '卡类：',
                             children: [
                               TextSpan(
-                                  text: '全场折扣卡',
+                                  text: '${d['s']}',
                                   style: TextStyle(color: Colors.black))
                             ],
                             style: TextStyle(
@@ -64,19 +73,31 @@ class _CardState extends State<CardItem> {
                         children: <Widget>[
                           MyButton2(
                             icon: Icons.remove,
-                            color: c1,
-                            onPress: () {},
+                            color: d['sum'] > 0 ? c1 : disColor,
+                            onPress: () {
+                              if (d['sum'] > 0) {
+                                setState(() {
+                                  d['sum']--;
+                                });
+                                widget.onChanged(d);
+                              }
+                            },
                           ),
                           Padding(
                             padding: const EdgeInsets.only(left: 5, right: 5),
                             child: Text(
-                              '0',
+                              '${d['sum']}',
                               style: TextStyle(color: textColor, fontSize: 18),
                             ),
                           ),
                           MyButton2(
                             icon: Icons.add,
-                            onPress: () {},
+                            onPress: () {
+                              setState(() {
+                                d['sum']++;
+                              });
+                              widget.onChanged(d);
+                            },
                           ),
                           //IconButton(icon: Icon(Icons.add), onPressed: (){}),
                         ],
@@ -92,4 +113,6 @@ class _CardState extends State<CardItem> {
       ],
     );
   }
+
+  _CardState(this.d);
 }

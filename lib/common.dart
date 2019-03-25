@@ -117,6 +117,7 @@ const Map<String, String> methods = {
   'buygoods': 'buy/buygoods',
   'buyth': 'buy/buyth',
   'buyitems': 'buy/buyitems',
+  'buyWear': 'buy/buyWear',
   'wear_purchase': 'buy/wear_purchase',
   'buycard': 'buy/buycard',
   'buyplan': 'buy/buyplan',
@@ -237,9 +238,9 @@ dynamic post(String m, {Map<String, dynamic> data}) async {
       'user': toString(userModel.loginData)
     };
   }
-  /*Response rs = await dio.post(methods[m], data: data);
+  Response rs = await dio.post(methods[m], data: data);
   print(rs.data);
-  return null;*/
+  return null;
   try {
     Response rs = await dio.post(methods[m], data: data);
     var jg = rs.data;
@@ -249,9 +250,9 @@ dynamic post(String m, {Map<String, dynamic> data}) async {
     if (jg['msg'] != null) {
       tip(myContext, jg['msg']);
     } else if (jg['code'] == -1) {
-      if(jg['info']!=null){
+      if (jg['info'] != null) {
         tip(myContext, jg['info']);
-      }else{
+      } else {
         if (jg['error'] == null) {
           tip(myContext, jg['errorMsg']);
         } else {
@@ -289,9 +290,9 @@ dynamic get(String m, {Map<String, dynamic> data}) async {
     if (jg['msg'] != null) {
       tip(myContext, jg['msg']);
     } else if (jg['code'] == -1) {
-      if(jg['info']!=null){
+      if (jg['info'] != null) {
         tip(myContext, jg['info']);
-      }else{
+      } else {
         if (jg['error'] == null) {
           tip(myContext, jg['errorMsg']);
         } else {
@@ -347,7 +348,7 @@ void ok(BuildContext context, String msg,
               CupertinoDialogAction(
                 child: Text('确定'),
                 onPressed: () {
-                  if(type==1){
+                  if (type == 1) {
                     back(context);
                   }
                   back(context);
@@ -443,4 +444,23 @@ void getCountData({String start = '', end = ''}) async {
 void logout(BuildContext context) async {
   del('loginData');
   jump(context, 'login');
+}
+
+String getName(int type, Map d) {
+  print(type);
+  String name = '';
+  if (type == 1) {
+    name = d['goods_name'];
+  } else if (type == 2) {
+    name = d['box_name'];
+  } else if (type == 3) {
+    name = d['pro_name'];
+  } else if (type == 4) {
+    name = d['name'];
+  } else if (type == 5) {
+    name = d['card_name'];
+  } else if (type == 6) {
+    name = d['name'];
+  }
+  return name;
 }

@@ -5,6 +5,7 @@ import 'package:myh_shop/widget/MyAppBar.dart';
 import 'package:myh_shop/widget/MyButton.dart';
 import 'package:myh_shop/widget/MyButton2.dart';
 import 'package:myh_shop/widget/MyInput.dart';
+import 'package:myh_shop/widget/MyInput3.dart';
 import 'package:myh_shop/widget/card.dart';
 import 'package:myh_shop/widget/item.dart';
 import 'package:myh_shop/widget/plan.dart';
@@ -37,7 +38,6 @@ class _BuyState extends State<Buy> {
     switch (widget.type) {
       case 1:
         title = '产品购买';
-        getGoods();
         break;
       case 2:
         title = '套盒购买';
@@ -46,26 +46,63 @@ class _BuyState extends State<Buy> {
         title = '项目购买';
         break;
       case 4:
-        title = '卡项购买';
+        title = '内衣购买';
         break;
       case 5:
+        title = '卡项购买';
+        break;
+      case 6:
         title = '方案购买';
         break;
     }
+    getGoods();
   }
 
   void getGoods() async {
     String m = '';
-    if(widget.type==1){
+    if (widget.type == 1) {
       m = 'buygoods';
-    }else if(widget.type==2){
+    } else if (widget.type == 2) {
       m = 'buyth';
+    } else if (widget.type == 3) {
+      m = 'buyitems';
+    } else if (widget.type == 4) {
+      m = 'wear_purchase';
+    } else if (widget.type == 5) {
+      m = 'buycard';
+    } else if (widget.type == 6) {
+      m = 'buyplan';
     }
     var rs = await get(m, data: {'id': widget.id});
+    print(rs);
     if (rs != null) {
-      print(rs);
       if (rs['code'] == 0) {
         for (var v in rs['data']) {
+          if(widget.type==4){
+            v['stock'] = v['sum'];
+          }else
+          if(widget.type==5){
+            String s = '';
+            if(v['card_type']==1){
+              s = '储值卡';
+            }else if(v['card_type']==2){
+              s = '消费折扣卡';
+            }else if(v['card_type']==3){
+              s = '全场折扣卡';
+            }
+            v['s'] = s;
+          }else if(widget.type==6){
+            dynamic d = v['detail'];
+            List l = [];
+            if(d!=null){
+              if(d is Map) {
+                d.forEach((k, v) {
+                  l.add(v);
+                });
+                v['detail'] = l;
+              }
+            }
+          }
           v['sum'] = 0;
         }
         list = rs['data'];
@@ -98,7 +135,7 @@ class _BuyState extends State<Buy> {
                   color: textColor,
                 ),
                 hintText: '输入名称搜索',
-                onChanged: (v){
+                onChanged: (v) {
                   setState(() {
                     input = v;
                   });
@@ -385,6 +422,24 @@ class _BuyState extends State<Buy> {
                           ),
                         )
                       : Offstage(),
+                  car[i]['times'] != null
+                      ? Row(
+                          children: <Widget>[
+                            Text(
+                              '次数',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            Container(
+                              child: MyInput3(
+                                controller: car[i]['times'],
+                                showBottomLine: true,
+                                keyboardType: TextInputType.numberWithOptions(),
+                              ),
+                              width: 50,
+                            ),
+                          ],
+                        )
+                      : Offstage(),
                 ],
               ))
             ],
@@ -399,7 +454,9 @@ class _BuyState extends State<Buy> {
 
   void showDis(int i) async {
     Map d = car[i];
-    _priceCon.text = d['price'].toString();
+    _priceCon.text =
+        (double.parse(d['price'].toString()) * int.parse(d['sum'].toString()))
+            .toString();
     _disCon.text = d['dis'].toString();
     showCupertinoDialog(
         context: context,
@@ -462,7 +519,8 @@ class _BuyState extends State<Buy> {
                       return tip(context, '请输入折扣和价格');
                     }
                     double dis = double.parse(_disCon.text);
-                    double price = double.parse(_priceCon.text);
+                    double price = double.parse(_priceCon.text) /
+                        double.parse(car[i]['sum'].toString());
                     car[i]['dis'] = dis;
                     car[i]['price'] = price;
                     state(() {});
@@ -473,72 +531,104 @@ class _BuyState extends State<Buy> {
             ));
   }
 
-  Widget _item(BuildContext context, int i) {
-    if (widget.type == 1) {
-      if(input.length>0){
-        if(list[i]['goods_name'].toString().toLowerCase().indexOf(input.toLowerCase()) < 0){
-          return Offstage();
-        }
-      }
-      return Item(
-        list[i],
-        onChanged: (v) {
-          if (car.length > 0) {
-            for (var x in car) {
-              if (x['id'] == v['id']) {
-                if(v['sum']==0){
-                  int y = 0;
-                  for(var z in car) {
-                    if(z['id'] == v['id']){
-                      car.removeAt(y);
-                      break;
-                    }
-                    y++;
-                  }
-                }
-                x['sum'] = v['sum'];
-                if (state != null) {
-                  try {
-                    state(() {});
-                  } catch (e) {}
-                }
-                return;
+  void change(Map v) {
+    if (car.length > 0) {
+      for (var x in car) {
+        if (x['id'] == v['id']) {
+          if (v['sum'] == 0) {
+            int y = 0;
+            for (var z in car) {
+              if (z['id'] == v['id']) {
+                car.removeAt(y);
+                break;
               }
+              y++;
             }
           }
-          car.add({
-            'name': v['goods_name'],
-            'price': v['price'],
-            'dis': 10,
-            'sum': v['sum'],
-            't': 0,
-            'id': v['id'],
-            'free': v['free'],
-          });
+          x['sum'] = v['sum'];
           if (state != null) {
             try {
               state(() {});
             } catch (e) {}
           }
-          print(v);
+          return;
+        }
+      }
+    }
+    Map d = {
+      'name': getName(widget.type, v),
+      'price': v['price'],
+      'dis': 10,
+      'sum': v['sum'],
+      't': 0,
+      'id': v['id'],
+      'free': v['free'],
+    };
+    if (widget.type == 2 || widget.type == 3) {
+      d['times'] = TextEditingController(
+          text: widget.type == 2
+              ? v['times'].toString()
+              : v['frequency'].toString());
+    }
+    car.add(d);
+    if (state != null) {
+      try {
+        state(() {});
+      } catch (e) {}
+    }
+  }
+
+  Widget _item(BuildContext context, int i) {
+    if (widget.type == 1) {
+      if (input.length > 0) {
+        if (list[i]['goods_name']
+                .toString()
+                .toLowerCase()
+                .indexOf(input.toLowerCase()) <
+            0) {
+          return Offstage();
+        }
+      }
+      return Item(
+        list[i],
+        widget.type,
+        onChanged: (v) {
+          change(v);
         },
       );
     }
     if (widget.type == 2) {
       return Item(
         list[i],
+        widget.type,
+        onChanged: (v) {
+          change(v);
+        },
       );
     }
     if (widget.type == 3) {
       return Item(
         list[i],
+        widget.type,
+        onChanged: (v) {
+          change(v);
+        },
       );
     }
     if (widget.type == 4) {
-      return CardItem();
+      return Item(list[i], widget.type, onChanged: (v){
+        change(v);
+      },);
     }
     if (widget.type == 5) {
-      return PlanItem();
+      return CardItem(list[i], onChanged: (v){
+        change(v);
+      },);
+    }
+    if (widget.type == 6) {
+      return PlanItem(list[i], onChanged: (v){
+        change(v);
+      },);
     }
     return Offstage();
   }
@@ -559,19 +649,37 @@ class _BuyState extends State<Buy> {
     }
     List data = [];
     for (var v in car) {
-      data.add({
-        'price': v['t']==2?0:v['price'],
+      Map d = {
+        'price': v['t'] == 2
+            ? 0
+            : double.parse(v['price'].toString()) *
+                int.parse(v['sum'].toString()),
         'id': v['id'],
         'name': v['name'],
         'sum': v['sum'],
         'p_dis_t' + v['id'].toString(): v['dis'],
-      });
+      };
+      if (widget.type == 2 || widget.type == 3) {
+        d['times'] = v['times'].text;
+      }
+      data.add(d);
     }
     state(() {
       loadState = true;
     });
-    var rs = await post('buygoods',
-        data: {'type': 1, 'data': data, 'id': widget.id});
+    String m = 'buygoods';
+    if (widget.type == 2) {
+      m = 'buyth';
+    }else if (widget.type == 3) {
+      m = 'buyitems';
+    }else if (widget.type == 4) {
+      m = 'buyWear';
+    }else if (widget.type == 5) {
+      m = 'buycard';
+    }else if (widget.type == 6) {
+      m = 'buyplan';
+    }
+    var rs = await post(m, data: {'type': 1, 'data': data, 'id': widget.id});
     state(() {
       loadState = false;
     });

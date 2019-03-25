@@ -3,13 +3,25 @@ import 'package:myh_shop/common.dart';
 import 'package:myh_shop/widget/MyButton2.dart';
 
 class PlanItem extends StatefulWidget {
+  final Map data;
+  final ValueChanged<Map> onChanged;
+
+  const PlanItem(
+    this.data, {
+    Key key,
+    this.onChanged,
+  }) : super(key: key);
+
   @override
-  _PlanState createState() => _PlanState();
+  _PlanState createState() => _PlanState(this.data);
 }
 
 class _PlanState extends State<PlanItem> with SingleTickerProviderStateMixin {
-  final double height = 40;
+  final double height = 50;
   bool zt = false;
+  Map d;
+
+  _PlanState(this.d);
 
   @override
   Widget build(BuildContext context) {
@@ -47,13 +59,13 @@ class _PlanState extends State<PlanItem> with SingleTickerProviderStateMixin {
                 Container(
                   margin: EdgeInsets.only(left: 10, right: 10),
                   child: Text(
-                    '美容仪器治疗美容仪器治疗',
+                    '${d['name']}',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                   width: 120,
                 ),
-                priceWidget('2500'),
+                priceWidget('${d['sale']}'),
               ],
             ),
             trailing: Container(
@@ -63,20 +75,30 @@ class _PlanState extends State<PlanItem> with SingleTickerProviderStateMixin {
                 children: <Widget>[
                   MyButton2(
                     icon: Icons.remove,
-                    color: c1,
-                    onPress: () {},
+                    color: d['sum'] > 0 ? c1 : disColor,
+                    onPress: () {
+                      if (d['sum'] > 0) {
+                        setState(() {
+                          d['sum']--;
+                        });
+                        widget.onChanged(d);
+                      }
+                    },
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 5, right: 5),
                     child: Text(
-                      '0',
+                      '${d['sum']}',
                       style: TextStyle(color: textColor, fontSize: 18),
                     ),
                   ),
                   MyButton2(
                     icon: Icons.add,
                     onPress: () {
-                      //showCar(c);
+                      setState(() {
+                        d['sum']++;
+                      });
+                      widget.onChanged(d);
                     },
                   ),
                   //IconButton(icon: Icon(Icons.add), onPressed: (){}),
@@ -90,192 +112,7 @@ class _PlanState extends State<PlanItem> with SingleTickerProviderStateMixin {
           vsync: this,
           child: zt
               ? Table(
-                  children: <TableRow>[
-                    TableRow(children: [
-                      TableCell(
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              height: height,
-                              alignment: Alignment.center,
-                              color: tableBg,
-                              child: Text('类别'),
-                            ),
-                            Divider(
-                              height: 0,
-                              color: textColor,
-                            )
-                          ],
-                        ),
-                      ),
-                      TableCell(
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              height: height,
-                              alignment: Alignment.center,
-                              color: tableBg,
-                              child: Text('名称'),
-                            ),
-                            Divider(
-                              height: 0,
-                              color: textColor,
-                            )
-                          ],
-                        ),
-                      ),
-                      TableCell(
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              height: height,
-                              alignment: Alignment.center,
-                              color: tableBg,
-                              child: Text('售价'),
-                            ),
-                            Divider(
-                              height: 0,
-                              color: textColor,
-                            )
-                          ],
-                        ),
-                      ),
-                      TableCell(
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              height: height,
-                              alignment: Alignment.center,
-                              color: tableBg,
-                              child: Text('次数'),
-                            ),
-                            Divider(
-                              height: 0,
-                              color: textColor,
-                            )
-                          ],
-                        ),
-                      ),
-                    ]),
-                    TableRow(children: [
-                      TableCell(
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              height: height,
-                              alignment: Alignment.center,
-                              color: tableBg,
-                              child: Text('项目'),
-                            ),
-                            Divider(
-                              height: 0,
-                              color: textColor,
-                            )
-                          ],
-                        ),
-                      ),
-                      TableCell(
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              height: height,
-                              alignment: Alignment.center,
-                              color: tableBg,
-                              child: Text(
-                                '面部护理面部护理',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                            Divider(
-                              height: 0,
-                              color: textColor,
-                            )
-                          ],
-                        ),
-                      ),
-                      TableCell(
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              height: height,
-                              alignment: Alignment.center,
-                              color: tableBg,
-                              child: Text(
-                                '650000.00',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(fontWeight: FontWeight.w500),
-                              ),
-                            ),
-                            Divider(
-                              height: 0,
-                              color: textColor,
-                            )
-                          ],
-                        ),
-                      ),
-                      TableCell(
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              height: height,
-                              alignment: Alignment.center,
-                              color: tableBg,
-                              child: Text('10'),
-                            ),
-                            Divider(
-                              height: 0,
-                              color: textColor,
-                            )
-                          ],
-                        ),
-                      ),
-                    ]),
-                    TableRow(children: [
-                      TableCell(
-                        child: Container(
-                          height: height,
-                          alignment: Alignment.center,
-                          color: tableBg,
-                          child: Text('项目'),
-                        ),
-                      ),
-                      TableCell(
-                        child: Container(
-                          height: height,
-                          alignment: Alignment.center,
-                          color: tableBg,
-                          child: Text(
-                            '面部护理面部护理',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ),
-                      TableCell(
-                        child: Container(
-                          height: height,
-                          alignment: Alignment.center,
-                          color: tableBg,
-                          child: Text(
-                            '650000.00',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                      ),
-                      TableCell(
-                        child: Container(
-                          height: height,
-                          alignment: Alignment.center,
-                          color: tableBg,
-                          child: Text('10'),
-                        ),
-                      ),
-                    ]),
-                  ],
+                  children: _item(),
                 )
               : Offstage(),
         ),
@@ -284,5 +121,154 @@ class _PlanState extends State<PlanItem> with SingleTickerProviderStateMixin {
         )
       ],
     );
+  }
+
+  List<TableRow> _item() {
+    List<TableRow> rs = [
+      TableRow(children: [
+        TableCell(
+          child: Column(
+            children: <Widget>[
+              Container(
+                height: height,
+                alignment: Alignment.center,
+                color: tableBg,
+                child: Text('类别'),
+              ),
+              Divider(
+                height: 0,
+                color: textColor,
+              )
+            ],
+          ),
+        ),
+        TableCell(
+          child: Column(
+            children: <Widget>[
+              Container(
+                height: height,
+                alignment: Alignment.center,
+                color: tableBg,
+                child: Text('名称'),
+              ),
+              Divider(
+                height: 0,
+                color: textColor,
+              )
+            ],
+          ),
+        ),
+        TableCell(
+          child: Column(
+            children: <Widget>[
+              Container(
+                height: height,
+                alignment: Alignment.center,
+                color: tableBg,
+                child: Text('售价'),
+              ),
+              Divider(
+                height: 0,
+                color: textColor,
+              )
+            ],
+          ),
+        ),
+        TableCell(
+          child: Column(
+            children: <Widget>[
+              Container(
+                height: height,
+                alignment: Alignment.center,
+                color: tableBg,
+                child: Text('次数'),
+              ),
+              Divider(
+                height: 0,
+                color: textColor,
+              )
+            ],
+          ),
+        ),
+      ])
+    ];
+    for (var v in d['detail']) {
+      rs.add(TableRow(children: [
+        TableCell(
+          child: Column(
+            children: <Widget>[
+              Container(
+                height: height,
+                alignment: Alignment.center,
+                color: tableBg,
+                child: Text('${v['type']}'),
+              ),
+              Divider(
+                height: 0,
+                color: textColor,
+              )
+            ],
+          ),
+        ),
+        TableCell(
+          child: Column(
+            children: <Widget>[
+              Container(
+                height: height,
+                alignment: Alignment.center,
+                color: tableBg,
+                child: Text(
+                  '${v['name']}',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Divider(
+                height: 0,
+                color: textColor,
+              )
+            ],
+          ),
+        ),
+        TableCell(
+          child: Column(
+            children: <Widget>[
+              Container(
+                height: height,
+                alignment: Alignment.center,
+                color: tableBg,
+                child: Text(
+                  '${v['price']}',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontWeight: FontWeight.w500),
+                ),
+              ),
+              Divider(
+                height: 0,
+                color: textColor,
+              )
+            ],
+          ),
+        ),
+        TableCell(
+          child: Column(
+            children: <Widget>[
+              Container(
+                height: height,
+                alignment: Alignment.center,
+                color: tableBg,
+                child: Text('${v['times']}'),
+              ),
+              Divider(
+                height: 0,
+                color: textColor,
+              )
+            ],
+          ),
+        ),
+      ]));
+    }
+    return rs;
   }
 }

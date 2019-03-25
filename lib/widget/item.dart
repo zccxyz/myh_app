@@ -5,8 +5,9 @@ import 'package:myh_shop/widget/MyButton2.dart';
 class Item extends StatefulWidget {
   final Map data;
   final ValueChanged<Map> onChanged;
+  final int type;
 
-  const Item(this.data, {Key key, this.onChanged}) : super(key: key);
+  const Item(this.data, this.type, {Key key, this.onChanged}) : super(key: key);
 
   @override
   _ItemState createState() => _ItemState(data);
@@ -42,7 +43,7 @@ class _ItemState extends State<Item> {
                                 color: c3,
                                 borderRadius: BorderRadius.circular(10)),
                             child: Text(
-                              '${d['category']}',
+                              '${widget.type == 2 ? d['category_name'] : widget.type == 1 ? d['category'] : widget.type == 3 ? d['category_id'] : widget.type == 4 ? d['color'] : '无'}',
                               style:
                                   TextStyle(color: Colors.white, fontSize: 13),
                             )),
@@ -50,16 +51,23 @@ class _ItemState extends State<Item> {
                           width: 120,
                           margin: EdgeInsets.only(left: 10, right: 10),
                           child: Text(
-                            '${d['goods_name']}',
+                            '${getName(widget.type, d)}',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w500),
                           ),
                         ),
-                        Text(
-                          d['free']==1?'可赠送':'不可赠送',
-                          style: TextStyle(color: textColor, fontSize: 12),
+                        Expanded(
+                          child: Text(
+                            '${widget.type == 4 ? '${d['sn']}' : (d['free'] == 1 ? '可赠送' : '不可赠送')}',
+                            style: TextStyle(
+                              color: textColor,
+                              fontSize: 12,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ],
                     ),
@@ -73,9 +81,9 @@ class _ItemState extends State<Item> {
                         children: <Widget>[
                           MyButton2(
                             icon: Icons.remove,
-                            color: d['sum']>0?c1:disColor,
+                            color: d['sum'] > 0 ? c1 : disColor,
                             onPress: () {
-                              if(d['sum']>0){
+                              if (d['sum'] > 0) {
                                 setState(() {
                                   d['sum']--;
                                 });
@@ -115,11 +123,19 @@ class _ItemState extends State<Item> {
                       padding: const EdgeInsets.only(left: 20, right: 20),
                       child: Text(
                         '库存：${d['stock']}',
-                        style: TextStyle(fontSize: 14, color: textColor),
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: widget.type != 3
+                                ? textColor
+                                : Colors.transparent),
                       ),
                     ),
                     Text('已预售：${d['beforehand_num']}',
-                        style: TextStyle(fontSize: 14, color: textColor)),
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: widget.type != 3
+                                ? textColor
+                                : Colors.transparent)),
                   ],
                 ),
               )

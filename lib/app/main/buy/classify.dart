@@ -56,7 +56,7 @@ class Classify extends StatelessWidget {
             title: Text('内衣'),
             trailing: Icon(Icons.chevron_right),
             onTap: (){
-              jump2(context, Buy(id, type: 3,));
+              jump2(context, Buy(id, type: 4,));
             },
           ),
           Divider(
@@ -67,7 +67,7 @@ class Classify extends StatelessWidget {
             title: Text('卡项'),
             trailing: Icon(Icons.chevron_right),
             onTap: (){
-              jump2(context, Buy(id, type: 4,));
+              jump2(context, Buy(id, type: 5,));
             },
           ),
           Divider(
@@ -78,7 +78,7 @@ class Classify extends StatelessWidget {
             title: Text('方案'),
             trailing: Icon(Icons.chevron_right),
             onTap: (){
-              jump2(context, Buy(id, type: 5,));
+              jump2(context, Buy(id, type: 6,));
             },
           ),
           Divider(
