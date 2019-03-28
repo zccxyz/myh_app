@@ -18,7 +18,7 @@ class MyItem extends StatelessWidget {
             children: <Widget>[
               Container(
                 //padding: EdgeInsets.only(left: 15),
-                height: 60,
+                height: 50,
                 child: Text(
                   label,
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w300),
@@ -44,7 +44,7 @@ class MyItem extends StatelessWidget {
   MyItem(
       {@required this.label,
       @required this.child,
-      this.height = 60,
+      this.height = 50,
       this.showLine = true,
       this.alignment = Alignment.center});
 }

@@ -8,7 +8,7 @@ import 'package:myh_shop/model/count.dart';
 import 'package:myh_shop/model/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
-import 'package:scoped_model/scoped_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 final c1 = myColor(71, 104, 243);
 final c2 = Colors.blue[600];
@@ -48,7 +48,7 @@ const Map<String, String> methods = {
   'ArrearsList': 'Arrears/ArrearsList',
   'DailyIncomeDetail': 'store/DailyIncomeDetail',
   'check_popularity_rate_category':
-      'achievement/check_popularity_rate_category',
+  'achievement/check_popularity_rate_category',
   'get_popularity_detail': 'Achievement/get_popularity_detail',
   'ArriveList': 'arrive/ArriveList',
   'get_role': 'authority/get_role',
@@ -133,11 +133,64 @@ const Map<String, String> methods = {
   'not_raise_operation': 'achievement/not_raise_operation',
   'get_day_achievement': 'achievement/get_day_achievement',
   'raise_detail_operation': 'achievement/raise_detail_operation',
+  'get_per_detail': 'Achievement/get_per_detail',
+  'performance_fei_details': 'Achievement/performance_fei_details',
+  'get_branch': 'Center/get_branch',
+  'switch_store': 'Center/switch_store',
+  'get_underwear': 'goods/get_underwear',
+  'underwear_operation': 'Goods/underwear_operation',
+  'get_under_detail': 'goods/get_under_detail',
+  'goods_manager': 'Ware/goods_manager',
+  'StockOperation': 'Ware/StockOperation',
+  'get_record_detail': 'Ware/get_record_detail',
+  'get_transfer_goods': 'Ware/get_transfer_goods',
+  'couponGetList': 'coupon/getList',
+  'CouponOperation': 'coupon/CouponOperation',
+  'couponDetails': 'coupon/details',
+  'modify_send_balance': 'Member/modify_send_balance',
+  'AloneArrears': 'member/AloneArrears',
+  'HaveCoupon': 'member/HaveCoupon',
+  'send_coupon': 'Member/send_coupon',
+  'MemberBoxItemsM': 'Member/MemberBoxItemsM',
+  'memberBoxItemsList': 'Member/memberBoxItemsList',
+  'MemberBoxItemsDel': 'Member/MemberBoxItemsDel',
+  'HaveProductList': 'Member/HaveProductList',
+  'memberCardList': 'Member/memberCardList',
+  'modify_member_card_details': 'Member/modify_member_card_details',
+  'del_card': 'Member/del_card',
+  'MemberGetNeed': 'Member/getNeed',
+  'addNeed': 'member/addNeed',
+  'delNeed': 'member/delNeed',
+  'IntegralRecord': 'member/IntegralRecord',
+  'ware_allot': 'Ware/ware_allot',
+  'transfer_operation': 'Ware/transfer_operation',
+  'getUn': 'goods/getUn',
+  'getTh': 'goods/getTh',
+  'getHc': 'goods/getHc',
+  'getCp': 'goods/getCp',
+  'pd': 'goods/pd',
+  'pdLogs': 'goods/pdLogs',
+  'get_ranking': 'goods/get_ranking',
+  'OldEntry': 'Member/OldEntry',
+  'get_cate': 'Member/get_cate',
+  'check_entry_name': 'Member/check_entry_name',
+  'get_healthy_detail': 'Healthy/get_healthy_detail',
+  'HealthyAdd': 'Healthy/add',
+  'HealthSearch': 'Healthy/HealthSearch',
 };
 final UserModel userModel = UserModel();
 final ComeShopModel comeShopModel = ComeShopModel();
 final CountModel countModel = CountModel();
 BuildContext myContext;
+
+void launcherTel(String tel) async {
+  String url = 'tel:+'+tel;
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    tip(myContext, '未知错误');
+  }
+}
 
 Color myColor(r, g, b, {o = 1.0}) {
   return Color.fromRGBO(r, g, b, o);
@@ -247,16 +300,20 @@ dynamic post(String m, {Map<String, dynamic> data}) async {
     if (jg is String) {
       jg = formData(rs.data);
     }
-    if (jg['msg'] != null) {
-      tip(myContext, jg['msg']);
-    } else if (jg['code'] == -1) {
-      if (jg['info'] != null) {
-        tip(myContext, jg['info']);
-      } else {
-        if (jg['error'] == null) {
-          tip(myContext, jg['errorMsg']);
+    if(jg is List){
+      return jg;
+    }else{
+      if (jg['msg'] != null) {
+        tip(myContext, jg['msg']);
+      } else if (jg['code'] == -1) {
+        if (jg['info'] != null) {
+          tip(myContext, jg['info']);
         } else {
-          tip(myContext, jg['error']);
+          if (jg['error'] == null) {
+            tip(myContext, jg['errorMsg']);
+          } else {
+            tip(myContext, jg['error']);
+          }
         }
       }
     }

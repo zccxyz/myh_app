@@ -450,21 +450,26 @@ class _IndexState extends State<Index> {
                     ),
                   ]),
                   TableRow(children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: Column(
-                        children: <Widget>[
-                          Image.asset(
-                            'img/1_24.png',
-                            height: 65.0,
-                            width: 65.0,
-                          ),
-                          Text(
-                            '打卡',
-                            style: TextStyle(
-                                fontSize: 15.0, fontWeight: FontWeight.w300),
-                          ),
-                        ],
+                    GestureDetector(
+                      onTap: (){
+                        tip(context, '开发中！');
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Column(
+                          children: <Widget>[
+                            Image.asset(
+                              'img/1_24.png',
+                              height: 65.0,
+                              width: 65.0,
+                            ),
+                            Text(
+                              '打卡',
+                              style: TextStyle(
+                                  fontSize: 15.0, fontWeight: FontWeight.w300),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     GestureDetector(
@@ -509,19 +514,27 @@ class _IndexState extends State<Index> {
                         ],
                       ),
                     ),
-                    Column(
-                      children: <Widget>[
-                        Image.asset(
-                          'img/1_41.png',
-                          height: 65.0,
-                          width: 65.0,
-                        ),
-                        Text(
-                          '我的分店',
-                          style: TextStyle(
-                              fontSize: 15.0, fontWeight: FontWeight.w300),
-                        ),
-                      ],
+                    GestureDetector(
+                      onTap: ()async{
+                        await jump(context, 'my_shop');
+                        getManage();
+                        getWare();
+                        getOrder();
+                      },
+                      child: Column(
+                        children: <Widget>[
+                          Image.asset(
+                            'img/1_41.png',
+                            height: 65.0,
+                            width: 65.0,
+                          ),
+                          Text(
+                            '我的分店',
+                            style: TextStyle(
+                                fontSize: 15.0, fontWeight: FontWeight.w300),
+                          ),
+                        ],
+                      ),
                     ),
                   ]),
                 ],

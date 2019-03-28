@@ -5,16 +5,19 @@ import 'package:myh_shop/widget/MyAppBar.dart';
 import 'package:flutter/cupertino.dart' show CupertinoButton;
 import 'package:myh_shop/widget/MyButton.dart';
 
-class Coupon extends StatefulWidget {
+class Integral extends StatefulWidget {
   final int id;
 
-  Coupon({Key key, this.id}) : super(key: key);
+  Integral(
+    this.id, {
+    Key key,
+  }) : super(key: key);
 
   @override
   _CouponState createState() => _CouponState();
 }
 
-class _CouponState extends State<Coupon> {
+class _CouponState extends State<Integral> {
   List list;
 
   @override
@@ -22,15 +25,7 @@ class _CouponState extends State<Coupon> {
     return Scaffold(
       backgroundColor: bg2,
       appBar: MyAppBar(
-        title: Text('优惠券'),
-        actions: <Widget>[
-          CupertinoButton(
-              child: Text('创建'),
-              onPressed: () async{
-                await jump2(context, AddCoupon());
-                getSj();
-              })
-        ],
+        title: Text('积分流水'),
       ),
       body: Column(
         children: <Widget>[
@@ -40,10 +35,10 @@ class _CouponState extends State<Coupon> {
             child: Row(
               children: <Widget>[
                 Expanded(
-                  child: Center(child: Text('类型')),
+                  child: Center(child: Text('#')),
                 ),
-                Expanded(child: Center(child: Text('优惠券属性'))),
-                Expanded(child: Center(child: Text('操作'))),
+                Expanded(child: Center(child: Text('时间'))),
+                Expanded(child: Center(child: Text('积分'))),
               ],
             ),
           ),
@@ -72,24 +67,21 @@ class _CouponState extends State<Coupon> {
                 Expanded(
                     child: Center(
                         child: Text(
-                  '${list[i]['coupon_type'] == 1 ? '满减' : '抵扣'}',
+                  '${i+1}',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ))),
                 Expanded(
-                    flex: 2,
                     child: Center(
-                        child: Text('${list[i]['enough']}-${list[i]['dedut']}',
+                        child: Text('${list[i]['time']}',
                             maxLines: 1, overflow: TextOverflow.ellipsis))),
-                MyButton(
-                  title: '编辑',
-                  width: 70,
-                  height: 30,
-                  onPressed: ()async {
-                    await jump2(context, AddCoupon(id: list[i]['id'],));
-                    getSj();
-                  },
-                ),
+                Expanded(
+                    child: Center(
+                        child: Text(
+                          '${list[i]['integral']}',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ))),
               ],
             ),
           ),
@@ -106,11 +98,13 @@ class _CouponState extends State<Coupon> {
   }
 
   void getSj() async {
-    var rs = await get('couponGetList');
+    var rs = await get('IntegralRecord', data: {
+      'mid': widget.id
+    });
     if (rs != null) {
       if (rs['code'] == 1) {
         setState(() {
-          list = rs['list'];
+          list = rs['record'];
         });
       }
     }

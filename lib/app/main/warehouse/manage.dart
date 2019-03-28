@@ -24,43 +24,53 @@ class WareManage extends StatelessWidget {
             title: Text('出入库管理/其他设置'),
             leading: Icon(Icons.home, color: c1),
             trailing: Icon(Icons.chevron_right),
-            onTap: (){
+            onTap: () {
               jump2(context, OutIn(id));
             },
           ),
-          Divider(height: 0,),
+          Divider(
+            height: 0,
+          ),
           ListTile(
-              title: Text('出入库流水记录'),
-              leading: Icon(Icons.home, color: c1),
-              trailing: Icon(Icons.chevron_right),
-            onTap: (){
-                jump2(context, OutInLogs());
+            title: Text('出入库流水记录'),
+            leading: Icon(Icons.home, color: c1),
+            trailing: Icon(Icons.chevron_right),
+            onTap: () {
+              jump2(context, OutInLogs(id));
             },
           ),
-          Divider(height: 0,),
-          ListTile(
+          Divider(
+            height: 0,
+          ),
+          /*ListTile(
               title: Text('进销存汇总表'),
               leading: Icon(Icons.home, color: c1),
               trailing: Icon(Icons.chevron_right)),
-          Divider(height: 0,),
+          Divider(
+            height: 0,
+          ),*/
           ListTile(
-              title: Text('商品调仓'),
-              leading: Icon(Icons.home, color: c1),
-              trailing: Icon(Icons.chevron_right),
-            onTap: (){
-                jump2(context, Change());
+            title: Text('商品调仓'),
+            leading: Icon(Icons.home, color: c1),
+            trailing: Icon(Icons.chevron_right),
+            onTap: () {
+              jump2(context, Change(id));
             },
           ),
-          Divider(height: 0,),
+          Divider(
+            height: 0,
+          ),
           ListTile(
-              title: Text('库存盘点'),
-              leading: Icon(Icons.home, color: c1),
-              trailing: Icon(Icons.chevron_right),
-            onTap: (){
-                jump2(context, Inventory(id));
+            title: Text('库存盘点'),
+            leading: Icon(Icons.home, color: c1),
+            trailing: Icon(Icons.chevron_right),
+            onTap: () {
+              jump2(context, Inventory(id));
             },
           ),
-          Divider(height: 0,),
+          Divider(
+            height: 0,
+          ),
         ],
       ),
     );

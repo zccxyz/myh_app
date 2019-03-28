@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:myh_shop/app/main/member_manage/archives.dart';
+import 'package:myh_shop/app/main/member_manage/arrears.dart';
 import 'package:myh_shop/app/main/member_manage/card.dart';
 import 'package:myh_shop/app/main/member_manage/consume_detail.dart';
 import 'package:myh_shop/app/main/member_manage/coupon.dart';
+import 'package:myh_shop/app/main/member_manage/entry.dart';
 import 'package:myh_shop/app/main/member_manage/info.dart';
+import 'package:myh_shop/app/main/member_manage/integral.dart';
 import 'package:myh_shop/app/main/member_manage/items.dart';
+import 'package:myh_shop/app/main/member_manage/member_need.dart';
+import 'package:myh_shop/app/main/member_manage/my_coupon.dart';
 import 'package:myh_shop/app/main/member_manage/plan.dart';
+import 'package:myh_shop/app/main/member_manage/product.dart';
 import 'package:myh_shop/common.dart';
 import 'package:myh_shop/widget/MyButton.dart';
+import 'package:flutter/cupertino.dart';
 
 class MemberInfo extends StatefulWidget {
   final int id;
@@ -20,6 +28,7 @@ class MemberInfo extends StatefulWidget {
 class _MemberInfoState extends State<MemberInfo> {
   double width = 90;
   Map user;
+  String money = '';
 
   @override
   void initState() {
@@ -31,8 +40,8 @@ class _MemberInfoState extends State<MemberInfo> {
     var rs =
         await get('vipDetails', data: {'id': widget.id, 'redirect_url': ''});
     if (rs != null) {
-      print(rs);
       if (rs['code'] == 0) {
+        print(rs);
         setState(() {
           user = rs['data'];
         });
@@ -42,7 +51,6 @@ class _MemberInfoState extends State<MemberInfo> {
 
   @override
   Widget build(BuildContext context) {
-    print(user);
     return Material(
       color: Colors.white,
       child: Stack(
@@ -115,39 +123,48 @@ class _MemberInfoState extends State<MemberInfo> {
                               ),
                             ),
                             Positioned(
-                              child: Stack(
-                                alignment: AlignmentDirectional.centerEnd,
-                                children: <Widget>[
-                                  Container(
-                                    height: 25,
-                                    width: 75,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(left: 10),
-                                      child: Text(
-                                        '录入',
-                                        style: TextStyle(color: c1),
+                              child: GestureDetector(
+                                onTap: () async {
+                                  await jump2(context, Entry(widget.id));
+                                  getSj();
+                                },
+                                child: Stack(
+                                  alignment: AlignmentDirectional.centerEnd,
+                                  children: <Widget>[
+                                    Container(
+                                      height: 25,
+                                      width: 75,
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 10),
+                                        child: Text(
+                                          '录入',
+                                          style: TextStyle(color: c1),
+                                        ),
                                       ),
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                          border:
+                                              Border.all(width: 2, color: c1)),
                                     ),
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(30),
-                                        border:
-                                            Border.all(width: 2, color: c1)),
-                                  ),
-                                  Container(
-                                    height: 30,
-                                    width: 30,
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(15),
-                                        border:
-                                            Border.all(width: 2, color: c1)),
-                                    child: Icon(
-                                      Icons.edit,
-                                      size: 15,
-                                    ),
-                                  )
-                                ],
+                                    Container(
+                                      height: 30,
+                                      width: 30,
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          border:
+                                              Border.all(width: 2, color: c1)),
+                                      child: Icon(
+                                        Icons.edit,
+                                        size: 15,
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                               bottom: 85,
                               left: getRange(context) / 2 -
@@ -155,40 +172,48 @@ class _MemberInfoState extends State<MemberInfo> {
                                   width / 2,
                             ),
                             Positioned(
-                              child: Stack(
-                                alignment: AlignmentDirectional.centerStart,
-                                children: <Widget>[
-                                  Container(
-                                    height: 25,
-                                    width: 75,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(right: 10),
-                                      child: Text(
-                                        '电话',
-                                        textAlign: TextAlign.end,
-                                        style: TextStyle(color: c1),
+                              child: GestureDetector(
+                                onTap: () {
+                                  launcherTel('${user['tel']}');
+                                },
+                                child: Stack(
+                                  alignment: AlignmentDirectional.centerStart,
+                                  children: <Widget>[
+                                    Container(
+                                      height: 25,
+                                      width: 75,
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 10),
+                                        child: Text(
+                                          '电话',
+                                          textAlign: TextAlign.end,
+                                          style: TextStyle(color: c1),
+                                        ),
                                       ),
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                          border:
+                                              Border.all(width: 2, color: c1)),
                                     ),
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(30),
-                                        border:
-                                            Border.all(width: 2, color: c1)),
-                                  ),
-                                  Container(
-                                    height: 30,
-                                    width: 30,
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(15),
-                                        border:
-                                            Border.all(width: 2, color: c1)),
-                                    child: Icon(
-                                      Icons.phone,
-                                      size: 15,
-                                    ),
-                                  )
-                                ],
+                                    Container(
+                                      height: 30,
+                                      width: 30,
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          border:
+                                              Border.all(width: 2, color: c1)),
+                                      child: Icon(
+                                        Icons.phone,
+                                        size: 15,
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                               bottom: 85,
                               right: getRange(context) / 2 -
@@ -216,10 +241,10 @@ class _MemberInfoState extends State<MemberInfo> {
                           margin: EdgeInsets.all(0),
                           child: Row(
                             children: <Widget>[
-                              _item2('账户余额', '${user['balance']}'),
-                              _item2('赠送余额', '${user['send_balance']}'),
-                              _item2('总欠款', '${user['money']}'),
-                              _item2('积分', '${user['integral']}'),
+                              _item2('账户余额', '${user['balance']}', 1),
+                              _item2('赠送余额', '${user['send_balance']}', 2),
+                              _item2('总欠款', '${user['money']}', 3),
+                              _item2('积分', '${user['integral']}', 4),
                             ],
                           ),
                         ),
@@ -229,13 +254,17 @@ class _MemberInfoState extends State<MemberInfo> {
                       _item(context, '健康档案', '会员身体分析档案', 1),
                       _item(context, '消费明细', '全部消费明细', 2),
                       _item(context, '基本信息', '电话/生日/地址', 3),
-                      _item(context, '优惠券查看', '共2张', 4),
-                      _item(context, '会员项目', '剩余项目10次', 5),
-                      _item(context, '会员套盒', '剩余项目10次', 6),
-                      _item(context, '会员产品', '累计购买¥6930.00', 7),
-                      _item(context, '所持卡项', '总余额¥6930.00', 8),
-                      _item(context, '方案打包', '累计购买¥6930.00', 9),
-                      _item(context, '客户需求', '总余额¥6930.00', 10),
+                      _item(context, '优惠券查看', '共${user['coupon_num']}张', 4),
+                      _item(
+                          context, '会员项目', '剩余项目${user['items_num'] ?? 0}次', 5),
+                      _item(context, '会员套盒', '剩余套盒${user['box_num'] ?? 0}次', 6),
+                      _item(context, '会员产品', '累计购买¥${user['goods_total'] ?? 0}',
+                          7),
+                      _item(context, '所持卡项', '总余额¥${user['card_amount'] ?? 0}',
+                          8),
+                      _item(context, '方案打包',
+                          '累计购买¥${user['plan_total_money'] ?? 0}', 9),
+                      _item(context, '客户需求', '', 10),
                       bottom(context, height: getRange(context, type: 4) + 50),
                     ])),
                   ],
@@ -264,24 +293,87 @@ class _MemberInfoState extends State<MemberInfo> {
     );
   }
 
-  Expanded _item2(String text, String text2) {
+  Expanded _item2(String text, String text2, int t) {
     return Expanded(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Text(
-          text,
-          style: TextStyle(color: textColor),
-        ),
-        Padding(padding: EdgeInsets.all(5)),
-        Text(
-          '¥$text2',
-          style: TextStyle(
-            fontWeight: FontWeight.w500,
+        child: GestureDetector(
+      onTap: () {
+        if (t == 1 || t == 2) {
+          show(t);
+        }
+        if (t == 3) {
+          jump2(context, MyArrears(widget.id));
+        }
+        if (t == 4) {
+          jump2(context, Integral(widget.id));
+        }
+      },
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            text,
+            style: TextStyle(color: textColor),
           ),
-        ),
-      ],
+          Padding(padding: EdgeInsets.all(5)),
+          Text(
+            '¥$text2',
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
     ));
+  }
+
+  void show(int type) async {
+    showCupertinoDialog(
+      context: context,
+      builder: (_) => CupertinoAlertDialog(
+            title: Text('账户余额修改'),
+            content: CupertinoTextField(
+              keyboardType: TextInputType.numberWithOptions(),
+              placeholder: '请输入要修改的账户余额',
+              onChanged: (v) {
+                money = v;
+              },
+            ),
+            actions: <Widget>[
+              CupertinoDialogAction(
+                child: Text('取消'),
+                onPressed: () {
+                  back(context);
+                },
+              ),
+              CupertinoDialogAction(
+                child: Text(
+                  '确定',
+                  style: TextStyle(color: Colors.red),
+                ),
+                onPressed: () {
+                  editBalance(type);
+                },
+              ),
+            ],
+          ),
+    );
+  }
+
+  void editBalance(type) async {
+    if (money.length == 0) {
+      return tip(context, '请输入金额');
+    }
+    var rs = await post('modify_send_balance', data: {
+      'id': widget.id,
+      'money': money,
+      'type': type,
+    });
+    if (rs != null) {
+      if (rs['code'] == 1) {
+        getSj();
+        back(context);
+      }
+    }
   }
 
   Column _item(
@@ -296,7 +388,7 @@ class _MemberInfoState extends State<MemberInfo> {
           onTap: () async {
             switch (type) {
               case 1:
-                //jump2(context, ConsumeDetail(widget.id));
+                jump2(context, Archives(widget.id));
                 break;
               case 2:
                 jump2(context, ConsumeDetail(widget.id));
@@ -306,20 +398,25 @@ class _MemberInfoState extends State<MemberInfo> {
                     MaterialPageRoute(builder: (_) => Info(widget.id)));
                 break;
               case 4:
-                jump2(
-                    context,
-                    Coupon(
-                      id: widget.id,
-                    ));
+                jump2(context, MyCoupon(widget.id));
                 break;
               case 5:
-                jump2(context, Items(widget.id));
+                jump2(context, Items(widget.id, 'items'));
+                break;
+              case 6:
+                jump2(context, Items(widget.id, 'box'));
+                break;
+              case 7:
+                jump2(context, Product(widget.id));
                 break;
               case 8:
                 jump2(context, MyCard(widget.id));
                 break;
               case 9:
-                jump2(context, Plan(widget.id));
+                jump2(context, Items(widget.id, 'plan'));
+                break;
+              case 10:
+                jump2(context, MemberNeed(widget.id));
                 break;
               default:
                 break;

@@ -22,7 +22,6 @@ class _WareListState extends State<WareList> {
   void getSj() async {
     var rs = await get('WareList');
     if (rs != null) {
-      print(rs);
       setState(() {
         list = rs['res'];
       });

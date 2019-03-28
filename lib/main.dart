@@ -8,12 +8,14 @@ import 'package:myh_shop/app/main/goods/add_cp.dart';
 import 'package:myh_shop/app/main/goods/bespeak.dart';
 import 'package:myh_shop/app/main/goods/box_manage.dart';
 import 'package:myh_shop/app/main/goods/card_manage.dart';
+import 'package:myh_shop/app/main/goods/clothes_manage.dart';
 import 'package:myh_shop/app/main/goods/consumables.dart';
 import 'package:myh_shop/app/main/goods/cp_manage.dart';
 import 'package:myh_shop/app/main/goods/item_manage.dart';
 import 'package:myh_shop/app/main/goods/plan_manage.dart';
 import 'package:myh_shop/app/main/goods/rank.dart';
 import 'package:myh_shop/app/main/goods/recycle_bin.dart';
+import 'package:myh_shop/app/main/member_manage/add_need.dart';
 import 'package:myh_shop/app/main/member_manage/birthday.dart';
 import 'package:myh_shop/app/main/member_manage/coupon.dart';
 import 'package:myh_shop/app/main/member_manage/lost_member.dart';
@@ -39,6 +41,7 @@ import 'package:myh_shop/app/main/member_manage/manage.dart';
 import 'package:myh_shop/app/main/member_manage/new_manage.dart';
 import 'package:myh_shop/app/main/my/staff_manage.dart';
 import 'package:myh_shop/app/main/my/wages.dart';
+import 'package:myh_shop/app/main/my_shop.dart';
 import 'package:myh_shop/app/main/performance_check/check_detail.dart';
 import 'package:myh_shop/app/main/performance_check/check_list.dart';
 import 'package:myh_shop/app/main/performance_check/edit_data.dart';
@@ -115,6 +118,8 @@ class MyApp extends StatelessWidget {
         'warn_member': (_) => WarnMember(),
         'subscribe': (_) => Subscribe(),
         'no_commission': (_) => NoCommission(),
+        'my_shop': (_) => MyShop(),
+        'clothes_manage': (_) => ClothesManage(),
       },
       theme: ThemeData(
           canvasColor: bg,

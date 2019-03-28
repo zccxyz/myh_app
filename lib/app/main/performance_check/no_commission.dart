@@ -27,6 +27,7 @@ class _NoCommissionState extends State<NoCommission> {
   void getSj() async {
     var rs = await get('not_raise_operation', data: {
       'time': time,
+      'type': 1,
     });
     print(rs);
     if (rs != null) {

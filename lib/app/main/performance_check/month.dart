@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:myh_shop/app/main/performance_check/commission_detail.dart';
 import 'package:myh_shop/common.dart';
 import 'package:myh_shop/widget/MyAppBar.dart';
 import 'package:myh_shop/widget/MyButton.dart';
@@ -11,7 +12,39 @@ class Month extends StatefulWidget {
 }
 
 class _DilyWaterState extends State<Month> {
-  List list = [1, 2, 2, 2, 2, 2, 22, 2, 2];
+  List list;
+  double xfTotal = 0;
+  double xhTotal = 0;
+  double feeTotal = 0;
+  double total = 0;
+  String time = '';
+
+  @override
+  void initState() {
+    super.initState();
+    getSj();
+  }
+
+  void getSj() async {
+    var rs = await get('get_per_detail', data: {
+      'type': time.length==0?'list':'search',
+      'time': time,
+    });
+    print(rs);
+    if (rs != null) {
+      if (rs['code'] == 1) {
+        setState(() {
+          list = rs['res']['staffArr'];
+          for (var v in list) {
+            xfTotal += v['xf_total'];
+            xhTotal += v['xh_total'];
+            feeTotal += v['fee_total'];
+            total += v['raise_money'];
+          }
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +52,11 @@ class _DilyWaterState extends State<Month> {
       appBar: MyAppBar(
         title: Text('每月业绩核对'),
         actions: <Widget>[
-          CupertinoButton(child: Icon(Icons.date_range), onPressed: (){
-            showMyDate(context);
-          })
+          CupertinoButton(
+              child: Icon(Icons.date_range),
+              onPressed: () {
+                showMyDate(context);
+              })
         ],
         bottom: PreferredSize(
             child: Padding(
@@ -51,7 +86,7 @@ class _DilyWaterState extends State<Month> {
                             '消费业绩',
                             style: TextStyle(color: Colors.white),
                           ),
-                          Text('5825365.22',
+                          Text(xfTotal.toStringAsFixed(2),
                               style: TextStyle(color: Colors.white)),
                         ],
                       ),
@@ -79,7 +114,7 @@ class _DilyWaterState extends State<Month> {
                             '消耗总业绩',
                             style: TextStyle(color: Colors.white),
                           ),
-                          Text('5825365.22',
+                          Text(xhTotal.toStringAsFixed(2),
                               style: TextStyle(color: Colors.white)),
                         ],
                       ),
@@ -107,7 +142,7 @@ class _DilyWaterState extends State<Month> {
                             '总手工',
                             style: TextStyle(color: Colors.white),
                           ),
-                          Text('5825365.22',
+                          Text(feeTotal.toStringAsFixed(2),
                               style: TextStyle(color: Colors.white)),
                         ],
                       ),
@@ -135,7 +170,7 @@ class _DilyWaterState extends State<Month> {
                             '总提成',
                             style: TextStyle(color: Colors.white),
                           ),
-                          Text('5825365.22',
+                          Text(total.toStringAsFixed(2),
                               style: TextStyle(color: Colors.white)),
                         ],
                       ),
@@ -156,84 +191,149 @@ class _DilyWaterState extends State<Month> {
           height: 50,
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 10),
-        child: Column(
-          children: <Widget>[
-            Container(
-              height: 50,
-              color: bg2,
-              child: Row(
-                children: <Widget>[
-                  Expanded(child: Center(child: Text('员工'))),
-                  Expanded(child: Center(child: Text('总消费'))),
-                  Expanded(child: Center(child: Text('消费提成'))),
-                  Expanded(child: Center(child: Text('总消耗'))),
-                  Expanded(child: Center(child: Text('消耗提成'))),
-                ],
+      body: ListView(
+        scrollDirection: Axis.horizontal,
+        children: <Widget>[
+          Column(
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(top: 10),
+                height: 50,
+                width: getRange(context) * 2,
+                color: bg2,
+                child: Row(
+                  children: <Widget>[
+                    Expanded(child: Center(child: Text('员工'))),
+                    Expanded(child: Center(child: Text('总消费'))),
+                    Expanded(child: Center(child: Text('消费提成'))),
+                    Expanded(child: Center(child: Text('总消耗'))),
+                    Expanded(child: Center(child: Text('消耗提成'))),
+                    Expanded(child: Center(child: Text('卡扣'))),
+                    Expanded(child: Center(child: Text('卡扣提成'))),
+                    Expanded(child: Center(child: Text('总手工'))),
+                    Expanded(child: Center(child: Text('总提成'))),
+                  ],
+                ),
               ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemBuilder: (_, i) => _item(i),
-                itemCount: list.length,
-              ),
-            )
-          ],
-        ),
+              Expanded(
+                  child: Container(
+                width: getRange(context) * 2,
+                child: list == null
+                    ? Center(
+                        child: loading(),
+                      )
+                    : ListView.builder(
+                        itemBuilder: (_, i) => _item(i),
+                        itemCount: list.length,
+                      ),
+              ))
+            ],
+          )
+        ],
       ),
     );
   }
 
-  Widget _item(int i) => Column(
-    children: <Widget>[
-      Container(
-        padding: EdgeInsets.only(left: 10, right: 10),
-        height: 60,
-        color: bg2,
-        child: Row(
-          children: <Widget>[
-            Expanded(
+  Widget _item(int i) {
+    return Column(
+      children: <Widget>[
+        Container(
+          padding: EdgeInsets.only(left: 10, right: 10),
+          height: 60,
+          color: bg2,
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                  child: Center(
+                      child: Text(
+                '${list[i]['name']}',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ))),
+              Expanded(
+                  child: GestureDetector(
+                onTap: () async {
+                  await jump2(context, CommissionDetail(1, list[i]['id']));
+                  getSj();
+                },
                 child: Center(
                     child: Text(
-                      '亚索',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ))),
-            Expanded(
+                  '${list[i]['xf_total'] ?? 0}',
+                  maxLines: 1,
+                  style: TextStyle(color: c1, fontWeight: FontWeight.bold),
+                  overflow: TextOverflow.ellipsis,
+                )),
+              )),
+              Expanded(
+                  child: Center(
+                      child: Text(
+                '${list[i]['xf_total_raise'] ?? 0}',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ))),
+              Expanded(
+                  child: GestureDetector(
+                onTap: () async {
+                  await jump2(context, CommissionDetail(2, list[i]['id']));
+                  getSj();
+                },
                 child: Center(
-                    child: Text(
-                      '1600.01',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ))),
-            Expanded(
+                    child: Text('${list[i]['xh_total'] ?? 0}',
+                        style:
+                            TextStyle(color: c1, fontWeight: FontWeight.bold),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis)),
+              )),
+              Expanded(
+                  child: Center(
+                      child: Text('${list[i]['xh_total_raise'] ?? 0}',
+                          maxLines: 1, overflow: TextOverflow.ellipsis))),
+              Expanded(
+                  child: GestureDetector(
+                onTap: () async {
+                  await jump2(context, CommissionDetail(4, list[i]['id']));
+                  getSj();
+                },
                 child: Center(
-                    child: Text(
-                      '240.00',
-                      maxLines: 1,
-                      style: TextStyle(color: Colors.orange),
-                      overflow: TextOverflow.ellipsis,
-                    ))),
-            Expanded(
+                    child: Text('${list[i]['card_total'] ?? 0}',
+                        style:
+                            TextStyle(color: c1, fontWeight: FontWeight.bold),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis)),
+              )),
+              Expanded(
+                  child: Center(
+                      child: Text('${list[i]['card_total_raise'] ?? 0}',
+                          maxLines: 1, overflow: TextOverflow.ellipsis))),
+              Expanded(
+                  child: GestureDetector(
+                onTap: () async {
+                  await jump2(context, CommissionDetail(3, list[i]['id']));
+                  getSj();
+                },
                 child: Center(
-                    child: Text('520.00',
-                        maxLines: 1, overflow: TextOverflow.ellipsis))),
-            Expanded(
-                child: Center(
-                    child: Text('263.25',
-                        maxLines: 1, overflow: TextOverflow.ellipsis))),
-          ],
+                    child: Text('${list[i]['fee_total'] ?? 0}',
+                        style:
+                            TextStyle(color: c1, fontWeight: FontWeight.bold),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis)),
+              )),
+              Expanded(
+                  child: Center(
+                      child: Text('${list[i]['raise_money'] ?? 0}',
+                          maxLines: 1, overflow: TextOverflow.ellipsis))),
+            ],
+          ),
         ),
-      ),
-      Divider(
-        height: 0,
-      ),
-    ],
-  );
+        Divider(
+          height: 0,
+        ),
+      ],
+    );
+  }
 
   void showMyDate(BuildContext context,
-      {bool showTitleActions = false,
+      {bool showTitleActions = true,
       DateTime minTime,
       DateTime maxTime}) async {
     DatePicker.showDatePicker(context,
@@ -241,6 +341,9 @@ class _DilyWaterState extends State<Month> {
         maxTime: maxTime,
         minTime: minTime,
         locale: LocaleType.zh,
-        onChanged: (DateTime d) {});
+        onConfirm: (DateTime d) {
+      time = '${d.year}-${d.month}';
+      getSj();
+        });
   }
 }

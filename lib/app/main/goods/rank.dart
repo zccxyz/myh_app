@@ -7,8 +7,212 @@ class Rank extends StatefulWidget {
   _RankState createState() => _RankState();
 }
 
-class _RankState extends State<Rank> {
-  List list = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+class _RankState extends State<Rank> with TickerProviderStateMixin {
+  List list;
+  Map one;
+  Map two;
+  Map three;
+  List list2;
+  Map one2;
+  Map two2;
+  Map three2;
+  List list3;
+  Map one3;
+  Map two3;
+  Map three3;
+  List list4;
+  Map one4;
+  Map two4;
+  Map three4;
+  List list5;
+  Map one5;
+  Map two5;
+  Map three5;
+  String time = 'week';
+  String type = 'all';
+  TabController _tab;
+  int now = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _tab = TabController(length: 5, vsync: this);
+    _tab.addListener(() {
+      now = _tab.index;
+      if (_tab.index == 0) {
+        type = 'all';
+      } else if (_tab.index == 1) {
+        type = 'product';
+      } else if (_tab.index == 2) {
+        type = 'box';
+      } else if (_tab.index == 3) {
+        type = 'items';
+      } else if (_tab.index == 4) {
+        type = 'plan';
+      }
+      getSj();
+    });
+    getSj();
+  }
+
+  void getSj() async {
+    var rs = await get('get_ranking', data: {
+      'time': time,
+      'type': type,
+    });
+    if (rs != null) {
+      if (rs['code'] == 1) {
+        print(rs['res']);
+        list = [];
+        list2 = [];
+        list3 = [];
+        list4 = [];
+        list5 = [];
+        setState(() {
+          if (type == 'all') {
+            if (rs['res']['all_list'] != null) {
+              if (rs['res']['all_list'] is Map) {
+                Map d = rs['res']['all_list'];
+                d.forEach((k, v) {
+                  list.add(v);
+                });
+                if (rs['res']['one'] != '') {
+                  one = rs['res']['one'];
+                }
+                if (rs['res']['two'] != '') {
+                  two = rs['res']['two'];
+                }
+                if (rs['res']['three'] != '') {
+                  three = rs['res']['three'];
+                }
+              }
+            }
+          }
+          if (type == 'product') {
+            if (rs['res']['all_list'] != null) {
+              if (rs['res']['all_list'] is Map) {
+                Map d = rs['res']['all_list'];
+                d.forEach((k, v) {
+                  list2.add(v);
+                });
+                if (rs['res']['one'] != '') {
+                  one2 = rs['res']['one'];
+                }
+                if (rs['res']['two'] != '') {
+                  two2 = rs['res']['two'];
+                }
+                if (rs['res']['three'] != '') {
+                  three2 = rs['res']['three'];
+                }
+              } else {
+                list2 = rs['res']['all_list'];
+                if (rs['res']['one'] != '') {
+                  one2 = rs['res']['one'];
+                }
+                if (rs['res']['two'] != '') {
+                  two2 = rs['res']['two'];
+                }
+                if (rs['res']['three'] != '') {
+                  three2 = rs['res']['three'];
+                }
+              }
+            }
+          }
+          if (type == 'box') {
+            if (rs['res']['all_list'] != null) {
+              if (rs['res']['all_list'] is Map) {
+                Map d = rs['res']['all_list'];
+                d.forEach((k, v) {
+                  list3.add(v);
+                });
+                if (rs['res']['one'] != '') {
+                  one3 = rs['res']['one'];
+                }
+                if (rs['res']['two'] != '') {
+                  two3 = rs['res']['two'];
+                }
+                if (rs['res']['three'] != '') {
+                  three3 = rs['res']['three'];
+                }
+              } else {
+                list3 = rs['res']['all_list'];
+                if (rs['res']['one'] != '') {
+                  one3 = rs['res']['one'];
+                }
+                if (rs['res']['two'] != '') {
+                  two3 = rs['res']['two'];
+                }
+                if (rs['res']['three'] != '') {
+                  three3 = rs['res']['three'];
+                }
+              }
+            }
+          }
+          if (type == 'items') {
+            if (rs['res']['all_list'] != null) {
+              if (rs['res']['all_list'] is Map) {
+                Map d = rs['res']['all_list'];
+                d.forEach((k, v) {
+                  list4.add(v);
+                });
+                if (rs['res']['one'] != '') {
+                  one4 = rs['res']['one'];
+                }
+                if (rs['res']['two'] != '') {
+                  two4 = rs['res']['two'];
+                }
+                if (rs['res']['three'] != '') {
+                  three4 = rs['res']['three'];
+                }
+              } else {
+                list4 = rs['res']['all_list'];
+                if (rs['res']['one'] != '') {
+                  one4 = rs['res']['one'];
+                }
+                if (rs['res']['two'] != '') {
+                  two4 = rs['res']['two'];
+                }
+                if (rs['res']['three'] != '') {
+                  three4 = rs['res']['three'];
+                }
+              }
+            }
+          }
+          if (type == 'plan') {
+            if (rs['res']['all_list'] != null) {
+              if (rs['res']['all_list'] is Map) {
+                Map d = rs['res']['all_list'];
+                d.forEach((k, v) {
+                  list5.add(v);
+                });
+                if (rs['res']['one'] != '') {
+                  one5 = rs['res']['one'];
+                }
+                if (rs['res']['two'] != '') {
+                  two5 = rs['res']['two'];
+                }
+                if (rs['res']['three'] != '') {
+                  three5 = rs['res']['three'];
+                }
+              } else {
+                list5 = rs['res']['all_list'];
+                if (rs['res']['one'] != '') {
+                  one5 = rs['res']['one'];
+                }
+                if (rs['res']['two'] != '') {
+                  two5 = rs['res']['two'];
+                }
+                if (rs['res']['three'] != '') {
+                  three5 = rs['res']['three'];
+                }
+              }
+            }
+          }
+        });
+        setState(() {});
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +231,19 @@ class _RankState extends State<Rank> {
                 actions: <Widget>[
                   CupertinoButton(
                     child: Text(
-                      '周榜',
+                      time=='week'?'月榜':'周榜',
                       style: TextStyle(color: Colors.white),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        if(time=='week'){
+                          time = 'month';
+                        }else{
+                          time = 'week';
+                        }
+                        getSj();
+                      });
+                    },
                   )
                 ],
                 expandedHeight: 200,
@@ -56,6 +269,7 @@ class _RankState extends State<Rank> {
                                   topLeft: Radius.circular(10),
                                   topRight: Radius.circular(10))),
                           child: TabBar(
+                            controller: _tab,
                             tabs: [
                               Tab(
                                 text: '全部',
@@ -88,32 +302,52 @@ class _RankState extends State<Rank> {
                       200 -
                       getRange(context, type: 4) -
                       getRange(context, type: 3),
-                  child: TabBarView(children: [
-                    ListView.builder(
-                      padding: EdgeInsets.all(0),
-                      itemBuilder: (_, i) => _item(i),
-                      itemCount: list.length,
-                    ),
-                    ListView.builder(
-                      padding: EdgeInsets.all(0),
-                      itemBuilder: (_, i) => _item(i),
-                      itemCount: list.length,
-                    ),
-                    ListView.builder(
-                      padding: EdgeInsets.all(0),
-                      itemBuilder: (_, i) => _item(i),
-                      itemCount: list.length,
-                    ),
-                    ListView.builder(
-                      padding: EdgeInsets.all(0),
-                      itemBuilder: (_, i) => _item(i),
-                      itemCount: list.length,
-                    ),
-                    ListView.builder(
-                      padding: EdgeInsets.all(0),
-                      itemBuilder: (_, i) => _item(i),
-                      itemCount: list.length,
-                    ),
+                  child: TabBarView(controller: _tab, children: [
+                    one != null
+                        ? ListView.builder(
+                            padding: EdgeInsets.all(0),
+                            itemBuilder: (_, i) => _item(i, 1),
+                            itemCount: list.length,
+                          )
+                        : Center(
+                            child: Text('暂无数据'),
+                          ),
+                    one2 != null
+                        ? ListView.builder(
+                            padding: EdgeInsets.all(0),
+                            itemBuilder: (_, i) => _item(i, 2),
+                            itemCount: list2.length,
+                          )
+                        : Center(
+                            child: Text('暂无数据'),
+                          ),
+                    one3 != null
+                        ? ListView.builder(
+                            padding: EdgeInsets.all(0),
+                            itemBuilder: (_, i) => _item(i, 3),
+                            itemCount: list3.length,
+                          )
+                        : Center(
+                            child: Text('暂无数据'),
+                          ),
+                    one4 != null
+                        ? ListView.builder(
+                            padding: EdgeInsets.all(0),
+                            itemBuilder: (_, i) => _item(i, 4),
+                            itemCount: list4.length,
+                          )
+                        : Center(
+                            child: Text('暂无数据'),
+                          ),
+                    one5 != null
+                        ? ListView.builder(
+                            padding: EdgeInsets.all(0),
+                            itemBuilder: (_, i) => _item(i, 5),
+                            itemCount: list5.length,
+                          )
+                        : Center(
+                            child: Text('暂无数据'),
+                          ),
                   ]),
                 )
               ]))
@@ -125,7 +359,37 @@ class _RankState extends State<Rank> {
     );
   }
 
-  Widget _item(int i) {
+  Widget _item(int i, t) {
+    Map data;
+    Map oneData;
+    Map twoData;
+    Map threeData;
+    if (t == 1) {
+      data = list[i];
+      oneData = one;
+      twoData = two;
+      threeData = three;
+    } else if (t == 2) {
+      data = list2[i];
+      oneData = one2;
+      twoData = two2;
+      threeData = three2;
+    } else if (t == 3) {
+      data = list3[i];
+      oneData = one3;
+      twoData = two3;
+      threeData = three3;
+    } else if (t == 4) {
+      data = list4[i];
+      oneData = one4;
+      twoData = two4;
+      threeData = three4;
+    } else if (t == 5) {
+      data = list5[i];
+      oneData = one5;
+      twoData = two5;
+      threeData = three5;
+    }
     if (i == 0) {
       return Column(
         children: <Widget>[
@@ -146,14 +410,14 @@ class _RankState extends State<Rank> {
                         fit: BoxFit.fill,
                         height: 50,
                       ),
-                      Text('面部精华'),
+                      Text('${twoData['name']}'),
                       RichText(
                           text: TextSpan(
                               text: '销量：',
                               style: TextStyle(color: textColor),
                               children: [
                             TextSpan(
-                                text: '6893',
+                                text: '${twoData['sum']}',
                                 style: TextStyle(color: Colors.black))
                           ]))
                     ],
@@ -169,15 +433,21 @@ class _RankState extends State<Rank> {
                         width: 60,
                         height: 60,
                       ),
-                      Text('gtx2080ti', style: TextStyle(color: c1, fontSize: 17),),
+                      Text(
+                        '${oneData['name']}',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(color: c1, fontSize: 17),
+                      ),
                       RichText(
                           text: TextSpan(
                               text: '销量：',
                               style: TextStyle(color: c1),
                               children: [
-                                TextSpan(
-                                    text: '6893',)
-                              ]))
+                            TextSpan(
+                              text: '${oneData['sum']}',
+                            )
+                          ]))
                     ],
                   ),
                 ),
@@ -191,16 +461,16 @@ class _RankState extends State<Rank> {
                         fit: BoxFit.fill,
                         height: 50,
                       ),
-                      Text('面部精华'),
+                      Text('${threeData['name']}'),
                       RichText(
                           text: TextSpan(
                               text: '销量：',
                               style: TextStyle(color: textColor),
                               children: [
-                                TextSpan(
-                                    text: '6893',
-                                    style: TextStyle(color: Colors.black))
-                              ]))
+                            TextSpan(
+                                text: '${threeData['sum']}',
+                                style: TextStyle(color: Colors.black))
+                          ]))
                     ],
                   ),
                 ),
@@ -235,10 +505,10 @@ class _RankState extends State<Rank> {
             leading: CircleAvatar(
               backgroundColor: c1,
               radius: 15,
-              child: Text('4'),
+              child: Text('${i + 1}'),
             ),
             title: Text(
-              'gtx1080ti败家之眼败家之眼',
+              '${data['name']}',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
@@ -247,7 +517,8 @@ class _RankState extends State<Rank> {
                     text: '销量：',
                     children: [
                       TextSpan(
-                          text: '2569', style: TextStyle(color: Colors.black))
+                          text: '${data['sum']}',
+                          style: TextStyle(color: Colors.black))
                     ],
                     style: TextStyle(color: textColor))),
           ),

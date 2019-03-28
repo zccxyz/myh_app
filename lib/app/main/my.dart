@@ -88,7 +88,7 @@ class _MyState extends State<My> {
                                   Padding(
                                     padding: const EdgeInsets.only(right: 10),
                                     child: circularImg(
-                                        '${v.loginData['logo']}',
+                                        '${v.loginData['logo']??'http://www.caisheng.net/UploadFiles/img_0_3534166376_2649719102_27.jpg'}',
                                         80),
                                   ),
                                   Expanded(

@@ -1,31 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:myh_shop/app/main/buy/buy_items.dart';
+import 'package:myh_shop/app/main/member_manage/edit_items.dart';
 import 'package:myh_shop/common.dart';
 import 'package:myh_shop/widget/MyAppBar.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:myh_shop/widget/MyButton.dart';
 
-class Items extends StatelessWidget {
+class Items extends StatefulWidget {
   final int id;
+  final String type;
 
-  const Items(this.id, {Key key}) : super(key: key);
+  const Items(
+    this.id,
+    this.type, {
+    Key key,
+  }) : super(key: key);
+
+  @override
+  _ItemsState createState() => _ItemsState();
+}
+
+class _ItemsState extends State<Items> {
+  List list;
+  String title = '';
 
   @override
   Widget build(BuildContext context) {
-    List list = [1, 2, 4, 5, 5, 6, 7, 4, 3, 4, 5];
     return Scaffold(
+      backgroundColor: bg2,
       appBar: MyAppBar(
-        title: Text('会员项目'),
+        title: Text(title),
         actions: <Widget>[
           CupertinoButton(
               child: Text(
-                '购买项目',
+                '购买${widget.type=='items'?'项目':widget.type=='box'?'套盒':''}',
                 style: TextStyle(color: c1),
               ),
               onPressed: () {
                 jump2(context, BuyItems(2));
               })
         ],
-        bottom: PreferredSize(
+        /*bottom: PreferredSize(
             child: Container(
               height: 70,
               child: Row(
@@ -67,64 +82,48 @@ class Items extends StatelessWidget {
                 ],
               ),
             ),
-            preferredSize: Size(getRange(context), 70)),
+            preferredSize: Size(getRange(context), 70)),*/
       ),
-      body: Container(
-        margin: EdgeInsets.only(top: 10),
-        color: Colors.white,
-        child: Column(
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(left: 10, right: 10),
-              height: 50,
-              color: Colors.white,
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                      child: Text(
-                    '类别',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: textColor, fontSize: 16),
-                  )),
-                  Expanded(
+      body: ListView(
+        scrollDirection: Axis.horizontal,
+        children: <Widget>[
+          Column(
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(top: 10),
+                height: 50,
+                width: getRange(context) * 2,
+                color: bg2,
+                child: Row(
+                  children: <Widget>[
+                    Expanded(child: Center(child: Text('类别'))),
+                    Expanded(child: Center(child: Text('名称'))),
+                    Expanded(child: Center(child: Text('价格'))),
+                    Expanded(child: Center(child: Text('余数'))),
+                    Expanded(child: Center(child: Text('购买日期'))),
+                    Expanded(child: Center(child: Text('美容师'))),
+                    widget.type=='plan'?Offstage():Expanded(
+                      child: Center(child: Text('操作')),
                       flex: 2,
-                      child: Text('名称',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: textColor, fontSize: 16))),
-                  Expanded(
-                      flex: 2,
-                      child: Text('价格',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: textColor, fontSize: 16))),
-                  Expanded(
-                      child: Text('余数',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: textColor, fontSize: 16))),
-                  Expanded(
-                    child: Text('购买日期',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: textColor,
-                          fontSize: 16,
-                        )),
-                    flex: 2,
-                  ),
-                ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Divider(
-              height: 0,
-            ),
-            Expanded(
-              child: ListView.builder(
-                padding: EdgeInsets.only(
-                    left: 10, right: 10, bottom: getRange(context, type: 4)),
-                itemBuilder: (_, i) => _item(i),
-                itemCount: list.length,
-              ),
-            ),
-          ],
-        ),
+              Expanded(
+                  child: Container(
+                width: getRange(context) * 2,
+                child: list == null
+                    ? Center(
+                        child: loading(),
+                      )
+                    : ListView.builder(
+                        itemBuilder: (_, i) => _item(i),
+                        itemCount: list.length,
+                      ),
+              ))
+            ],
+          )
+        ],
       ),
     );
   }
@@ -140,35 +139,65 @@ class Items extends StatelessWidget {
                 child: Chip(
                   padding: EdgeInsets.all(0),
                   label: Text(
-                    '头部',
+                    '${list[i]['category']}',
                     style: TextStyle(color: Colors.white),
                   ),
                   backgroundColor: c1,
                 ),
               ),
               Expanded(
-                  flex: 2,
                   child: Text(
-                    '螺旋手里剑',
-                    textAlign: TextAlign.center,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  )),
+                '${list[i]['name']}',
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              )),
               Expanded(
-                  flex: 2,
-                  child: Text('¥2351.23',
+                  child: Text('¥${list[i]['price']}',
                       maxLines: 1,
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.ellipsis)),
               Expanded(
                   child: Text(
-                '25',
+                '${list[i]['current_num']??''}',
                 textAlign: TextAlign.center,
               )),
               Expanded(
-                child: Text('2019-10-21', textAlign: TextAlign.center),
-                flex: 2,
+                child: Text('${list[i]['time']}', textAlign: TextAlign.center),
               ),
+              Expanded(
+                child: Text('-', textAlign: TextAlign.center),
+              ),
+              widget.type=='plan'?Offstage():Expanded(
+                flex: 2,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    MyButton(
+                      title: '编辑',
+                      onPressed: () async {
+                        await jump2(
+                            context, EditItems(list[i]['id'], widget.type));
+                        getSj();
+                      },
+                      width: 60,
+                      height: 30,
+                    ),
+                    Padding(padding: EdgeInsets.all(2)),
+                    MyButton(
+                      title: '删除',
+                      color: Colors.red,
+                      onPressed: () async {
+                        if (await showAlert(context, '是否删除？')) {
+                          delData(list[i]['id']);
+                        }
+                      },
+                      width: 60,
+                      height: 30,
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
         ),
@@ -177,5 +206,47 @@ class Items extends StatelessWidget {
         )
       ],
     );
+  }
+
+  void delData(int id) async {
+    var rs = await post('MemberBoxItemsDel', data: {
+      'id': id,
+    });
+    if (rs != null) {
+      if (rs['code'] == 1) {
+        getSj();
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if(widget.type=='items'){
+      title = '会员项目';
+    }else if(widget.type=='box'){
+      title = '会员套盒';
+    }else if(widget.type=='plan'){
+      title = '会员方案';
+    }
+    setState(() {
+
+    });
+    getSj();
+  }
+
+  void getSj() async {
+    var rs = await get('memberBoxItemsList', data: {
+      'mid': widget.id,
+      'type': widget.type,
+    });
+    print(rs);
+    if (rs != null) {
+      if (rs['code'] == 1) {
+        setState(() {
+          list = rs['res']['list'];
+        });
+      }
+    }
   }
 }

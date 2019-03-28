@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:myh_shop/app/main/warehouse/in.dart';
+import 'package:myh_shop/app/main/warehouse/out.dart';
 import 'package:myh_shop/common.dart';
 import 'package:myh_shop/widget/MyButton.dart';
 import 'package:myh_shop/widget/MyInput.dart';
@@ -19,6 +21,8 @@ class _OutInState extends State<OutIn> {
   String input = '';
   TextEditingController _start = TextEditingController(text: '');
   TextEditingController _end = TextEditingController(text: '');
+  String one = '';
+  String two = '';
 
   @override
   void initState() {
@@ -89,6 +93,11 @@ class _OutInState extends State<OutIn> {
                                 Text('大于等于'),
                                 MyInput2(
                                   label: '',
+                                  onChanged: (v) {
+                                    setState(() {
+                                      one = v;
+                                    });
+                                  },
                                   type: 2,
                                   width: 50,
                                   contentPadding: EdgeInsets.all(5),
@@ -102,6 +111,11 @@ class _OutInState extends State<OutIn> {
                                 Text('小于等于'),
                                 MyInput2(
                                   label: '',
+                                  onChanged: (v) {
+                                    setState(() {
+                                      two = v;
+                                    });
+                                  },
                                   type: 2,
                                   width: 50,
                                   contentPadding: EdgeInsets.all(5),
@@ -140,13 +154,6 @@ class _OutInState extends State<OutIn> {
                                   controller: _start,
                                   height: 30,
                                 ),
-                                GestureDetector(
-                                  child: Text(
-                                    '保存',
-                                    style: TextStyle(color: c1),
-                                  ),
-                                  onTap: () {},
-                                ),
                               ],
                             ),
                             Row(
@@ -162,10 +169,12 @@ class _OutInState extends State<OutIn> {
                                 ),
                                 GestureDetector(
                                   child: Text(
-                                    '修改',
+                                    '保存',
                                     style: TextStyle(color: c1),
                                   ),
-                                  onTap: () {},
+                                  onTap: () {
+                                    saveData();
+                                  },
                                 ),
                               ],
                             ),
@@ -272,6 +281,18 @@ class _OutInState extends State<OutIn> {
             0) {
       return Offstage();
     }
+    if (one.length > 0 || two.length > 0) {
+      if (one.length > 0) {
+        if (list[i]['stock'] < int.parse(one)) {
+          return Offstage();
+        }
+      }
+      if (two.length > 0) {
+        if (list[i]['stock'] > int.parse(two)) {
+          return Offstage();
+        }
+      }
+    }
     return Column(
       children: <Widget>[
         Container(
@@ -301,14 +322,14 @@ class _OutInState extends State<OutIn> {
               Container(
                   width: 100,
                   child: Text(
-                    '0',
+                    '${list[i]['stock']}',
                     style: TextStyle(fontWeight: FontWeight.w500),
                   ),
                   alignment: Alignment.center),
               Container(
                   width: 100,
-                  child:
-                      Text('12', style: TextStyle(fontWeight: FontWeight.w500)),
+                  child: Text('${list[i]['beforehand_num']}',
+                      style: TextStyle(fontWeight: FontWeight.w500)),
                   alignment: Alignment.center),
               Expanded(
                   child: Container(
@@ -316,14 +337,24 @@ class _OutInState extends State<OutIn> {
                         children: <Widget>[
                           Expanded(
                               child: MyButton(
-                            onPressed: () {},
+                            onPressed: () async {
+                              await jump2(context,
+                                  In(list[i]['id'], widget.id, list[i]['type'], 'into'));
+                              getSj();
+                            },
                             title: '入库',
                             height: 30,
                           )),
                           Padding(padding: EdgeInsets.all(5)),
                           Expanded(
                               child: MyButton(
-                                  onPressed: () {}, title: '出库', height: 30)),
+                                  onPressed: () async {
+                                    await jump2(context,
+                                        Out(list[i]['id'], widget.id, list[i]['type'], 'out'));
+                                    getSj();
+                                  },
+                                  title: '出库',
+                                  height: 30)),
                           Padding(padding: EdgeInsets.all(10)),
                         ],
                       ),
@@ -336,5 +367,25 @@ class _OutInState extends State<OutIn> {
         )
       ],
     );
+  }
+
+  void saveData() async {
+    String s = _start.text;
+    String e = _end.text;
+    if (s.length == 0 || e.length == 0) {
+      return tip(context, '请输入有效库存预警');
+    }
+    var rs = await post('goods_manager', data: {
+      'data': {
+        'end_num': e,
+        'start_num': s,
+        'ware': widget.id,
+      }
+    });
+    if (rs != null) {
+      if (rs['code'] == 1) {
+        ok(context, rs['Msg'], type: 2);
+      }
+    }
   }
 }

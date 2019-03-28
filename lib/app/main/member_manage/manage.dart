@@ -14,7 +14,7 @@ class Manage extends StatefulWidget {
 }
 
 class _ManageState extends State<Manage> {
-  List list = [];
+  List list;
   String input = '';
   int type = 1;
   TextEditingController controller = TextEditingController(text: '');
@@ -97,7 +97,7 @@ class _ManageState extends State<Manage> {
             preferredSize: Size(MediaQuery.of(context).size.width, 50)),
         elevation: 0,
       ),
-      body: list.length > 0
+      body: list!=null
           ? Padding(
               padding: const EdgeInsets.only(top: 10.0),
               child: Column(

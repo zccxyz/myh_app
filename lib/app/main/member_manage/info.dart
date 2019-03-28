@@ -44,7 +44,7 @@ class _InfoState extends State<Info> {
             : ListView(
                 children: <Widget>[
                   MyItem(
-                    child: Text('${user['shop_num']}'),
+                    child: Text('${user['shop_num']??''}'),
                     label: '会员编号',
                   ),
                   MyItem(
