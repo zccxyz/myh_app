@@ -131,7 +131,7 @@ class MyApp extends StatelessWidget {
           hintColor: hintColor,
           primaryTextTheme:
               TextTheme(title: TextStyle(color: Colors.black, fontSize: 20.0))),
-      home: Royalty(4715),//now==0?Login():BottomBar(),
+      home: now==0?Login():BottomBar(),
     );
   }
 }
