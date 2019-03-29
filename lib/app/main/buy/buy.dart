@@ -74,28 +74,26 @@ class _BuyState extends State<Buy> {
       m = 'buyplan';
     }
     var rs = await get(m, data: {'id': widget.id});
-    print(rs);
     if (rs != null) {
       if (rs['code'] == 0) {
         for (var v in rs['data']) {
-          if(widget.type==4){
+          if (widget.type == 4) {
             v['stock'] = v['sum'];
-          }else
-          if(widget.type==5){
+          } else if (widget.type == 5) {
             String s = '';
-            if(v['card_type']==1){
+            if (v['card_type'] == 1) {
               s = '储值卡';
-            }else if(v['card_type']==2){
+            } else if (v['card_type'] == 2) {
               s = '消费折扣卡';
-            }else if(v['card_type']==3){
+            } else if (v['card_type'] == 3) {
               s = '全场折扣卡';
             }
             v['s'] = s;
-          }else if(widget.type==6){
+          } else if (widget.type == 6) {
             dynamic d = v['detail'];
             List l = [];
-            if(d!=null){
-              if(d is Map) {
+            if (d != null) {
+              if (d is Map) {
                 d.forEach((k, v) {
                   l.add(v);
                 });
@@ -319,7 +317,6 @@ class _BuyState extends State<Buy> {
                       }
                     }
                     if (car[i]['sum'] == 1) {
-                      print(car);
                       car.removeAt(i);
                     } else {
                       car[i]['sum']--;
@@ -479,7 +476,6 @@ class _BuyState extends State<Buy> {
                           double rs = double.parse(dis) /
                               10 *
                               double.parse(d['price'].toString());
-                          print(rs);
 
                           _priceCon.text = rs.toString();
                         } else {
@@ -598,6 +594,15 @@ class _BuyState extends State<Buy> {
       );
     }
     if (widget.type == 2) {
+      if (input.length > 0) {
+        if (list[i]['box_name']
+                .toString()
+                .toLowerCase()
+                .indexOf(input.toLowerCase()) <
+            0) {
+          return Offstage();
+        }
+      }
       return Item(
         list[i],
         widget.type,
@@ -607,6 +612,15 @@ class _BuyState extends State<Buy> {
       );
     }
     if (widget.type == 3) {
+      if (input.length > 0) {
+        if (list[i]['pro_name']
+                .toString()
+                .toLowerCase()
+                .indexOf(input.toLowerCase()) <
+            0) {
+          return Offstage();
+        }
+      }
       return Item(
         list[i],
         widget.type,
@@ -616,19 +630,56 @@ class _BuyState extends State<Buy> {
       );
     }
     if (widget.type == 4) {
-      return Item(list[i], widget.type, onChanged: (v){
-        change(v);
-      },);
+      if (input.length > 0) {
+        if (list[i]['name']
+                .toString()
+                .toLowerCase()
+                .indexOf(input.toLowerCase()) <
+            0) {
+          return Offstage();
+        }
+      }
+      return Item(
+        list[i],
+        widget.type,
+        onChanged: (v) {
+          change(v);
+        },
+      );
     }
     if (widget.type == 5) {
-      return CardItem(list[i], onChanged: (v){
-        change(v);
-      },);
+      if (input.length > 0) {
+        if (list[i]['card_name']
+                .toString()
+                .toLowerCase()
+                .indexOf(input.toLowerCase()) <
+            0) {
+          return Offstage();
+        }
+      }
+      return CardItem(
+        list[i],
+        onChanged: (v) {
+          change(v);
+        },
+      );
     }
     if (widget.type == 6) {
-      return PlanItem(list[i], onChanged: (v){
-        change(v);
-      },);
+      if (input.length > 0) {
+        if (list[i]['name']
+                .toString()
+                .toLowerCase()
+                .indexOf(input.toLowerCase()) <
+            0) {
+          return Offstage();
+        }
+      }
+      return PlanItem(
+        list[i],
+        onChanged: (v) {
+          change(v);
+        },
+      );
     }
     return Offstage();
   }
@@ -670,22 +721,27 @@ class _BuyState extends State<Buy> {
     String m = 'buygoods';
     if (widget.type == 2) {
       m = 'buyth';
-    }else if (widget.type == 3) {
+    } else if (widget.type == 3) {
       m = 'buyitems';
-    }else if (widget.type == 4) {
+    } else if (widget.type == 4) {
       m = 'buyWear';
-    }else if (widget.type == 5) {
+    } else if (widget.type == 5) {
       m = 'buycard';
-    }else if (widget.type == 6) {
+    } else if (widget.type == 6) {
       m = 'buyplan';
     }
     var rs = await post(m, data: {'type': 1, 'data': data, 'id': widget.id});
+    print(rs);
     state(() {
       loadState = false;
     });
-    print(rs);
     if (rs != null) {
-      if (rs['code'] == 1) {}
+      if (rs['code'] == 1) {
+        jump2(
+            context,
+            Pay(int.parse(rs['res']['orderId'].toString()),
+                int.parse(rs['res']['arrearsRes'].toString())));
+      }
     }
   }
 }

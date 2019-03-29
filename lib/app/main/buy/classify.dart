@@ -19,10 +19,13 @@ class Classify extends StatelessWidget {
       body: ListView(
         children: <Widget>[
           ListTile(
-            leading: Icon(Icons.flash_on, color: c1,),
+            leading: Icon(
+              Icons.flash_on,
+              color: c1,
+            ),
             title: Text('产品'),
             trailing: Icon(Icons.chevron_right),
-            onTap: (){
+            onTap: () {
               jump2(context, Buy(id));
             },
           ),
@@ -33,8 +36,13 @@ class Classify extends StatelessWidget {
             leading: Icon(Icons.flash_on, color: c1),
             title: Text('套盒'),
             trailing: Icon(Icons.chevron_right),
-            onTap: (){
-              jump2(context, Buy(id, type: 2,));
+            onTap: () {
+              jump2(
+                  context,
+                  Buy(
+                    id,
+                    type: 2,
+                  ));
             },
           ),
           Divider(
@@ -44,8 +52,13 @@ class Classify extends StatelessWidget {
             leading: Icon(Icons.flash_on, color: c1),
             title: Text('项目'),
             trailing: Icon(Icons.chevron_right),
-            onTap: (){
-              jump2(context, Buy(id, type: 3,));
+            onTap: () {
+              jump2(
+                  context,
+                  Buy(
+                    id,
+                    type: 3,
+                  ));
             },
           ),
           Divider(
@@ -55,8 +68,13 @@ class Classify extends StatelessWidget {
             leading: Icon(Icons.flash_on, color: c1),
             title: Text('内衣'),
             trailing: Icon(Icons.chevron_right),
-            onTap: (){
-              jump2(context, Buy(id, type: 4,));
+            onTap: () {
+              jump2(
+                  context,
+                  Buy(
+                    id,
+                    type: 4,
+                  ));
             },
           ),
           Divider(
@@ -66,8 +84,13 @@ class Classify extends StatelessWidget {
             leading: Icon(Icons.flash_on, color: c1),
             title: Text('卡项'),
             trailing: Icon(Icons.chevron_right),
-            onTap: (){
-              jump2(context, Buy(id, type: 5,));
+            onTap: () {
+              jump2(
+                  context,
+                  Buy(
+                    id,
+                    type: 5,
+                  ));
             },
           ),
           Divider(
@@ -77,8 +100,13 @@ class Classify extends StatelessWidget {
             leading: Icon(Icons.flash_on, color: c1),
             title: Text('方案'),
             trailing: Icon(Icons.chevron_right),
-            onTap: (){
-              jump2(context, Buy(id, type: 6,));
+            onTap: () {
+              jump2(
+                  context,
+                  Buy(
+                    id,
+                    type: 6,
+                  ));
             },
           ),
           Divider(
@@ -88,8 +116,8 @@ class Classify extends StatelessWidget {
             leading: Icon(Icons.flash_on, color: c1),
             title: Text('充值'),
             trailing: Icon(Icons.chevron_right),
-            onTap: (){
-              jump2(context, RechargeManage());
+            onTap: () {
+              jump2(context, RechargeManage(id));
             },
           ),
           Divider(

@@ -4,6 +4,8 @@ import 'package:myh_shop/app/bottomBar.dart';
 import 'package:myh_shop/app/home.dart';
 import 'package:myh_shop/app/login.dart';
 import 'package:myh_shop/app/main/arrears.dart';
+import 'package:myh_shop/app/main/buy/pay.dart';
+import 'package:myh_shop/app/main/buy/royalty.dart';
 import 'package:myh_shop/app/main/goods/add_cp.dart';
 import 'package:myh_shop/app/main/goods/bespeak.dart';
 import 'package:myh_shop/app/main/goods/box_manage.dart';
@@ -129,7 +131,7 @@ class MyApp extends StatelessWidget {
           hintColor: hintColor,
           primaryTextTheme:
               TextTheme(title: TextStyle(color: Colors.black, fontSize: 20.0))),
-      home: now==0?Login():BottomBar(),
+      home: Royalty(4715),//now==0?Login():BottomBar(),
     );
   }
 }

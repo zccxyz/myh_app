@@ -177,6 +177,14 @@ const Map<String, String> methods = {
   'get_healthy_detail': 'Healthy/get_healthy_detail',
   'HealthyAdd': 'Healthy/add',
   'HealthSearch': 'Healthy/HealthSearch',
+  'RechargeAccount': 'buy/RechargeAccount',
+  'RechargeRecord': 'Member/RechargeRecord',
+  'RechargeCard': 'buy/RechargeCard',
+  'saveCard': 'buy/saveCard',
+  'get_pay_detail': 'buy/get_pay_detail',
+  'save_commission': 'buy/save_commission',
+  'change_percentage': 'buy/change_percentage',
+  'consume_print': 'buy/consume_print',
 };
 final UserModel userModel = UserModel();
 final ComeShopModel comeShopModel = ComeShopModel();
@@ -281,7 +289,7 @@ Future<bool> del(key) async {
   return await prefs.remove(key);
 }
 
-dynamic post(String m, {Map<String, dynamic> data}) async {
+dynamic post(String m, {Map<String, dynamic> data, int t=0}) async {
   dio.options.baseUrl = ym;
   if (m == 'login') {
     dio.options.queryParameters = {'source': 'myh_app'};
@@ -290,10 +298,13 @@ dynamic post(String m, {Map<String, dynamic> data}) async {
       'source': 'myh_app',
       'user': toString(userModel.loginData)
     };
+    if(t!=0){
+      dio.options.queryParameters['id'] = t;
+    }
   }
-  Response rs = await dio.post(methods[m], data: data);
+  /*Response rs = await dio.post(methods[m], data: data);
   print(rs.data);
-  return null;
+  return null;*/
   try {
     Response rs = await dio.post(methods[m], data: data);
     var jg = rs.data;
@@ -319,7 +330,6 @@ dynamic post(String m, {Map<String, dynamic> data}) async {
     }
     return jg;
   } catch (e) {
-    print(e.toString() + '前端');
     tip(myContext, '请求出错');
     return null;
   }
