@@ -291,9 +291,9 @@ dynamic post(String m, {Map<String, dynamic> data}) async {
       'user': toString(userModel.loginData)
     };
   }
-  Response rs = await dio.post(methods[m], data: data);
+  /*Response rs = await dio.post(methods[m], data: data);
   print(rs.data);
-  return null;
+  return null;*/
   try {
     Response rs = await dio.post(methods[m], data: data);
     var jg = rs.data;
