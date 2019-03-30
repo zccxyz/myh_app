@@ -4,6 +4,8 @@ import 'package:myh_shop/app/bottomBar.dart';
 import 'package:myh_shop/app/home.dart';
 import 'package:myh_shop/app/login.dart';
 import 'package:myh_shop/app/main/arrears.dart';
+import 'package:myh_shop/app/main/buy/pay.dart';
+import 'package:myh_shop/app/main/buy/royalty.dart';
 import 'package:myh_shop/app/main/goods/add_cp.dart';
 import 'package:myh_shop/app/main/goods/bespeak.dart';
 import 'package:myh_shop/app/main/goods/box_manage.dart';

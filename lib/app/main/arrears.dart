@@ -213,7 +213,7 @@ class _ArrearsState extends State<Arrears> {
                     padding: const EdgeInsets.all(8.0),
                     child: MyButton(
                       onPressed: () {
-                        jump2(context, Pay(1));
+                        jump2(context, Pay(1, 1));
                       },
                       title: '补款',
                     ),

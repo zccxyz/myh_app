@@ -376,7 +376,7 @@ class _BuyItemsState extends State<BuyPlan> {
                                         ))),
                                 MyButton(
                                   onPressed: () {
-                                    jump2(context, Pay(1));
+                                    jump2(context, Pay(1,1));
                                   },
                                   title: '确认购买',
                                   width: getRange(context) / 3,

@@ -155,7 +155,7 @@ class _ComeShopState extends State<ComeShop> {
                     child: MyButton(
                       height: 30,
                       onPressed: () {
-                        jump2(context, Classify(1));
+                        jump2(context, Classify(list[i]['mid']));
                       },
                       title: '消费录入',
                       titleStyle: TextStyle(fontSize: 14),
@@ -168,7 +168,8 @@ class _ComeShopState extends State<ComeShop> {
                         height: 30,
                         color: myColor(113, 207, 137),
                         onPressed: () {
-                          jump2(context, ConsumptionEntry(list[i]['mid'], list[i]['id']));
+                          jump2(context,
+                              ConsumptionEntry(list[i]['mid'], list[i]['id']));
                         },
                         title: '消耗录入',
                         titleStyle: TextStyle(fontSize: 14)),
@@ -189,7 +190,7 @@ class _ComeShopState extends State<ComeShop> {
                           color: myColor(152, 153, 154),
                           onPressed: () async {
                             var rs = await showAlert(context, '是否离店？');
-                            if(rs){
+                            if (rs) {
                               leave(list[i]['id'], list[i]['mid']);
                             }
                           },
@@ -210,8 +211,8 @@ class _ComeShopState extends State<ComeShop> {
       'arrId': id,
       'mid': mid,
     });
-    if(rs!=null){
-      if(rs['code']==1){
+    if (rs != null) {
+      if (rs['code'] == 1) {
         getComeShop();
       }
     }
