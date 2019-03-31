@@ -19,7 +19,7 @@ class _InfoState extends State<Info> {
 
   @override
   Widget build(BuildContext context) {
-    print(user);
+    //print(user);
     return Scaffold(
       appBar: MyAppBar(
         title: Text('基本信息'),
@@ -98,6 +98,6 @@ class _InfoState extends State<Info> {
         user = rs['data'];
       });
     }
-    print(rs);
+    //print(rs);
   }
 }

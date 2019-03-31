@@ -197,7 +197,7 @@ class _AddCouponState extends State<AddCoupon> {
   @override
   void initState() {
     super.initState();
-    print(widget.id);
+    //print(widget.id);
 
     if(widget.id!=null){
       getSj();
@@ -210,7 +210,7 @@ class _AddCouponState extends State<AddCoupon> {
     });
     if(rs!=null){
       if(rs['code']==1){
-        print(rs);
+        //print(rs);
         _nameCon.text = rs['res']['coupon_name'];
         now = rs['res']['coupon_type']==4?2:1;
         if(rs['res']['coupon_type']==1){

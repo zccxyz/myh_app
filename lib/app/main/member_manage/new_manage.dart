@@ -142,7 +142,7 @@ class _ManageState extends State<NewManage> {
                 } else {
                   tip(context, rs['errorMsg']);
                 }
-                print(rs);
+                //print(rs);
               },
             ),
           ],
@@ -258,6 +258,6 @@ class _ManageState extends State<NewManage> {
         list = rs['data']['guests'];
       });
     }
-    print(rs);
+    //print(rs);
   }
 }

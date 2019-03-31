@@ -34,7 +34,7 @@ class _CheckDetailState extends State<CheckDetail> {
       'time': time,
     });
     if (rs != null) {
-      print(rs);
+      //print(rs);
       if (rs['code'] == 1) {
         consume = [1];
         consumption = [1];

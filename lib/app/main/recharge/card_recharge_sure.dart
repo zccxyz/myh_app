@@ -85,7 +85,7 @@ class _CardRechargeSureState extends State<CardRechargeSure> {
   void getSj()async {
     var rs = await get('saveCard', data: {
       'id': widget.id
-    });print(rs);
+    });//print(rs);
     if(rs!=null){
       if(rs['code']==0){
         setState(() {

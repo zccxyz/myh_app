@@ -33,7 +33,7 @@ class _CommissionDetailState extends State<CommissionDetail> {
       'type': widget.type,
       'staff': widget.id,
     });
-    print(rs.toString() + '----');
+    //print(rs.toString() + '----');
     if (rs != null) {
       if (rs['code'] == 1) {
         setState(() {

@@ -29,7 +29,7 @@ class _NoCommissionState extends State<NoCommission> {
       'time': time,
       'type': 1,
     });
-    print(rs);
+    //print(rs);
     if (rs != null) {
       if (rs['code'] == 1) {
         setState(() {

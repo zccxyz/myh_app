@@ -103,7 +103,7 @@ class _AddMemberState extends State<AddMember> {
       'adviser': adviser,
       'id': widget.data['id'],
     });
-    print(rs);
+    //print(rs);
     if(rs!=null){
       if(rs['code']==1){
         return ok(context, rs['msg']);
@@ -115,7 +115,7 @@ class _AddMemberState extends State<AddMember> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.data);
+    //print(widget.data);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: MyAppBar(
@@ -312,6 +312,6 @@ class _AddMemberState extends State<AddMember> {
         tip(context, '顾问获取失败');
       }
     }
-    print(rs);
+    //print(rs);
   }
 }

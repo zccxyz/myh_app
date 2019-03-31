@@ -176,7 +176,7 @@ class _CountState extends State<Count> {
                                       '消耗合计',
                                       style: TextStyle(color: Colors.white),
                                     ),
-                                    Text('${count.consumeTotal}',
+                                    Text('${double.parse(count.consumeTotal.toString()).toStringAsFixed(2)}',
                                         style: TextStyle(color: Colors.white)),
                                   ],
                                 ),
@@ -277,7 +277,7 @@ class _CountState extends State<Count> {
               style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
             ),
             Text(
-              '$money',
+              '${money.toStringAsFixed(2)}',
               style: TextStyle(
                   fontWeight: FontWeight.w500, fontSize: 16, color: c1),
             ),
@@ -386,7 +386,7 @@ class _CountState extends State<Count> {
                     Expanded(
                         child: Center(
                       child: Text(
-                        v['money'],
+                        double.parse(v['money'].toString()).toStringAsFixed(2),
                         style: TextStyle(fontWeight: FontWeight.w500),
                       ),
                     )),
@@ -430,7 +430,7 @@ class _CountState extends State<Count> {
                   Expanded(
                       child: Center(
                     child: Text(
-                      '${count.consumeData['c_item']}',
+                      '${double.parse(count.consumeData['c_item'].toString()).toStringAsFixed(2)}',
                       style: TextStyle(fontWeight: FontWeight.w500),
                     ),
                   )),

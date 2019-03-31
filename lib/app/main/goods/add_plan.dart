@@ -614,7 +614,7 @@ class _AddPlanState extends State<AddPlan> {
       'name': name,
       'sale': sale,
     });
-    print(rs);
+    //print(rs);
     if (rs != null) {
       if (rs['code'] == 1) {
         ok(context, rs['Msg']);

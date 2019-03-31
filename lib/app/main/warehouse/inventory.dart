@@ -445,7 +445,7 @@ class _InventoryState extends State<Inventory> with TickerProviderStateMixin {
     }
     if (data.length == 0) {
       return tip(context, '请输入盘点数');
-    }print(data);
+    }//print(data);
     var rs = await post('pd', data: {'data': jsonEncode(data)});
     if (rs != null) {
       if (rs['code'] == 0) {
@@ -484,7 +484,7 @@ class _InventoryState extends State<Inventory> with TickerProviderStateMixin {
     _tab = TabController(length: 4, vsync: this);
     _tab.addListener(() {
       now = _tab.index;
-      print(now);
+      //print(now);
     });
     getCp();
     getHc();

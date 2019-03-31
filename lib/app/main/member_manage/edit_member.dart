@@ -203,7 +203,7 @@ class _AddMemberState extends State<EditMember> {
                     itemExtent: 30,
                     magnification: 1.2,
                     onSelectedItemChanged: (v) {
-                      print(v);
+                      //print(v);
                     },
                     children: [
                       Center(child: Text('test')),

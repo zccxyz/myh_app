@@ -43,7 +43,7 @@ class _StaffAddState extends State<StaffAdd> {
     });
     if(rs!=null){
       if(rs['code']==1){
-        data = rs['res']['returnStaff'];print(data);
+        data = rs['res']['returnStaff'];//print(data);
         role = rs['res']['role'];
         _nameCon.text = data['name'].toString();
         _telCon.text = data['mobile'].toString();

@@ -58,7 +58,7 @@ var now = 0;  //0未登录
 
 void main() async {
   var rs = await getData('loginData');
-  //print(rs);
+  ////print(rs);
   if (rs != null){
     //登录
     now = 1;

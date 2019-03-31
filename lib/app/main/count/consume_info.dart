@@ -36,7 +36,7 @@ class _ConsumeInfoState extends State<ConsumeInfo> {
       'type': widget.type,
     });
     if (rs != null) {
-      print(rs);
+      //print(rs);
       setState(() {
         list = rs['list'];
       });

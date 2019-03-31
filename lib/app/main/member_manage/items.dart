@@ -240,7 +240,7 @@ class _ItemsState extends State<Items> {
       'mid': widget.id,
       'type': widget.type,
     });
-    print(rs);
+    //print(rs);
     if (rs != null) {
       if (rs['code'] == 1) {
         setState(() {

@@ -171,6 +171,6 @@ class _AddCpState extends State<AddCp> {
         ok(context, rs['Msg']);
       }
     }
-    print(rs);
+    //print(rs);
   }
 }

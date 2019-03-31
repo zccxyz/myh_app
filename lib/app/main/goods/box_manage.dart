@@ -28,7 +28,7 @@ class _CpManageState extends State<BoxManage> {
       double now = scrollController.offset;
       double max = scrollController.position.maxScrollExtent;
       if (nowPage < count && max - now <= loadPosition && prePage == nowPage) {
-        print('load');
+        //print('load');
         nowPage++;
         getSj();
       }
@@ -53,13 +53,13 @@ class _CpManageState extends State<BoxManage> {
           });
         }
       }
-      print(rs);
+      //print(rs);
     }
   }
 
   void getSj() async {
     var rs = await get('get_box_list', data: {'page': 1});
-    print(rs);
+    //print(rs);
     if (rs != null) {
       if (rs['code'] == 1) {
         if (nowPage == 1) {

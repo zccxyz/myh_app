@@ -111,7 +111,7 @@ class _AddCpState extends State<AddCp2> {
                 itemExtent: 30,
                 magnification: 1.2,
                 onSelectedItemChanged: (v) {
-                  print(v);
+                  //print(v);
                 },
                 children: [
                   Center(child: Text('test')),

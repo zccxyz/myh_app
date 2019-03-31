@@ -49,7 +49,7 @@ class _CountLogsState extends State<CountLogs> {
     });
     if (rs != null) {
       if (rs['code'] == 1) {
-        print(rs['res']);
+        //print(rs['res']);
         list = rs['res'];
         setState(() {});
       }

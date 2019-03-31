@@ -128,13 +128,13 @@ class _InState extends State<In> {
   }
 
   void getSj() async {
-    print(widget.id);
+    //print(widget.id);
     var rs = await post('StockOperation', data: {
       'goods_type': widget.goodsType,
       'id': widget.id,
       'type': 'detail',
     });
-    print(rs);
+    //print(rs);
     if (rs != null) {
       if (rs['code'] == 1) {
         setState(() {

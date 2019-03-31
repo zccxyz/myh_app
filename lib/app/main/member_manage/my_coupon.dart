@@ -31,7 +31,7 @@ class _MyCouponState extends State<MyCoupon> {
     var rs = await get('HaveCoupon', data: {
       'mid': widget.id,
     });
-    print(rs['data']['list']);
+    //print(rs['data']['list']);
     if (rs != null) {
       if (rs['code'] == 0) {
         setState(() {

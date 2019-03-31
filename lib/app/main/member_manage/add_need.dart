@@ -119,7 +119,7 @@ class _AddNeedState extends State<AddNeed> {
     }
     var rs = await post('addNeed',
         data: {'id': widget.id, 'data': jsonEncode(list)});
-    print(rs);
+    //print(rs);
     if (rs != null) {
       if (rs['code'] == 0) {
         ok(context, '添加成功');

@@ -81,7 +81,7 @@ class _ConsumptionState extends State<Consumption> {
         return Offstage();
       }
     }
-//    print(list[i]);
+//    //print(list[i]);
     return Column(
       children: <Widget>[
         Container(
@@ -137,7 +137,7 @@ class _ConsumptionState extends State<Consumption> {
                 children: <Widget>[
                   GestureDetector(
                     onTap: () {
-                      jump2(context, Classify(1));
+                      jump2(context, Classify(list[i]['id']));
                     },
                     child: Container(
                       width: 60.0,

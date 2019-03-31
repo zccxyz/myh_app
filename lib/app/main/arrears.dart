@@ -37,7 +37,7 @@ class _ArrearsState extends State<Arrears> {
         tip(context, rs['error']);
       }
     }
-    print(rs);
+    //print(rs);
   }
 
   @override
@@ -212,8 +212,9 @@ class _ArrearsState extends State<Arrears> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: MyButton(
-                      onPressed: () {
-                        jump2(context, Pay(1, 1));
+                      onPressed: ()async {
+                        await jump2(context, Pay(list[i]['id'], 0));
+                        getSj();
                       },
                       title: '补款',
                     ),

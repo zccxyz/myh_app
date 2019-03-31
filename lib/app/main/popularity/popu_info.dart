@@ -37,7 +37,7 @@ class _PopuInfoState extends State<PopuInfo> {
         });
       }
     }
-    print(rs);
+    //print(rs);
   }
 
   @override

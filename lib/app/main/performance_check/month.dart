@@ -30,7 +30,7 @@ class _DilyWaterState extends State<Month> {
       'type': time.length==0?'list':'search',
       'time': time,
     });
-    print(rs);
+    //print(rs);
     if (rs != null) {
       if (rs['code'] == 1) {
         setState(() {

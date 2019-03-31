@@ -67,7 +67,7 @@ class _AddCardState extends State<AddCard> {
             (double.parse(widget.data['discount'].toString()) * 100).toString();
         now = classify[2];
       }
-      print(widget.data);
+      //print(widget.data);
       send = widget.data['send'];
       setState(() {
 

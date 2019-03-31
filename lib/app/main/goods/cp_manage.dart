@@ -228,7 +228,7 @@ class _CpManageState extends State<CpManage> {
       double now = scrollController.offset;
       double max = scrollController.position.maxScrollExtent;
       if (nowPage < count && max - now <= loadPosition && prePage == nowPage) {
-        print('load');
+        //print('load');
         nowPage++;
         getSj();
       }

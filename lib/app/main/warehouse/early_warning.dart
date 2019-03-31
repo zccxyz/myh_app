@@ -26,7 +26,7 @@ class _EarlyWarningState extends State<EarlyWarning> {
         });
       }
     }
-    print(rs);
+    //print(rs);
   }
 
   @override

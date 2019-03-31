@@ -41,7 +41,7 @@ class _MemberInfoState extends State<MemberInfo> {
         await get('vipDetails', data: {'id': widget.id, 'redirect_url': ''});
     if (rs != null) {
       if (rs['code'] == 0) {
-        print(rs);
+        //print(rs);
         setState(() {
           user = rs['data'];
         });
@@ -280,7 +280,11 @@ class _MemberInfoState extends State<MemberInfo> {
                 padding: EdgeInsets.only(bottom: getRange(context, type: 4)),
                 alignment: Alignment.center,
                 child: MyButton(
-                  onPressed: () {},
+                  onPressed: () async{
+                    if(await showAlert(context, '是否删除该会员?')){
+                      delData();
+                    }
+                  },
                   title: '删除会员',
                 ),
                 height: 50 + getRange(context, type: 4),
@@ -291,6 +295,18 @@ class _MemberInfoState extends State<MemberInfo> {
         ],
       ),
     );
+  }
+
+  void delData() async {
+    var rs = await post('DelMember', data: {
+      'type': 'member',
+      'id': widget.id,
+    });
+    if(rs!=null){
+      if(rs['code']==1){
+        ok(context, rs['Msg']);
+      }
+    }
   }
 
   Expanded _item2(String text, String text2, int t) {

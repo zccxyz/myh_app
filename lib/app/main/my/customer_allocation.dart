@@ -30,7 +30,7 @@ class _CustomerAllocationState extends State<CustomerAllocation> {
   void getSj() async {
     var rs = await get('get_distribution_member', data: {'staff': widget.id});
     if (rs != null) {
-      print(rs);
+      //print(rs);
       setState(() {
         my = rs['res']['staff_member'];
         no = rs['res']['not_member'];
@@ -259,7 +259,7 @@ class _CustomerAllocationState extends State<CustomerAllocation> {
       }else{
         tip(context, rs['error']);
       }
-      print(rs);
+      //print(rs);
     }
   }
 }

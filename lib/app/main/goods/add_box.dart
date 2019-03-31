@@ -36,7 +36,7 @@ class _AddBoxState extends State<AddBox> {
 
   void del() async {
     var rs = await post('get_box_detail', data: {'type': 'del', 'id': widget.id});
-    print(rs);
+    //print(rs);
     if (rs != null) {
       if (rs['code'] == 1) {
         ok(context, rs['Msg']);
@@ -310,7 +310,7 @@ class _AddBoxState extends State<AddBox> {
         ok(context, rs['Msg']);
       }
     }
-    print(rs);
+    //print(rs);
   }
 
   @override
@@ -348,7 +348,7 @@ class _AddBoxState extends State<AddBox> {
         setState(() {});
       }
     }
-    print(rs);
+    //print(rs);
   }
 
   void edit() async {
@@ -393,7 +393,7 @@ class _AddBoxState extends State<AddBox> {
         ok(context, rs['Msg']);
       }
     }
-    print(rs);
+    //print(rs);
   }
 
   void getClassify() async {
@@ -405,6 +405,6 @@ class _AddBoxState extends State<AddBox> {
         });
       }
     }
-    print(rs);
+    //print(rs);
   }
 }

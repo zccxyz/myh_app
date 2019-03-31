@@ -17,16 +17,74 @@ class _AddNewState extends State<AddNew> {
     'name': '',
     'age': '',
     'tel': '',
-    'sex': '',
+    'sex': 1,
+    'type': 1,
     'weixin': '',
     'adviser': '',
   };
+  List members = [];
+  List staff = [];
+  Map nowStaff;
+  Map nowMem;
+
+  @override
+  void initState() {
+    super.initState();
+    getSj();
+  }
+
+  void getSj() async {
+    var rs = await get('guest_operation');
+    if (rs != null) {
+      if (rs['code'] == 1) {
+        staff = rs['res']['staff_arr'];
+        members = rs['res']['member_list'];
+        setState(() {
+
+        });
+      }
+    }
+  }
+
+  void showMyPicker(BuildContext context, int t) async {
+    List data;
+    if (t == 1) {
+      data = members;
+    } else {
+      data = staff;
+    }
+//    print(data);
+    showCupertinoModalPopup(
+        context: context,
+        builder: (_) => Container(
+              height: getRange(context, type: 2) / 3,
+              child: CupertinoApp(
+                home: CupertinoPicker(
+                    useMagnifier: true,
+                    backgroundColor: Colors.white,
+                    itemExtent: 30,
+                    magnification: 1.2,
+                    onSelectedItemChanged: (v) {
+                      setState(() {
+                        if (t == 1) {
+                          nowMem = data[v];
+                        } else {
+                          nowStaff = data[v];
+                        }
+                      });
+                    },
+                    children: data
+                        .map((v) => Center(child: Text('${v['name']}')))
+                        .toList()),
+              ),
+            ));
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(
-        title: Text('添加新客'),
+        title: Text('添加新客/嘉宾'),
       ),
       bottomNavigationBar: BottomAppBar(
         child: Container(
@@ -47,6 +105,19 @@ class _AddNewState extends State<AddNew> {
         color: Colors.white,
         child: ListView(
           children: <Widget>[
+            GestureDetector(
+              onTap: (){
+                showMyPicker(context, 1);
+              },
+              child: MyItem(
+                  label: '推荐人',
+                  child: Text(
+                    nowMem == null ? '选择推荐人' : nowMem['name'],
+                    style: TextStyle(
+                        color: nowMem == null ? hintColor : Colors.black,
+                        fontSize: 16),
+                  )),
+            ),
             MyInput2(
               label: '姓$kg名',
               hintText: '请输入客户姓名(必填)',
@@ -76,7 +147,7 @@ class _AddNewState extends State<AddNew> {
                 });
               },
             ),
-            MyInput2(
+            /*MyInput2(
               label: '微信号码',
               hintText: '请输入客户的微信号码',
               onChanged: (v) {
@@ -84,7 +155,18 @@ class _AddNewState extends State<AddNew> {
                   data['weixin'] = v;
                 });
               },
-            ),
+            ),*/
+            MyItem(
+                child: MyRadio(
+                  onChanged: (v) {
+                    setState(() {
+                      data['type'] = v;
+                    });
+                  },
+                  text: '新客',
+                  text2: '嘉宾',
+                ),
+                label: '类$kg型'),
             MyItem(
                 child: MyRadio(
                   onChanged: (v) {
@@ -96,14 +178,18 @@ class _AddNewState extends State<AddNew> {
                   text2: '男性',
                 ),
                 label: '性$kg别'),
-            MyInput2(
-              label: '顾$kg问',
-              hintText: '请输入顾问姓名',
-              onChanged: (v) {
-                setState(() {
-                  data['adviser'] = v;
-                });
+            GestureDetector(
+              onTap: (){
+                showMyPicker(context, 2);
               },
+              child: MyItem(
+                  label: '顾$kg问',
+                  child: Text(
+                    nowStaff == null ? '选择顾问' : nowStaff['name'],
+                    style: TextStyle(
+                        color: nowStaff == null ? hintColor : Colors.black,
+                        fontSize: 16),
+                  )),
             ),
           ],
         ),
@@ -112,24 +198,32 @@ class _AddNewState extends State<AddNew> {
   }
 
   void add() async {
+    if(data['name'].toString().length==0){
+      tip(context, '请输入姓名');
+      return;
+    }
     if (data['tel'].toString().length != 11) {
       tip(context, '请输入11位手机号码');
       return;
     }
-    var rs = await post('AddNew', data: {
-      'tel': data['tel'],
-      'name': data['name'],
-      'age': data['age'],
-      'weixin': data['weixin'],
-      'adviser': data['adviser']
+    var rs = await post('guest_operation', data: {
+      'data': {
+        'tel': data['tel'],
+        'name': data['name'],
+        'age': data['age'],
+        'member': nowMem==null?'':nowMem['id'],
+        'staff': nowStaff==null?'':nowStaff['id'],
+        'type': data['type'],
+        'sex': data['sex'],
+      }
     });
-    if(rs!=null){
-      if(rs['code']==1){
+    if (rs != null) {
+      if (rs['code'] == 1) {
         ok(context, '添加成功');
-      }else{
+      } else {
         tip(context, '添加失败');
       }
     }
-    print(rs);
+    //print(rs);
   }
 }

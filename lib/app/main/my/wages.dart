@@ -143,7 +143,7 @@ class _WagesState extends State<Wages> {
       'e': e,
       's': s,
     });
-    print(rs);
+    //print(rs);
     if(rs!=null){
       if(rs['code']==0){
         ok(context, rs['data'], type: 2);

@@ -333,7 +333,7 @@ class _AnalysisState extends State<TodayMoney> {
   }
 
   void show(Map v) async {
-    print(v);
+    //print(v);
     showCupertinoDialog(
         context: context,
         builder: (_) => CupertinoAlertDialog(

@@ -70,7 +70,7 @@ class _JurListState extends State<JurList> {
   void getSj() async {
     var rs = await get('get_role');
     if (rs != null) {
-      print(rs);
+      //print(rs);
       setState(() {
         list = rs['list'];
       });

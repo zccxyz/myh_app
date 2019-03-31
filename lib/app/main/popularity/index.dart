@@ -31,7 +31,7 @@ class _PopularityIndexState extends State<PopularityIndex> {
         clothes = rs['res']['underwear_cat'];
       });
     }
-    print(rs);
+    //print(rs);
   }
 
   @override

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myh_shop/app/main/buy/classify.dart';
+import 'package:myh_shop/app/main/member_manage/add_archives.dart';
 import 'package:myh_shop/app/main/member_manage/member_info.dart';
 import 'package:myh_shop/common.dart';
 import 'package:flutter/cupertino.dart' show CupertinoButton;
@@ -21,6 +22,8 @@ class _ManageState extends State<Manage> {
   TextEditingController controller2 = TextEditingController(text: '');
   TextEditingController inputCont = TextEditingController(text: '');
   String room = '';
+  String s = '';
+  String e = '';
 
   @override
   void initState() {
@@ -36,6 +39,47 @@ class _ManageState extends State<Manage> {
       });
     } else {
       tip(context, rs['error']);
+    }
+  }
+
+  void getMem() async {
+    back(context);
+    String s = controller.text;
+    String e = controller2.text;
+    if (s.length == 0 || e.length == 0) {
+      getUser();
+      return;
+    }
+    var rs = await post('get_arrival_member', data: {'s': s, 'e': e});
+    if (rs != null) {
+      if (rs['code'] == 1) {
+        list = rs['res'];
+        setState(() {});
+      }
+    }
+  }
+
+  void getSy() async {
+    back(context);
+    String s = controller.text;
+    String e = controller2.text;
+    if (s.length == 0 || e.length == 0) {
+      getUser();
+      return;
+    }
+    var rs = await get('get_member_surplus', data: {'start': s, 'end': e});
+//    print(rs['res'].length);
+    if (rs != null) {
+      if (rs['code'] == 1) {
+        list = [];
+        for (var v in rs['res']) {
+          if (int.parse(v['current_num'].toString()) >= double.parse(s) &&
+              int.parse(v['current_num'].toString()) <= double.parse(e)) {
+            list.add(v);
+          }
+        }
+        setState(() {});
+      }
     }
   }
 
@@ -97,7 +141,7 @@ class _ManageState extends State<Manage> {
             preferredSize: Size(MediaQuery.of(context).size.width, 50)),
         elevation: 0,
       ),
-      body: list!=null
+      body: list != null
           ? Padding(
               padding: const EdgeInsets.only(top: 10.0),
               child: Column(
@@ -172,6 +216,8 @@ class _ManageState extends State<Manage> {
                           onTap: () {
                             setState(() {
                               type = 1;
+                              controller.text = '';
+                              controller2.text = '';
                             });
                           },
                           child: Container(
@@ -195,6 +241,8 @@ class _ManageState extends State<Manage> {
                           onTap: () {
                             setState(() {
                               type = 2;
+                              controller.text = '';
+                              controller2.text = '';
                             });
                           },
                           child: Container(
@@ -218,6 +266,9 @@ class _ManageState extends State<Manage> {
                           onTap: () {
                             setState(() {
                               type = 3;
+                              getUser();
+                              controller.text = '';
+                              controller2.text = '';
                             });
                           },
                           child: Container(
@@ -238,11 +289,37 @@ class _ManageState extends State<Manage> {
                           ),
                         ),
                       ]),
-                      /*TableRow(children: [
+                      TableRow(children: [
                         GestureDetector(
-                          onTap: () {
+                          onTap: () async{
+                            getUser();
+                            back(context);
                             setState(() {
-                              type = 4;
+                              type=4;
+                            });
+                            String rs = await jump2(context, AddArchives(-1));
+                            if(rs==null){
+                              return;
+                            }
+                            List arr = rs.split(',');
+                            List need = [];
+                            for(var v in arr) {
+                              if(need.indexOf(v)<0){
+                                need.add(v);
+                              }
+                            }
+                            List data = [];
+                            for(var x in need) {
+                              for(var v in list) {
+                                if(x.toString() == v['id'].toString()){
+                                  data.add(v);
+                                  break;
+                                }
+                              }
+                            }
+                            list = data;
+                            setState(() {
+
                             });
                           },
                           child: Container(
@@ -264,51 +341,62 @@ class _ManageState extends State<Manage> {
                         ),
                         Offstage(),
                         Offstage(),
-                      ]),*/
+                      ]),
                     ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: Text(
-                      type == 1
-                          ? '到店次数'
-                          : type == 2 ? '剩余次数' : type == 3 ? '余额查询' : '健康筛选',
-                      style:
+                  type==4?Offstage():Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: Text(
+                          type == 1
+                              ? '到店次数'
+                              : type == 2 ? '剩余次数' : type == 3 ? '余额查询' : '健康筛选',
+                          style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Expanded(
-                            child: MyInput(
-                          controller: controller,
-                          keyboardType: TextInputType.numberWithOptions(),
-                          hintText: type == 1
-                              ? '到店次数'
-                              : type == 2 ? '剩余次数' : type == 3 ? '0.00元' : '',
-                          hintStyle: TextStyle(fontSize: 14),
-                          textAlign: TextAlign.center,
-                        )),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text('至'),
                         ),
-                        Expanded(
-                            child: MyInput(
-                          keyboardType: TextInputType.numberWithOptions(),
-                          controller: controller2,
-                          hintText: type == 1
-                              ? '到店次数'
-                              : type == 2 ? '剩余次数' : type == 3 ? '0.00元' : '',
-                          hintStyle: TextStyle(fontSize: 14),
-                          textAlign: TextAlign.center,
-                        )),
-                      ],
-                    ),
-                  ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Expanded(
+                                child: MyInput(
+                                  controller: controller,
+                                  onChanged: (v) {
+                                    s = v;
+                                  },
+                                  keyboardType: TextInputType.numberWithOptions(),
+                                  hintText: type == 1
+                                      ? '到店次数'
+                                      : type == 2 ? '剩余次数' : type == 3 ? '0.00元' : '',
+                                  hintStyle: TextStyle(fontSize: 14),
+                                  textAlign: TextAlign.center,
+                                )),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text('至'),
+                            ),
+                            Expanded(
+                                child: MyInput(
+                                  keyboardType: TextInputType.numberWithOptions(),
+                                  controller: controller2,
+                                  onChanged: (v) {
+                                    e = v;
+                                  },
+                                  hintText: type == 1
+                                      ? '到店次数'
+                                      : type == 2 ? '剩余次数' : type == 3 ? '0.00元' : '',
+                                  hintStyle: TextStyle(fontSize: 14),
+                                  textAlign: TextAlign.center,
+                                )),
+                          ],
+                        ),
+                      ),
+                    ],
+                  )
                 ],
               ),
               Align(
@@ -323,7 +411,30 @@ class _ManageState extends State<Manage> {
                       borderRadius: BorderRadius.circular(30.0),
                       child: Text('确定'),
                       onPressed: () {
-                        find();
+                        if (type == 1) {
+                          getMem();
+                        } else if (type == 2) {
+                          getSy();
+                        } else if (type == 3) {
+                          back(context);
+                          String s = controller.text;
+                          String e = controller2.text;
+                          if (s.length == 0 || e.length == 0) {
+                            getUser();
+                            return;
+                          }
+                          List r = [];
+                          for (var v in list) {
+                            if (double.parse(v['balance'].toString()) >=
+                                    double.parse(s) &&
+                                double.parse(v['balance'].toString()) <=
+                                    double.parse(e)) {
+                              r.add(v);
+                            }
+                          }
+                          list = r;
+                          setState(() {});
+                        }
                       },
                       color: c1,
                     )),
@@ -335,29 +446,20 @@ class _ManageState extends State<Manage> {
     );
   }
 
-  void find() {
-    setState(() {
-      inputCont.text = '';
-      inputCont.clear();
-      input = '';
-    });
-    back(context);
-  }
-
   Widget _item(int i) {
-    String t = controller.text;
+    /*String t = controller.text;
     String t2 = controller.text;
     if (type == 1 && t.length > 0 && t2.length > 0) {
       int arrivalNum = int.parse(list[i]['arrival_num'].toString());
       int tNum = int.parse(t);
       int tNum2 = int.parse(t2);
-      //print('$arrivalNum----$tNum----$tNum2');
+      ////print('$arrivalNum----$tNum----$tNum2');
       if (arrivalNum < tNum || arrivalNum > tNum2) {
         return Offstage();
       } else {
-//        print(list[i]);
+//        //print(list[i]);
       }
-    }
+    }*/
     if (input.length > 0) {
       if (list[i]['name']
                   .toString()
@@ -369,7 +471,7 @@ class _ManageState extends State<Manage> {
         return Offstage();
       }
     }
-//    print(list[i]);
+//    //print(list[i]);
     return Column(
       children: <Widget>[
         Container(
@@ -427,7 +529,7 @@ class _ManageState extends State<Manage> {
                     title: '购买',
                     color: c3,
                     onPressed: () {
-                      jump2(context, Classify(1));
+                      jump2(context, Classify(list[i]['id']));
                     },
                     width: 60,
                     height: 30,
@@ -499,7 +601,7 @@ class _ManageState extends State<Manage> {
                     } else {
                       tip(context, rs['errorMsg']);
                     }
-                    print(rs);
+                    //print(rs);
                   },
                 ),
               ],

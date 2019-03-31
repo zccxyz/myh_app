@@ -468,7 +468,7 @@ class _AddBoxState extends State<AddItem> {
   void getDetail() async {
     var rs = await get('update_items', data: {'item': widget.id});
     if (rs != null) {
-      print(rs);
+      //print(rs);
       category = rs['res']['category'];
       Map d = rs['res']['updateArr'];
       for (var v in category) {

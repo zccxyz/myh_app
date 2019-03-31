@@ -48,7 +48,7 @@ class _OutInLogsState extends State<OutInLogs> with TickerProviderStateMixin {
     });
     if (rs != null) {
       if (rs['code'] == 1) {
-        print(rs);
+        //print(rs);
         List i = [];
         List o = [];
         for (var v in rs['res']) {

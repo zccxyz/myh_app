@@ -28,7 +28,7 @@ class _RecycleBinState extends State<RecycleBin> with TickerProviderStateMixin {
     _tabController = TabController(length: 5, vsync: this);
     _tabController.addListener(() {
       now = _tabController.index;
-      print(now);
+      //print(now);
       getSj(now + 1);
     });
     getSj(1);

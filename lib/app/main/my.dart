@@ -9,7 +9,7 @@ class My extends StatefulWidget {
 }
 
 class _MyState extends State<My> {
-  final List list = [
+  List list = [
     {'name': '权限管理', 'img': '5.0_16', 'id': 1},
     {'name': '客户分配', 'img': '5.0_19', 'id': 2},
     {'name': '店员管理', 'img': '5.0_22', 'id': 3},
@@ -20,6 +20,17 @@ class _MyState extends State<My> {
     {'name': '打印设置', 'img': '5.0_34', 'id': 8},
     {'name': '员工分析', 'img': '5.0_35', 'id': 9},
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    if(userModel.loginData['type']==2){
+      list.removeAt(0);
+      setState(() {
+
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,14 +99,15 @@ class _MyState extends State<My> {
                                   Padding(
                                     padding: const EdgeInsets.only(right: 10),
                                     child: circularImg(
-                                        '${v.loginData['logo']??'http://www.caisheng.net/UploadFiles/img_0_3534166376_2649719102_27.jpg'}',
+                                        '${(v.loginData['type'] == 1 ? v.loginData['logo'] : v.loginData['head_img']) ?? 'http://www.caisheng.net/UploadFiles/img_0_3534166376_2649719102_27.jpg'}',
                                         80),
                                   ),
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
+                                          MainAxisAlignment.spaceAround,
                                       children: <Widget>[
                                         Text(
                                           '${v.loginData['name']}',
@@ -105,7 +117,7 @@ class _MyState extends State<My> {
                                         ),
                                         Row(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                              MainAxisAlignment.spaceBetween,
                                           children: <Widget>[
                                             Row(
                                               children: <Widget>[
@@ -113,7 +125,8 @@ class _MyState extends State<My> {
                                                   Icons.home,
                                                   color: c1,
                                                 ),
-                                                Text('${v.loginData['num']}'),
+                                                Text(
+                                                    '${v.loginData['type'] == 1 ? v.loginData['num'] : v.loginData['store_name']}'),
                                               ],
                                             ),
                                             Row(
@@ -122,7 +135,8 @@ class _MyState extends State<My> {
                                                   Icons.phone,
                                                   color: c1,
                                                 ),
-                                                Text('${v.loginData['mobile']}'),
+                                                Text(
+                                                    '${v.loginData['mobile']}'),
                                               ],
                                             ),
                                           ],
@@ -135,7 +149,7 @@ class _MyState extends State<My> {
                                             ),
                                             Expanded(
                                               child: Text(
-                                                '${v.loginData['address']}',
+                                                '${v.loginData['type'] == 1 ? v.loginData['address'] : v.loginData['number']}',
                                                 maxLines: 1,
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(fontSize: 12),
@@ -159,7 +173,7 @@ class _MyState extends State<My> {
               SliverPadding(
                 padding: const EdgeInsets.only(left: 15, right: 15),
                 sliver: SliverGrid(
-                    delegate: SliverChildBuilderDelegate((_, i) => _item(i),
+                    delegate: SliverChildBuilderDelegate((_, i) => _item(i, v),
                         childCount: list.length),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3, crossAxisSpacing: 10)),
@@ -171,7 +185,7 @@ class _MyState extends State<My> {
     );
   }
 
-  Widget _item(int i) => GestureDetector(
+  Widget _item(int i, UserModel v) => GestureDetector(
         onTap: () {
           switch (list[i]['id']) {
             case 1:

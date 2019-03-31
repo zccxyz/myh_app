@@ -373,6 +373,6 @@ class _AnalysisState extends State<TodayConsume> {
         });
       }
     }
-    print(rs);
+    //print(rs);
   }
 }

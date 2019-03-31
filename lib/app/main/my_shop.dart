@@ -21,6 +21,7 @@ class _MyShopState extends State<MyShop> {
     var rs = await get('get_branch');
     if (rs != null) {
       if (rs['code'] == 1) {
+        //print(rs);
         setState(() {
           list = rs['res']['child'];
         });

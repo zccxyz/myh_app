@@ -33,7 +33,7 @@ class _JurEditState extends State<JurEdit> {
       jg = rs['res']['return_acc'];
       for (var v in title) {
         v['arr'] = [];
-//        print(v);
+//        //print(v);
         for (var v2 in info) {
           if (v2['category_id'] == v['id']) {
             if (jg.indexOf(v2['id']) >= 0) {
@@ -49,7 +49,7 @@ class _JurEditState extends State<JurEdit> {
         roleName = rs['res']['role_name'];
       });
     }
-    //print(rs);
+    ////print(rs);
   }
 
   void setJur() async {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myh_shop/app/main/member_manage/add_archives.dart';
+import 'package:myh_shop/app/main/member_manage/add_archives2.dart';
 import 'package:myh_shop/common.dart';
 import 'package:myh_shop/widget/MyAppBar.dart';
 import 'package:flutter/cupertino.dart';
@@ -48,6 +49,7 @@ class _ArchivesState extends State<Archives> {
               child: Text('新建档案'),
               onPressed: () async {
                 await jump2(context, AddArchives(widget.id));
+                getSj();
               }),
         ],
       ),
@@ -69,6 +71,10 @@ class _ArchivesState extends State<Archives> {
     return Container(
       color: bg2,
       child: ListTile(
+        onTap: ()async{
+          await jump2(context, AddArchives2(list[i]['id'], widget.id, type: 'edit',));
+          getSj();
+        },
         title: Text('${list[i]['create_time']}'),
         trailing: Icon(Icons.chevron_right),
       ),

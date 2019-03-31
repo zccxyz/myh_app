@@ -13,6 +13,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
   bool zt = false;
   String user = '';
   String pwd = '';
+  bool load = false;
 
   @override
   void initState() {
@@ -211,10 +212,13 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                       child: MyButton(
                         onPressed: zt
                             ? () {
-                                login();
+                                if(!load){
+                                  login();
+                                }
                               }
                             : null,
                         title: '登录',
+                        load: load,
                         width: getRange(context),
                       ),
                     ),
@@ -229,9 +233,15 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
   }
 
   void login() async {
+    setState(() {
+      load = true;
+    });
     var rs = await post('login',
         data: {'password': pwd, 'username': user, 'type': now});
-    print(rs);
+//    print(rs);
+    setState(() {
+      load = false;
+    });
     if (rs['code'] == 1) {
       save('loginData', toString(rs['info']));
       userModel.loginData = rs['info'];

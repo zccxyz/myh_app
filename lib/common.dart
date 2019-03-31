@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:myh_shop/model/come_shop.dart';
 import 'package:myh_shop/model/count.dart';
+import 'package:myh_shop/model/index.dart';
 import 'package:myh_shop/model/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
@@ -27,7 +29,8 @@ const double defRadius = 11;
 const double loadPosition = 300;
 SharedPreferences prefs;
 final Dio dio = Dio();
-const ym = "http://localhost/backend/";
+//const ym = "http://localhost/backend/";
+const ym = "https://myh.myhkj.cn/backend/";
 const Map<String, String> methods = {
   'login': 'login/login',
   'get_count': 'Bespeak/get_count',
@@ -185,10 +188,21 @@ const Map<String, String> methods = {
   'save_commission': 'buy/save_commission',
   'change_percentage': 'buy/change_percentage',
   'consume_print': 'buy/consume_print',
+  'prescrip_detail': 'Healthy/prescrip_detail',
+  'prescription_detail': 'Healthy/prescription_detail',
+  'HealthyModify': 'Healthy/modify',
+  'HealthyDel': 'Healthy/del',
+  'guest_operation': 'member/guest_operation',
+  'get_arrival_member': 'member/get_arrival_member',
+  'get_member_surplus': 'member/get_member_surplus',
+  'DelMember': 'Member/DelMember',
+  'check_arrears': 'Member/check_arrears',
+  'supp_detail': 'arrears/supp_detail',
 };
 final UserModel userModel = UserModel();
 final ComeShopModel comeShopModel = ComeShopModel();
 final CountModel countModel = CountModel();
+final IndexModel indexModel = IndexModel();
 BuildContext myContext;
 
 void launcherTel(String tel) async {
@@ -315,15 +329,15 @@ dynamic post(String m, {Map<String, dynamic> data, int t=0}) async {
       return jg;
     }else{
       if (jg['msg'] != null) {
-        tip(myContext, jg['msg']);
+        tip(myContext, jg['msg'], type: jg['code']==-10?2:1);
       } else if (jg['code'] == -1) {
         if (jg['info'] != null) {
-          tip(myContext, jg['info']);
+          tip(myContext, jg['info'], type: jg['code']==-10?2:1);
         } else {
           if (jg['error'] == null) {
-            tip(myContext, jg['errorMsg']);
+            tip(myContext, jg['errorMsg'], type: jg['code']==-10?2:1);
           } else {
-            tip(myContext, jg['error']);
+            tip(myContext, jg['error'], type: jg['code']==-10?2:1);
           }
         }
       }
@@ -355,21 +369,21 @@ dynamic get(String m, {Map<String, dynamic> data}) async {
       jg = formData(rs.data);
     }
     if (jg['msg'] != null) {
-      tip(myContext, jg['msg']);
+      tip(myContext, jg['msg'], type: jg['code']==-10?2:1);
     } else if (jg['code'] == -1) {
       if (jg['info'] != null) {
-        tip(myContext, jg['info']);
+        tip(myContext, jg['info'], type: jg['code']==-10?2:1);
       } else {
         if (jg['error'] == null) {
-          tip(myContext, jg['errorMsg']);
+          tip(myContext, jg['errorMsg'], type: jg['code']==-10?2:1);
         } else {
-          tip(myContext, jg['error']);
+          tip(myContext, jg['error'], type: jg['code']==-10?2:1);
         }
       }
     }
     return jg;
   } catch (e) {
-    print(e.toString() + '前端');
+    //print(e.toString() + '前端');
     tip(myContext, '请求出错');
     return null;
   }
@@ -393,7 +407,11 @@ void tip(BuildContext context, String msg,
                   if (type == 2) {
                     back(context);
                   }
-                  back(context);
+                  if(Navigator.canPop(context)){
+                    back(context);
+                  }else{
+//                    SystemNavigator.pop();
+                  }
                 },
               ),
             ],
@@ -484,7 +502,7 @@ void getComeShop() async {
     if (rs['code'] == 1) {
       comeShopModel.data = rs['list'];
     }
-    print(rs);
+    //print(rs);
   }
 }
 
@@ -493,7 +511,7 @@ void getCountData({String start = '', end = ''}) async {
     'start': '2019-02-21',
     'end': '2019-03-21',
   });
-  print(rs);
+  //print(rs);
   if (rs != null) {
     if (rs['code'] == 1) {
       countModel.cateData = rs['res']['cate_data'];
@@ -514,7 +532,7 @@ void logout(BuildContext context) async {
 }
 
 String getName(int type, Map d) {
-  print(type);
+  //print(type);
   String name = '';
   if (type == 1) {
     name = d['goods_name'];
@@ -530,4 +548,27 @@ String getName(int type, Map d) {
     name = d['name'];
   }
   return name;
+}
+
+void getWare() async {
+  var rs = await get('warning_detail');
+  if (rs != null) {
+    if (rs['code'] == 1) {
+      indexModel.ware = rs['res']['ware_details'];
+      print(rs);
+    } else {
+      tip(myContext, rs['error']);
+    }
+  }
+}
+
+void getManage() async {
+  var rs = await get('manager');
+  if (rs != null) {
+    if (rs['code'] == 0) {
+      indexModel.data = rs['data'];
+    } else {
+      tip(myContext, rs['msg']);
+    }
+  }
 }

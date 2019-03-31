@@ -47,7 +47,7 @@ class _PopuMemberState extends State<PopuMember> with TickerProviderStateMixin {
         });
       }
     }
-    print(rs);
+    //print(rs);
   }
 
   @override

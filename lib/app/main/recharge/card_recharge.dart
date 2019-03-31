@@ -38,7 +38,7 @@ class _CardRechargeState extends State<CardRecharge> {
 
   @override
   Widget build(BuildContext context) {
-    print(list);
+    //print(list);
     return Scaffold(
       appBar: MyAppBar(
         title: Text('卡项列表'),

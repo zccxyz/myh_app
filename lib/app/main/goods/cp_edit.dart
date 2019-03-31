@@ -75,12 +75,12 @@ class _CpEditState extends State<CpEdit> {
                   hintText: '请填写销售价',
                   suffixText: '元',
                 ),
-                MyInput2(
+                /*MyInput2(
                   controller: _stockCon,
                   label: '库$kg存',
                   hintText: '请输入库存',
                   suffixText: '件',
-                ),
+                ),*/
                 InkWell(
                   onTap: () {
                     if (classify.length > 0) {

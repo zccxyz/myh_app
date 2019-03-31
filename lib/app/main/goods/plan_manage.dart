@@ -22,7 +22,7 @@ class _PlanManageState extends State<PlanManage> with TickerProviderStateMixin {
 
   void getSj() async {
     var rs = await get('plan_list');
-    print(rs);
+    //print(rs);
     if (rs != null) {
       if (rs['code'] == 1) {
         for (var v in rs['res']) {

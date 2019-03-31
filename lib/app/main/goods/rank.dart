@@ -62,7 +62,7 @@ class _RankState extends State<Rank> with TickerProviderStateMixin {
     });
     if (rs != null) {
       if (rs['code'] == 1) {
-        print(rs['res']);
+        //print(rs['res']);
         list = [];
         list2 = [];
         list3 = [];

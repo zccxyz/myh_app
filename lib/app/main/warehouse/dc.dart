@@ -243,7 +243,7 @@ class _DcState extends State<Dc> {
                           magnification: 1.2,
                           onSelectedItemChanged: (v) {
                             now = store[v];
-                            print(now);
+                            //print(now);
                           },
                           children: store
                               .map((v) => Center(child: Text('${v['name']}')))

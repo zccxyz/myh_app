@@ -100,6 +100,7 @@ class _BuyState extends State<Buy> {
                 v['detail'] = l;
               }
             }
+            v['price'] = v['sale'];
           }
           v['sum'] = 0;
         }
@@ -731,16 +732,18 @@ class _BuyState extends State<Buy> {
       m = 'buyplan';
     }
     var rs = await post(m, data: {'type': 1, 'data': data, 'id': widget.id});
-    print(rs);
     state(() {
       loadState = false;
     });
     if (rs != null) {
       if (rs['code'] == 1) {
-        jump2(
+        /*jump2(
             context,
             Pay(int.parse(rs['res']['orderId'].toString()),
-                int.parse(rs['res']['arrearsRes'].toString())));
+                int.parse(rs['res']['arrearsRes'].toString())));*/
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => Pay(int.parse(rs['res']['orderId'].toString()),
+            int.parse(rs['res']['arrearsRes'].toString()))));
       }
     }
   }

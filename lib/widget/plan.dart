@@ -5,11 +5,12 @@ import 'package:myh_shop/widget/MyButton2.dart';
 class PlanItem extends StatefulWidget {
   final Map data;
   final ValueChanged<Map> onChanged;
+  final Widget trailing;
 
   const PlanItem(
     this.data, {
     Key key,
-    this.onChanged,
+    this.onChanged, this.trailing,
   }) : super(key: key);
 
   @override
@@ -68,7 +69,7 @@ class _PlanState extends State<PlanItem> with SingleTickerProviderStateMixin {
                 priceWidget('${d['sale']}'),
               ],
             ),
-            trailing: Container(
+            trailing: widget.trailing??Container(
               width: getRange(context) / 4,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,

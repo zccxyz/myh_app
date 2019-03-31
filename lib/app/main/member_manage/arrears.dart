@@ -140,7 +140,7 @@ class _ArrearsState extends State<MyArrears> {
     var rs = await get('AloneArrears', data: {
       'mid': widget.id,
     });
-    print(rs);
+    //print(rs);
     if (rs != null) {
       if (rs['code'] == 1) {
         setState(() {

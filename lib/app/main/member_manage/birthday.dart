@@ -210,6 +210,6 @@ class _AnalysisState extends State<Birthday> {
         });
       }
     }
-    print(rs);
+    //print(rs);
   }
 }

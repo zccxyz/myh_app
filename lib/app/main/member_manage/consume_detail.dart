@@ -212,7 +212,7 @@ class _ConsumeDetailState extends State<ConsumeDetail> {
   }
 
   void showModel(Map data) {
-    print(data);
+    //print(data);
     showDialog(
         context: context,
         builder: (_) => Container(
@@ -313,6 +313,6 @@ class _ConsumeDetailState extends State<ConsumeDetail> {
         underwear = rs['res']['underwear'];
       });
     }
-    print(rs);
+    //print(rs);
   }
 }

@@ -57,7 +57,11 @@ class _PayState extends State<Pay> {
   @override
   void initState() {
     super.initState();
-    getSj();
+    if (widget.arrears > 0) {
+      getSj();
+    } else {
+      getSj2();
+    }
   }
 
   void getSj() async {
@@ -83,6 +87,42 @@ class _PayState extends State<Pay> {
     }
   }
 
+  void getSj2() async {
+    var rs = await get('supp_detail', data: {
+      'id': widget.id,
+    });
+    if (rs != null) {
+      if (rs['code'] == 1) {
+        setState(() {
+          cardList = rs['detail']['card_list'];
+          orderDetail = rs['detail'];
+          if (cardList.length > 0) {
+            nowCard = cardList[0];
+          }
+          all = double.parse(orderDetail['price'].toString());
+        });
+      }
+    }
+  }
+
+  String getType() {
+    if (orderDetail['type'] == 1) {
+      return '产品';
+    }
+    if (orderDetail['type'] == 2) {
+      return '套盒';
+    }
+    if (orderDetail['type'] == 3) {
+      return '项目';
+    }
+    if (orderDetail['type'] == 4) {
+      return '方案';
+    }
+    if (orderDetail['type'] == 5) {
+      return '卡项';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,21 +145,31 @@ class _PayState extends State<Pay> {
                         alignment: Alignment.centerLeft,
                         padding: EdgeInsets.only(left: 15, top: 10),
                       ),
+                      widget.arrears == 0
+                          ? MyItem(
+                              label: '品$kg项',
+                              child: Text(getType().toString()),
+                            )
+                          : Offstage(),
                       MyItem(
                         label: '会$kg员',
-                        child: Text('${memberOne['name']}'),
+                        child: Text(
+                            '${widget.arrears == 0 ? orderDetail['name'] : memberOne['name']}'),
                       ),
                       MyItem(
-                        label: '订单编号',
-                        child: Text('${orderDetail['sn']}'),
+                        label: widget.arrears == 0 ? '总金额' : '订单编号',
+                        child: Text(
+                            '${orderDetail[widget.arrears == 0 ? 'price' : 'sn']}'),
                       ),
                       MyItem(
-                        label: '订单时间',
-                        child: Text('${orderDetail['create_time']}'),
+                        label: widget.arrears == 0 ? '已支付' : '订单时间',
+                        child: Text(
+                            '${orderDetail[widget.arrears == 0 ? 'pay_money' : 'create_time']}'),
                       ),
                       MyItem(
-                        label: '订单金额',
-                        child: Text('¥${orderDetail['price']}'),
+                        label: widget.arrears == 0 ? '未结清' : '订单金额',
+                        child: Text(
+                            '¥${orderDetail[widget.arrears == 0 ? 'money' : 'price']}'),
                       ),
                     ],
                   ),
@@ -484,14 +534,19 @@ class _PayState extends State<Pay> {
                                       label: '会员余额',
                                       enabled: false,
                                       hintStyle: TextStyle(color: Colors.black),
-                                      hintText: '${memberOne['balance']}元',
+                                      hintText:
+                                          '${widget.arrears == 0 ? orderDetail['balance'] : memberOne['balance'] ?? 0}元',
                                     ),
-                                    MyInput2(
-                                      label: '会员赠额',
-                                      enabled: false,
-                                      hintStyle: TextStyle(color: Colors.black),
-                                      hintText: '${memberOne['send_balance']}元',
-                                    ),
+                                    widget.arrears == 0
+                                        ? Offstage()
+                                        : MyInput2(
+                                            label: '会员赠额',
+                                            enabled: false,
+                                            hintStyle:
+                                                TextStyle(color: Colors.black),
+                                            hintText:
+                                                '${memberOne['send_balance'] ?? 0}元',
+                                          ),
                                     MyInput2(
                                       keyboardType:
                                           TextInputType.numberWithOptions(),
@@ -504,18 +559,20 @@ class _PayState extends State<Pay> {
                                       hintText: '0.00',
                                       suffixText: '元',
                                     ),
-                                    MyInput2(
-                                      keyboardType:
-                                          TextInputType.numberWithOptions(),
-                                      onChanged: (v) {
-                                        setState(() {
-                                          sendBalancePay = v;
-                                        });
-                                      },
-                                      label: '使用赠额',
-                                      hintText: '0.00',
-                                      suffixText: '元',
-                                    ),
+                                    widget.arrears == 0
+                                        ? Offstage()
+                                        : MyInput2(
+                                            keyboardType: TextInputType
+                                                .numberWithOptions(),
+                                            onChanged: (v) {
+                                              setState(() {
+                                                sendBalancePay = v;
+                                              });
+                                            },
+                                            label: '使用赠额',
+                                            hintText: '0.00',
+                                            suffixText: '元',
+                                          ),
                                   ],
                                 ),
                               ),
@@ -525,91 +582,97 @@ class _PayState extends State<Pay> {
                               duration: Duration(milliseconds: 300)),
                         ],
                       ),
-                      Column(
-                        children: <Widget>[
-                          ListTile(
-                            onTap: () {
-                              setState(() {
-                                zt2 = !zt2;
-                              });
-                            },
-                            leading: Row(
+                      widget.arrears == 0
+                          ? Offstage()
+                          : Column(
                               children: <Widget>[
-                                Icon(
-                                  Icons.account_balance_wallet,
-                                  color: c1,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 10),
-                                  child: Text(
-                                    '积分抵扣',
-                                    style: TextStyle(fontSize: 17),
+                                ListTile(
+                                  onTap: () {
+                                    setState(() {
+                                      zt2 = !zt2;
+                                    });
+                                  },
+                                  leading: Row(
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.account_balance_wallet,
+                                        color: c1,
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 10),
+                                        child: Text(
+                                          '积分抵扣',
+                                          style: TextStyle(fontSize: 17),
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                )
-                              ],
-                            ),
-                            trailing: AnimatedCrossFade(
-                                firstChild: Icon(Icons.chevron_right),
-                                secondChild: Icon(Icons.keyboard_arrow_down),
-                                crossFadeState: zt2
-                                    ? CrossFadeState.showSecond
-                                    : CrossFadeState.showFirst,
-                                duration: Duration(milliseconds: 300)),
-                          ),
-                          Divider(
-                            height: 0,
-                          ),
-                          AnimatedCrossFade(
-                              firstChild: Offstage(),
-                              secondChild: Container(
-                                color: bg2,
-                                child: Column(
-                                  children: <Widget>[
-                                    /*MyInput2(
+                                  trailing: AnimatedCrossFade(
+                                      firstChild: Icon(Icons.chevron_right),
+                                      secondChild:
+                                          Icon(Icons.keyboard_arrow_down),
+                                      crossFadeState: zt2
+                                          ? CrossFadeState.showSecond
+                                          : CrossFadeState.showFirst,
+                                      duration: Duration(milliseconds: 300)),
+                                ),
+                                Divider(
+                                  height: 0,
+                                ),
+                                AnimatedCrossFade(
+                                    firstChild: Offstage(),
+                                    secondChild: Container(
+                                      color: bg2,
+                                      child: Column(
+                                        children: <Widget>[
+                                          /*MyInput2(
                                       label: '会员余额',
                                       enabled: false,
                                       hintStyle: TextStyle(color: Colors.black),
                                       hintText: '${memberOne['balance']}元',
                                     ),*/
-                                    MyInput2(
-                                      label: '可用积分',
-                                      enabled: false,
-                                      hintStyle: TextStyle(color: Colors.black),
-                                      hintText: '${memberOne['integral']}分',
+                                          MyInput2(
+                                            label: '可用积分',
+                                            enabled: false,
+                                            hintStyle:
+                                                TextStyle(color: Colors.black),
+                                            hintText:
+                                                '${memberOne['integral'] ?? 0}分',
+                                          ),
+                                          MyInput2(
+                                            keyboardType: TextInputType
+                                                .numberWithOptions(),
+                                            label: '使用积分',
+                                            onChanged: (v) {
+                                              setState(() {
+                                                integral = v;
+                                              });
+                                            },
+                                            hintText: '0.00',
+                                            suffixText: '分',
+                                          ),
+                                          MyInput2(
+                                            onChanged: (v) {
+                                              setState(() {
+                                                integralPay = v;
+                                              });
+                                            },
+                                            keyboardType: TextInputType
+                                                .numberWithOptions(),
+                                            label: '抵扣金额',
+                                            hintText: '0.00',
+                                            suffixText: '元',
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                    MyInput2(
-                                      keyboardType:
-                                          TextInputType.numberWithOptions(),
-                                      label: '使用积分',
-                                      onChanged: (v) {
-                                        setState(() {
-                                          integral = v;
-                                        });
-                                      },
-                                      hintText: '0.00',
-                                      suffixText: '分',
-                                    ),
-                                    MyInput2(
-                                      onChanged: (v) {
-                                        setState(() {
-                                          integralPay = v;
-                                        });
-                                      },
-                                      keyboardType:
-                                          TextInputType.numberWithOptions(),
-                                      label: '抵扣金额',
-                                      hintText: '0.00',
-                                      suffixText: '元',
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              crossFadeState: zt2
-                                  ? CrossFadeState.showSecond
-                                  : CrossFadeState.showFirst,
-                              duration: Duration(milliseconds: 300)),
-                        ],
-                      ),
+                                    crossFadeState: zt2
+                                        ? CrossFadeState.showSecond
+                                        : CrossFadeState.showFirst,
+                                    duration: Duration(milliseconds: 300)),
+                              ],
+                            ),
                       Column(
                         children: <Widget>[
                           ListTile(
@@ -666,14 +729,18 @@ class _PayState extends State<Pay> {
                                       label: '卡内余额',
                                       enabled: false,
                                       hintStyle: TextStyle(color: Colors.black),
-                                      hintText: '${nowCard['amount']}元',
+                                      hintText: '${nowCard['amount'] ?? 0}元',
                                     ),
-                                    nowCard['card_type']==3?MyInput2(
-                                      label: '卡折扣',
-                                      enabled: false,
-                                      hintStyle: TextStyle(color: Colors.black),
-                                      hintText: '${double.parse(nowCard['discount'].toString())*10}折',
-                                    ):Offstage(),
+                                    nowCard['card_type'] == 3
+                                        ? MyInput2(
+                                            label: '卡折扣',
+                                            enabled: false,
+                                            hintStyle:
+                                                TextStyle(color: Colors.black),
+                                            hintText:
+                                                '${double.parse(nowCard['discount'].toString()) * 10}折',
+                                          )
+                                        : Offstage(),
                                     GestureDetector(
                                       onTap: () {
                                         showMyPicker(context);
@@ -709,262 +776,273 @@ class _PayState extends State<Pay> {
                               duration: Duration(milliseconds: 300)),
                         ],
                       ),
-                      Column(
-                        children: <Widget>[
-                          ListTile(
-                            onTap: () {
-                              setState(() {
-                                zt4 = !zt4;
-                              });
-                            },
-                            leading: Row(
+                      widget.arrears == 0
+                          ? Offstage()
+                          : Column(
                               children: <Widget>[
-                                Icon(
-                                  Icons.account_balance_wallet,
-                                  color: c1,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 10),
-                                  child: Text(
-                                    '赠送',
-                                    style: TextStyle(fontSize: 17),
+                                ListTile(
+                                  onTap: () {
+                                    setState(() {
+                                      zt4 = !zt4;
+                                    });
+                                  },
+                                  leading: Row(
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.account_balance_wallet,
+                                        color: c1,
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 10),
+                                        child: Text(
+                                          '赠送',
+                                          style: TextStyle(fontSize: 17),
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                )
+                                  trailing: AnimatedCrossFade(
+                                      firstChild: Icon(Icons.chevron_right),
+                                      secondChild:
+                                          Icon(Icons.keyboard_arrow_down),
+                                      crossFadeState: zt4
+                                          ? CrossFadeState.showSecond
+                                          : CrossFadeState.showFirst,
+                                      duration: Duration(milliseconds: 300)),
+                                ),
+                                Divider(
+                                  height: 0,
+                                ),
+                                AnimatedCrossFade(
+                                    firstChild: Offstage(),
+                                    secondChild: Container(
+                                      color: bg2,
+                                      child: Column(
+                                        children: <Widget>[
+                                          MyInput2(
+                                            onChanged: (v) {
+                                              setState(() {
+                                                sendIntegral = v;
+                                              });
+                                            },
+                                            keyboardType: TextInputType
+                                                .numberWithOptions(),
+                                            label: '赠送积分',
+                                            hintText: '0.00',
+                                            suffixText: '分',
+                                          ),
+                                          MyInput2(
+                                            onChanged: (v) {
+                                              setState(() {
+                                                sendMoney = v;
+                                              });
+                                            },
+                                            keyboardType: TextInputType
+                                                .numberWithOptions(),
+                                            label: '赠送余额',
+                                            hintText: '0.00',
+                                            suffixText: '元',
+                                          ),
+                                          MyInput2(
+                                            label: '经手人',
+                                            hintText: '请填写经手人',
+                                            onChanged: (v) {
+                                              setState(() {
+                                                person = v;
+                                              });
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    crossFadeState: zt4
+                                        ? CrossFadeState.showSecond
+                                        : CrossFadeState.showFirst,
+                                    duration: Duration(milliseconds: 300)),
                               ],
                             ),
-                            trailing: AnimatedCrossFade(
-                                firstChild: Icon(Icons.chevron_right),
-                                secondChild: Icon(Icons.keyboard_arrow_down),
-                                crossFadeState: zt4
-                                    ? CrossFadeState.showSecond
-                                    : CrossFadeState.showFirst,
-                                duration: Duration(milliseconds: 300)),
-                          ),
-                          Divider(
-                            height: 0,
-                          ),
-                          AnimatedCrossFade(
-                              firstChild: Offstage(),
-                              secondChild: Container(
-                                color: bg2,
-                                child: Column(
-                                  children: <Widget>[
-                                    MyInput2(
-                                      onChanged: (v) {
-                                        setState(() {
-                                          sendIntegral = v;
-                                        });
-                                      },
-                                      keyboardType:
-                                          TextInputType.numberWithOptions(),
-                                      label: '赠送积分',
-                                      hintText: '0.00',
-                                      suffixText: '分',
-                                    ),
-                                    MyInput2(
-                                      onChanged: (v) {
-                                        setState(() {
-                                          sendMoney = v;
-                                        });
-                                      },
-                                      keyboardType:
-                                          TextInputType.numberWithOptions(),
-                                      label: '赠送余额',
-                                      hintText: '0.00',
-                                      suffixText: '元',
-                                    ),
-                                    MyInput2(
-                                      label: '经手人',
-                                      hintText: '请填写经手人',
-                                      onChanged: (v) {
-                                        setState(() {
-                                          person = v;
-                                        });
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              crossFadeState: zt4
-                                  ? CrossFadeState.showSecond
-                                  : CrossFadeState.showFirst,
-                              duration: Duration(milliseconds: 300)),
-                        ],
-                      ),
-                      Column(
-                        children: <Widget>[
-                          ListTile(
-                            onTap: () {
-                              setState(() {
-                                zt5 = !zt5;
-                              });
-                            },
-                            leading: Row(
+                      widget.arrears == 0
+                          ? Offstage()
+                          : Column(
                               children: <Widget>[
-                                Icon(
-                                  Icons.account_balance_wallet,
-                                  color: c1,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 10),
-                                  child: Text(
-                                    '优惠券(${couponList.length})',
-                                    style: TextStyle(fontSize: 17),
+                                ListTile(
+                                  onTap: () {
+                                    setState(() {
+                                      zt5 = !zt5;
+                                    });
+                                  },
+                                  leading: Row(
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.account_balance_wallet,
+                                        color: c1,
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 10),
+                                        child: Text(
+                                          '优惠券(${couponList.length})',
+                                          style: TextStyle(fontSize: 17),
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                )
-                              ],
-                            ),
-                            trailing: AnimatedCrossFade(
-                                firstChild: Icon(Icons.chevron_right),
-                                secondChild: Icon(Icons.keyboard_arrow_down),
-                                crossFadeState: zt5
-                                    ? CrossFadeState.showSecond
-                                    : CrossFadeState.showFirst,
-                                duration: Duration(milliseconds: 300)),
-                          ),
-                          Divider(
-                            height: 0,
-                          ),
-                          AnimatedCrossFade(
-                              firstChild: Offstage(),
-                              secondChild: Container(
-                                color: tableBg,
-                                child: Wrap(
-                                  children: couponList
-                                      .map((v) => SizedBox(
-                                            child: GestureDetector(
-                                              onTap: () {
-                                                for (var x in couponList) {
-                                                  if (v['id'] != x['id']) {
-                                                    x['zt'] = false;
-                                                  }
-                                                }
-                                                v['zt'] = !v['zt'];
-                                                setState(() {});
-                                              },
-                                              child: Card(
-                                                color: v['zt'] ? c1 : bg2,
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: <Widget>[
-                                                      Expanded(
-                                                          child: Text('优惠券',
-                                                              style: TextStyle(
-                                                                  color: v['zt']
-                                                                      ? bg2
-                                                                      : Colors
-                                                                          .black))),
-                                                      Expanded(
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
+                                  trailing: AnimatedCrossFade(
+                                      firstChild: Icon(Icons.chevron_right),
+                                      secondChild:
+                                          Icon(Icons.keyboard_arrow_down),
+                                      crossFadeState: zt5
+                                          ? CrossFadeState.showSecond
+                                          : CrossFadeState.showFirst,
+                                      duration: Duration(milliseconds: 300)),
+                                ),
+                                Divider(
+                                  height: 0,
+                                ),
+                                AnimatedCrossFade(
+                                    firstChild: Offstage(),
+                                    secondChild: Container(
+                                      color: tableBg,
+                                      child: Wrap(
+                                        children: couponList
+                                            .map((v) => SizedBox(
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      for (var x
+                                                          in couponList) {
+                                                        if (v['id'] !=
+                                                            x['id']) {
+                                                          x['zt'] = false;
+                                                        }
+                                                      }
+                                                      v['zt'] = !v['zt'];
+                                                      setState(() {});
+                                                    },
+                                                    child: Card(
+                                                      color: v['zt'] ? c1 : bg2,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
                                                           children: <Widget>[
-                                                            Text(
-                                                                v['coupon_type']
-                                                                    .toString(),
-                                                                style: TextStyle(
-                                                                    color: v[
-                                                                            'zt']
-                                                                        ? bg2
-                                                                        : Colors
-                                                                            .black)),
-                                                            Text(
-                                                              v['coupon_type'] ==
-                                                                      '满减'
-                                                                  ? '满${v['enough']}减${v['dedut']}'
-                                                                  : '抵扣${v['dedut']}元',
-                                                              style: TextStyle(
-                                                                  color: v['zt']
-                                                                      ? bg2
-                                                                      : Colors
-                                                                          .black),
-                                                            ),
+                                                            Expanded(
+                                                                child: Text(
+                                                                    '优惠券',
+                                                                    style: TextStyle(
+                                                                        color: v['zt']
+                                                                            ? bg2
+                                                                            : Colors.black))),
+                                                            Expanded(
+                                                              child: Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: <
+                                                                    Widget>[
+                                                                  Text(
+                                                                      v['coupon_type']
+                                                                          .toString(),
+                                                                      style: TextStyle(
+                                                                          color: v['zt']
+                                                                              ? bg2
+                                                                              : Colors.black)),
+                                                                  Text(
+                                                                    v['coupon_type'] ==
+                                                                            '满减'
+                                                                        ? '满${v['enough']}减${v['dedut']}'
+                                                                        : '抵扣${v['dedut']}元',
+                                                                    style: TextStyle(
+                                                                        color: v['zt']
+                                                                            ? bg2
+                                                                            : Colors.black),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            )
                                                           ],
                                                         ),
-                                                      )
-                                                    ],
+                                                      ),
+                                                    ),
                                                   ),
-                                                ),
-                                              ),
-                                            ),
-                                            width: getRange(context) / 2,
-                                            height: 80,
-                                          ))
-                                      .toList(),
-                                ),
-                              ),
-                              crossFadeState: zt5
-                                  ? CrossFadeState.showSecond
-                                  : CrossFadeState.showFirst,
-                              duration: Duration(milliseconds: 300)),
-                        ],
-                      ),
+                                                  width: getRange(context) / 2,
+                                                  height: 80,
+                                                ))
+                                            .toList(),
+                                      ),
+                                    ),
+                                    crossFadeState: zt5
+                                        ? CrossFadeState.showSecond
+                                        : CrossFadeState.showFirst,
+                                    duration: Duration(milliseconds: 300)),
+                              ],
+                            ),
                     ],
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.only(top: 10),
-                  color: Colors.white,
-                  child: Column(
-                    children: <Widget>[
-                      Column(
-                        children: <Widget>[
-                          ListTile(
-                            leading: Text(
-                              '剩余未支付',
-                              style: TextStyle(fontSize: 16),
+                widget.arrears == 0
+                    ? Offstage()
+                    : Container(
+                        margin: EdgeInsets.only(top: 10),
+                        color: Colors.white,
+                        child: Column(
+                          children: <Widget>[
+                            Column(
+                              children: <Widget>[
+                                ListTile(
+                                  leading: Text(
+                                    '剩余未支付',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                  trailing: Text(
+                                    '¥${noPay()}',
+                                    style: TextStyle(color: c1, fontSize: 16),
+                                  ),
+                                ),
+                                Divider(
+                                  height: 0,
+                                )
+                              ],
                             ),
-                            trailing: Text(
-                              '¥${noPay()}',
-                              style: TextStyle(color: c1, fontSize: 16),
+                            Column(
+                              children: <Widget>[
+                                ListTile(
+                                  leading: Text(
+                                    '优惠券减免',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                  trailing: Text(
+                                    '-¥${couponPay()}',
+                                    style: TextStyle(color: c1, fontSize: 16),
+                                  ),
+                                ),
+                                Divider(
+                                  height: 0,
+                                )
+                              ],
                             ),
-                          ),
-                          Divider(
-                            height: 0,
-                          )
-                        ],
-                      ),
-                      Column(
-                        children: <Widget>[
-                          ListTile(
-                            leading: Text(
-                              '优惠券减免',
-                              style: TextStyle(fontSize: 16),
+                            Column(
+                              children: <Widget>[
+                                ListTile(
+                                  leading: Text(
+                                    '积分抵扣',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                  trailing: Text(
+                                    '-¥${jf()}',
+                                    style: TextStyle(color: c1, fontSize: 16),
+                                  ),
+                                ),
+                                Divider(
+                                  height: 0,
+                                )
+                              ],
                             ),
-                            trailing: Text(
-                              '-¥${couponPay()}',
-                              style: TextStyle(color: c1, fontSize: 16),
-                            ),
-                          ),
-                          Divider(
-                            height: 0,
-                          )
-                        ],
-                      ),
-                      Column(
-                        children: <Widget>[
-                          ListTile(
-                            leading: Text(
-                              '积分抵扣',
-                              style: TextStyle(fontSize: 16),
-                            ),
-                            trailing: Text(
-                              '-¥${jf()}',
-                              style: TextStyle(color: c1, fontSize: 16),
-                            ),
-                          ),
-                          Divider(
-                            height: 0,
-                          )
-                        ],
-                      ),
-                      /*Column(
+                            /*Column(
                         children: <Widget>[
                           ListTile(
                             leading: Text(
@@ -981,9 +1059,9 @@ class _PayState extends State<Pay> {
                           )
                         ],
                       ),*/
-                    ],
-                  ),
-                ),
+                          ],
+                        ),
+                      ),
               ],
             )
           : Center(
@@ -1013,7 +1091,11 @@ class _PayState extends State<Pay> {
               MyButton(
                 onPressed: () {
                   //jump2(context, Royalty(1));
-                  sub();
+                  if (widget.arrears == 0) {
+                    supp();
+                  } else {
+                    sub();
+                  }
                 },
                 title: '结算',
                 width: getRange(context) / 3,
@@ -1043,7 +1125,7 @@ class _PayState extends State<Pay> {
         return tip(context, '请输入积分');
       }
     }
-    /*print({
+    /*//print({
       'order': widget.id,
       'arrears': widget.arrears,
       'card': nowCard['id'],
@@ -1081,17 +1163,53 @@ class _PayState extends State<Pay> {
         'integral_pay': integralPay,
         'integral': integral,
         'send_integral': sendIntegral,
-        'card_pay': nowCard['id']!=0?cardPay:'',
+        'card_pay': nowCard['id'] != 0 ? cardPay : '',
         'send_money': sendMoney,
         'person': person,
         'coupon': c == null ? '' : c['id'],
       }
     });
-    print(rs);
     if (rs != null) {
       if (rs['code'] == 1) {
         //{code: 1, Msg: 支付完成，正在前往员工提成..., cost: 1}
-        jump2(context, Royalty(widget.id));
+//        jump2(context, Royalty(widget.id));
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => Royalty(widget.id)));
+      }
+    }
+  }
+
+  void supp() async {
+    if (double.parse(total()) <= 0) {
+      return tip(context, '请输入支付金额');
+    }
+    var rs = await post('supp_detail', data: {
+      'data': {
+        'id': widget.id,
+        'card_id': nowCard == null ? '' : nowCard['id'],
+        'cash_pay': cashPay,
+        'wx_pay': wxPay,
+        'bank_pay': bankPay,
+        'zfb_pay': zfbPay,
+        'sqb_pay': sqbPay,
+        'dzdp_pay': dzdpPay,
+        'mt_pay': mtPay,
+        'card_pay': cardPay,
+        'balance_pay': balancePay,
+      }
+    });
+    if (rs != null) {
+      if (rs['code'] == 1) {
+        //{code: 1, Msg: 支付完成，正在前往员工提成..., cost: 1}
+//        jump2(context, Royalty(widget.id));
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (_) => Royalty(
+                      rs['supp'],
+                      type: 'supp',
+                      aid: int.parse(rs['re'].toString()),
+                    )));
       }
     }
   }
@@ -1099,9 +1217,9 @@ class _PayState extends State<Pay> {
   String noPay() {
     String no = '0';
     double t = all;
-    if(nowCard!=null&&nowCard['id']!=0){
+    if (nowCard != null && nowCard['id'] != 0) {
       double dis = double.parse(nowCard['discount'].toString());
-      if(nowCard['card_type']==3){
+      if (nowCard['card_type'] == 3) {
         t = all * dis;
       }
     }
@@ -1137,7 +1255,9 @@ class _PayState extends State<Pay> {
     double bank = bankPay.length == 0 ? 0 : double.parse(bankPay);
     double balance = balancePay.length == 0 ? 0 : double.parse(balancePay);
     double send = sendBalancePay.length == 0 ? 0 : double.parse(sendBalancePay);
-    double card = nowCard==null||nowCard['id']==0?0:cardPay.length == 0 ? 0 : double.parse(cardPay);
+    double card = nowCard == null || nowCard['id'] == 0
+        ? 0
+        : cardPay.length == 0 ? 0 : double.parse(cardPay);
     String j = jf();
     double jfPay = double.parse(j);
     double cPay = double.parse(couponPay());
@@ -1151,7 +1271,8 @@ class _PayState extends State<Pay> {
             balance +
             send +
             card +
-            jfPay+cPay)
+            jfPay +
+            cPay)
         .toStringAsFixed(2);
   }
 

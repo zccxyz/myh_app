@@ -48,6 +48,10 @@ class _BottomBarState extends State<BottomBar> {
               if(i==3){
                 getCountData();
               }
+              if(i==0){
+                getWare();
+                getManage();
+              }
             },
             items: [
               BottomNavigationBarItem(

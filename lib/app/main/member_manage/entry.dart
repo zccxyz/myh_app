@@ -8,6 +8,7 @@ import 'package:myh_shop/widget/MyInput2.dart';
 import 'package:myh_shop/widget/MyItem.dart';
 import 'package:myh_shop/widget/MyRadio.dart';
 import 'package:myh_shop/widget/MyRadio2.dart';
+import 'package:myh_shop/widget/plan.dart';
 
 class Entry extends StatefulWidget {
   final int id;
@@ -26,7 +27,8 @@ class _EntryState extends State<Entry> {
     {'name': '余额', 'id': 3},
     {'name': '套盒', 'id': 1},
     {'name': '项目', 'id': 2},
-    //{'name': '卡项', 'id': 4},
+    {'name': '卡项', 'id': 4},
+    {'name': '方案', 'id': 5},
   ];
   Map now;
   int duration = 2;
@@ -38,6 +40,7 @@ class _EntryState extends State<Entry> {
   List box = [];
   List items = [];
   List card = [];
+  List plan = [];
   Map nowGoods;
   String price = '';
   String arrearsMoney = '';
@@ -78,7 +81,7 @@ class _EntryState extends State<Entry> {
       appBar: MyAppBar(
         title: Text('会员原始数据录入'),
       ),
-      bottomNavigationBar: BottomAppBar(
+      bottomNavigationBar: now['id']!=5?BottomAppBar(
         child: Container(
           alignment: Alignment.center,
           child: MyButton(
@@ -89,7 +92,7 @@ class _EntryState extends State<Entry> {
           ),
           height: 50,
         ),
-      ),
+      ):Offstage(),
       body: ListView(
         children: <Widget>[
           GestureDetector(
@@ -278,9 +281,7 @@ class _EntryState extends State<Entry> {
                           text2: '全场折扣卡',
                           onChanged: (v) {
                             cType = v;
-                            setState(() {
-
-                            });
+                            setState(() {});
                           },
                         )),
                     GestureDetector(
@@ -304,13 +305,15 @@ class _EntryState extends State<Entry> {
                       keyboardType: TextInputType.numberWithOptions(),
                       label: '额$kg度',
                     ),
-                    cType==2?MyInput2(
-                      onChanged: (v) {
-                        cDiscount = v;
-                      },
-                      keyboardType: TextInputType.numberWithOptions(),
-                      label: '折$kg扣',
-                    ):Offstage(),
+                    cType == 2
+                        ? MyInput2(
+                            onChanged: (v) {
+                              cDiscount = v;
+                            },
+                            keyboardType: TextInputType.numberWithOptions(),
+                            label: '折$kg扣',
+                          )
+                        : Offstage(),
                   ],
                 )
               : Offstage(),
@@ -322,13 +325,30 @@ class _EntryState extends State<Entry> {
                     style: TextStyle(color: textColor),
                   ),
                 )
-              : Offstage()
+              : Offstage(),
+          now['id'] == 5?Column(
+            children: plan
+                .map((v) => PlanItem(
+                      v,
+                      trailing: MyButton(
+                        title: '录入',
+                        width: 70,
+                        height: 30,
+                        onPressed: ()async{
+                          if(await showAlert(context, '是否录入此方案?')){
+                            sub(plan: v['id']);
+                          }
+                        },
+                      ),
+                    ))
+                .toList(),
+          ):Offstage()
         ],
       ),
     );
   }
 
-  void sub() async {
+  void sub({int plan = 0}) async {
     if (now['id'] == 3) {
       if (balance.length == 0 && sendBalance.length == 0) {
         return tip(context, '至少填一项');
@@ -363,7 +383,7 @@ class _EntryState extends State<Entry> {
         'arrears_money': arrearsMoney,
         'originally_num': originallyNum,
         'current_num': currentNum,
-        'cateId': nowClassify!=null?nowClassify['id']:'',
+        'cateId': nowClassify != null ? nowClassify['id'] : '',
         'fee': fee,
         'cycle': cycle,
         'start': begin,
@@ -373,17 +393,17 @@ class _EntryState extends State<Entry> {
         'c_name': '',
         'c_amount': cAmount,
         'c_discount': cDiscount,
-        'c_type': cType==1?1:3,
-        'card_name': now['id'] == 4&&nowCard!=null ? nowCard['id'] : '',
-        'box_name': now['id'] == 1&&nowGoods!=null ? nowGoods['id'] : '',
-        'item_name': now['id'] == 2&&nowGoods!=null ? nowGoods['id'] : '',
-        'plan_id': '',
+        'c_type': cType == 1 ? 1 : 3,
+        'card_name': now['id'] == 4 && nowCard != null ? nowCard['id'] : '',
+        'box_name': now['id'] == 1 && nowGoods != null ? nowGoods['id'] : '',
+        'item_name': now['id'] == 2 && nowGoods != null ? nowGoods['id'] : '',
+        'plan_id': plan,
         'days': days,
       }
     });
     if (rs != null) {
       if (rs['code'] == 1) {
-        ok(context, rs['Msg']);
+        ok(context, rs['Msg'], type: 2);
       }
     }
   }
@@ -403,8 +423,8 @@ class _EntryState extends State<Entry> {
                       setState(() {
                         now = type[v];
                       });
-                      if (now['id'] == 1 || now['id'] == 2 || now['id'] == 4) {
-                        getGoods();
+                      if (now['id'] == 1 || now['id'] == 2 || now['id'] == 4 || now['id']==5) {
+                        getGoods(now['id']);
                       }
                     },
                     children: type
@@ -480,20 +500,24 @@ class _EntryState extends State<Entry> {
             ));
   }
 
-  void getGoods() async {
+  void getGoods(int id) async {
+    int type = id == 4 ? 3 : id == 5 ? 4 : id;
     var rs = await post('check_entry_name', data: {
-      'type': now['id'] == 4 ? 3 : now['id'],
+      'type': type,
     });
     if (rs != null) {
       if (rs['code'] == 1) {
-        if (now['id'] == 1) {
+        if (id == 1) {
           box = rs['res'];
-        }
-        if (now['id'] == 2) {
+        }else
+        if (id == 2) {
           items = rs['res'];
-        }
-        if (now['id'] == 4) {
+        }else
+        if (id == 4) {
           card = rs['res'];
+        }else
+        if (id == 5) {
+          plan = rs['res'];
         }
         setState(() {});
       }

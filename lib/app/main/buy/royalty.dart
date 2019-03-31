@@ -7,9 +7,10 @@ import 'package:myh_shop/widget/MyInput.dart';
 
 class Royalty extends StatefulWidget {
   final int id;
+  final int aid;
   final String type;
 
-  Royalty(this.id, {this.type = ''});
+  Royalty(this.id, {this.type = '', this.aid});
 
   @override
   _RoyaltyState createState() => _RoyaltyState();
@@ -22,19 +23,25 @@ class _RoyaltyState extends State<Royalty> with TickerProviderStateMixin {
   int printType = 0;
   double total = 0;
   double acCardTotal = 0;
-  List checkM = [];
+  /*List checkM = [];
   List checkD = [];
   List checkG = [];
   List checkMKa = [];
   List checkDKa = [];
-  List checkGKa = [];
+  List checkGKa = [];*/
   TabController _tab;
   Map mrs = {'id': '', 'money': '', 'name': ''};
   Map gw = {'id': '', 'money': '', 'name': ''};
   Map dz = {'id': '', 'money': '', 'name': ''};
+  List needMrs = [];
+  List needGw = [];
+  List needDz = [];
   Map mrs2 = {'id': '', 'money': '', 'name': ''};
   Map gw2 = {'id': '', 'money': '', 'name': ''};
   Map dz2 = {'id': '', 'money': '', 'name': ''};
+  List needMrs2 = [];
+  List needGw2 = [];
+  List needDz2 = [];
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +55,11 @@ class _RoyaltyState extends State<Royalty> with TickerProviderStateMixin {
                   '取消提成',
                   style: TextStyle(color: c1),
                 ),
-                onPressed: () {})
+                onPressed: ()async {
+                  if(await showAlert(context, '取消后可到【业绩核对-未提成业绩】查看')){
+                    back(context);
+                  }
+                })
           ],
           bottom: PreferredSize(
               child: TabBar(
@@ -70,7 +81,9 @@ class _RoyaltyState extends State<Royalty> with TickerProviderStateMixin {
             padding: EdgeInsets.only(left: 30, right: 30, top: 5, bottom: 5),
             child: MyButton(
               title: '提成录入',
-              onPressed: () {},
+              onPressed: () {
+                sub();
+              },
             ),
           ),
         ),
@@ -126,7 +139,7 @@ class _RoyaltyState extends State<Royalty> with TickerProviderStateMixin {
                         ),
                       ],
                     ),
-                    Column(
+                    acCardTotal>0?Column(
                       children: <Widget>[
                         Container(
                           height: 50,
@@ -166,7 +179,7 @@ class _RoyaltyState extends State<Royalty> with TickerProviderStateMixin {
                         _item(2, 2),
                         _item(2, 3),
                       ],
-                    ),
+                    ):Offstage(),
                     Padding(
                       padding: const EdgeInsets.all(10),
                       child: Text(
@@ -181,7 +194,8 @@ class _RoyaltyState extends State<Royalty> with TickerProviderStateMixin {
           ),
           Container(
             color: bg2,
-            child: ListView(
+            alignment: Alignment.center,
+            child: Text('开发中')/*ListView(
               children: <Widget>[
                 Container(
                   height: 50,
@@ -216,9 +230,9 @@ class _RoyaltyState extends State<Royalty> with TickerProviderStateMixin {
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                   ),
                 ),
-                /*_item(),
+                *//*_item(),
                 _item(),
-                _item(),*/
+                _item(),*//*
                 Padding(
                   padding: const EdgeInsets.all(10),
                   child: Text(
@@ -234,7 +248,7 @@ class _RoyaltyState extends State<Royalty> with TickerProviderStateMixin {
                   ),
                 ),
               ],
-            ),
+            )*/,
           )
         ]),
       ),
@@ -250,23 +264,35 @@ class _RoyaltyState extends State<Royalty> with TickerProviderStateMixin {
   }
 
   void getSj() async {
-    var rs = await get('save_commission', data: {
-      'order': widget.id,
-      'type': widget.type,
-    });
+    Map<String, dynamic> data = {};
+    if(widget.type=='supp'){
+      data = {
+        'arrears_id': widget.aid,
+        'supp': widget.id,
+        'type': widget.type,
+      };
+    }else{
+      data = {
+        'order': widget.id,
+        'type': widget.type,
+      };
+    }print(d);
+    var rs = await get('save_commission', data: data);print(rs);
     if (rs != null) {
       if (rs['code'] == 1) {
         setState(() {
           d = rs['res']['d'];
           m = rs['res']['m'];
           g = rs['res']['g'];
-          printType = rs['res']['print_type'];
+          if(widget.type!='supp'){
+            printType = rs['res']['print_type'];
+            acCardTotal = double.parse(rs['res']['ac_card_total'].toString());
+          }
           total = double.parse(rs['res']['total'].toString());
-          acCardTotal = double.parse(rs['res']['ac_card_total'].toString());
         });
       }
     }
-    if (printType == 1) {
+    if (widget.type!='supp'&&printType == 1) {
       if (await showAlert(context, '是否需要打印消费单?')) {
         printOrder();
       }
@@ -280,7 +306,7 @@ class _RoyaltyState extends State<Royalty> with TickerProviderStateMixin {
   void getSj2() async {
     var rs = await get('change_percentage', data: {
       'oid': widget.id,
-    });
+    });print(rs);
     if (rs != null) {
       if (rs['code'] == 1) {
         setState(() {
@@ -305,18 +331,25 @@ class _RoyaltyState extends State<Royalty> with TickerProviderStateMixin {
       name = '店长';
     }
     Map now;
+    List data;
     if (m == 1 && n == 1) {
       now = mrs;
+      data = needMrs;
     } else if (m == 1 && n == 2) {
       now = gw;
+      data = needGw;
     } else if (m == 1 && n == 3) {
       now = dz;
+      data = needDz;
     } else if (m == 2 && n == 1) {
       now = mrs2;
+      data = needMrs2;
     } else if (m == 2 && n == 2) {
-      now = gw;
+      now = gw2;
+      data = needGw2;
     } else if (m == 2 && n == 3) {
       now = dz2;
+      data = needDz2;
     }
     return Column(
       children: <Widget>[
@@ -396,7 +429,7 @@ class _RoyaltyState extends State<Royalty> with TickerProviderStateMixin {
                 padding: const EdgeInsets.only(right: 10),
                 child: MyButton(
                   onPressed: () {
-                    add();
+                    add(m, n);
                   },
                   height: 35,
                   title: '添加',
@@ -411,104 +444,133 @@ class _RoyaltyState extends State<Royalty> with TickerProviderStateMixin {
           height: 0,
         ),
         Column(
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(left: 10),
-              color: bg2,
-              height: 40,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Container(
-                    width: 35,
-                    child: Text(
-                      '',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 13),
-                    ),
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    width: getRange(context) / 4,
-                    height: 35,
-                    padding: EdgeInsets.only(left: 8, right: 2),
-                    child: Text('adsfsad'),
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    width: getRange(context) / 4,
-                    height: 35,
-                    padding: EdgeInsets.only(left: 8, right: 2),
-                    child: Text('adsfsad'),
-                  ),
-                  Container(
-                    width: getRange(context) / 4,
-                    height: 35,
-                    child: Icon(Icons.close),
-                  ),
-                ],
-              ),
-            ),
-            Divider(
-              height: 0,
-            ),
-          ],
-        ),
-        Column(
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(left: 10),
-              color: bg2,
-              height: 40,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Container(
-                    width: 35,
-                    child: Text(
-                      '',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 13),
-                    ),
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    width: getRange(context) / 4,
-                    height: 35,
-                    padding: EdgeInsets.only(left: 8, right: 2),
-                    child: Text('adsfsad'),
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    width: getRange(context) / 4,
-                    height: 35,
-                    padding: EdgeInsets.only(left: 8, right: 2),
-                    child: Text('adsfsad'),
-                  ),
-                  Container(
-                    width: getRange(context) / 4,
-                    height: 35,
-                    child: Icon(Icons.close),
-                  ),
-                ],
-              ),
-            ),
-            Divider(
-              height: 0,
-            ),
-          ],
-        ),
+          children: data.map((v)=>_needWidget(v, m, n)).toList(),
+        )
       ],
     );
   }
 
-  void add() {
+  Widget _needWidget(Map v, int m, n)=>Column(
+    children: <Widget>[
+      Container(
+        padding: EdgeInsets.only(left: 10),
+        color: bg2,
+        height: 40,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Container(
+              width: 35,
+              child: Text(
+                '',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontSize: 13),
+              ),
+            ),
+            Container(
+              alignment: Alignment.center,
+              width: getRange(context) / 4,
+              height: 35,
+              padding: EdgeInsets.only(left: 8, right: 2),
+              child: Text('${v['name']}'),
+            ),
+            Container(
+              alignment: Alignment.center,
+              width: getRange(context) / 4,
+              height: 35,
+              padding: EdgeInsets.only(left: 8, right: 2),
+              child: Text('${v['money']}%'),
+            ),
+            GestureDetector(
+              onTap: (){
+                rm(v, m, n);
+              },
+              child: Container(
+                width: getRange(context) / 4,
+                height: 35,
+                child: Icon(Icons.close),
+              ),
+            ),
+          ],
+        ),
+      ),
+      Divider(
+        height: 0,
+      ),
+    ],
+  );
 
+  void add(int m, n) {
+    Map now;
+    List data;
+    if (m == 1 && n == 1) {
+      now = mrs;
+      data = needMrs;
+    } else if (m == 1 && n == 2) {
+      now = gw;
+      data = needGw;
+    } else if (m == 1 && n == 3) {
+      now = dz;
+      data = needDz;
+    } else if (m == 2 && n == 1) {
+      now = mrs2;
+      data = needMrs2;
+    } else if (m == 2 && n == 2) {
+      now = gw2;
+      data = needGw2;
+    } else if (m == 2 && n == 3) {
+      now = dz2;
+      data = needDz2;
+    }
+    if(now['money'].toString().length==0 || now['name'].toString().length==0){
+      return;
+    }
+    for(var v in data) {
+      if(now['id']==v['id']){
+        return;
+      }
+    }
+    data.add({'name': now['name'], 'id': now['id'], 'money': now['money']});
+    setState(() {
+
+    });
   }
 
-  void rm() {}
+  void rm(Map v, int m, n) {
+    Map now;
+    List data;
+    if (m == 1 && n == 1) {
+      now = mrs;
+      data = needMrs;
+    } else if (m == 1 && n == 2) {
+      now = gw;
+      data = needGw;
+    } else if (m == 1 && n == 3) {
+      now = dz;
+      data = needDz;
+    } else if (m == 2 && n == 1) {
+      now = mrs2;
+      data = needMrs2;
+    } else if (m == 2 && n == 2) {
+      now = gw2;
+      data = needGw2;
+    } else if (m == 2 && n == 3) {
+      now = dz2;
+      data = needDz2;
+    }
+    int i = 0;
+    for(var x in data) {
+      if(x['id']==v['id']){
+        data.removeAt(i);
+        setState(() {
+
+        });
+        return;
+      }
+      i++;
+    }
+  }
 
   void showMyPicker(BuildContext context, int t, Map now) async {
     List data;
@@ -542,16 +604,37 @@ class _RoyaltyState extends State<Royalty> with TickerProviderStateMixin {
   }
 
   void sub() async {
-    var rs = await post('save_commission', data: {
-      'raise_m': checkM,
-      'raise_g': checkG,
-      'raise_d': checkD,
-      'ka_raise_m': checkMKa,
-      'ka_raise_g': checkGKa,
-      'ka_raise_d': checkDKa,
-      'order': widget.id,
-      'type': widget.type,
-      'cost': 1,
-    });
+    Map<String, dynamic> data;
+    if(widget.type=='supp'){
+      data = {
+        'raise_m': needMrs,
+        'raise_g': needGw,
+        'raise_d': needDz,
+        'ka_raise_m': needMrs2,
+        'ka_raise_g': needGw2,
+        'ka_raise_d': needDz2,
+        'supp': widget.id,
+        'arrears_id': widget.aid,
+        'type': widget.type,
+      };
+    }else{
+      data = {
+        'raise_m': needMrs,
+        'raise_g': needGw,
+        'raise_d': needDz,
+        'ka_raise_m': needMrs2,
+        'ka_raise_g': needGw2,
+        'ka_raise_d': needDz2,
+        'order': widget.id,
+        'type': widget.type,
+        'cost': 1,
+      };
+    }
+    var rs = await post('save_commission', data: data);
+    if(rs!=null){
+      if(rs['code']==1){
+        ok(context, rs['Msg']);
+      }
+    }
   }
 }

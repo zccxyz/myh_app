@@ -25,7 +25,7 @@ class _CpManageState extends State<ItemManage> {
   }
 
   void getSj() async {
-    var rs = await get('itemsList');
+    var rs = await get('itemsList');//print(rs);
     if (rs != null) {
       if (rs['code'] == 1) {
         setState(() {

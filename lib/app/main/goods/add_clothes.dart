@@ -185,7 +185,7 @@ class _AddCpState extends State<AddClothes> {
 
   void getDetail() async {
     var rs = await get('get_under_detail', data: {'id': widget.id});
-    print(rs);
+    //print(rs);
     if (rs != null) {
       if (rs['code'] == 1) {
         setState(() {

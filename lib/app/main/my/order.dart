@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:myh_shop/app/main/buy/pay.dart';
 import 'package:myh_shop/common.dart';
 import 'package:myh_shop/widget/MyAppBar.dart';
 import 'package:flutter/cupertino.dart' show CupertinoButton;
@@ -27,10 +28,10 @@ class _OrderState extends State<Order> {
   void getSj({String start, end}) async {
     var rs = await get('get_order', data: {
       'type': 'all',
-      'status': 'day',
-      'start': start,
-      'end': end,
-    });
+      'status': '',
+      'start': start==null?'':start,
+      'end': end==null?'':end,
+    });print(rs);
     if (rs != null) {
       if (rs['code'] == 1) {
         list = rs['res']['list'];
@@ -59,7 +60,7 @@ class _OrderState extends State<Order> {
         n ++;
       }
     }
-    print(n);
+    //print(n);
     return n;
   }
 
@@ -262,7 +263,9 @@ class _OrderState extends State<Order> {
       children: <Widget>[
         MyButton(
           width: getRange(context) / 5,
-          onPressed: () {},
+          onPressed: ()async {
+            getArr(list[i]['id']);
+          },
           titleStyle: TextStyle(fontSize: 13),
           title: '支付',
         ),
@@ -287,7 +290,9 @@ class _OrderState extends State<Order> {
         children: <Widget>[
           MyButton(
             width: getRange(context) / 5,
-            onPressed: () {},
+            onPressed: () {
+              getArr(list[i]['id'], t: 2);
+            },
             titleStyle: TextStyle(fontSize: 13),
             title: '补款',
           ),
@@ -729,5 +734,21 @@ class _OrderState extends State<Order> {
       }
       setState(() {});
     });
+  }
+
+  void getArr(int id, {t=1}) async {
+    var rs = await post('check_arrears', data: {
+      'oid': id,
+    });
+    if(rs!=null){
+      if(rs['code']==1){
+        if(t==2){
+          await jump2(context, Pay(rs['res'], 0));
+        }else{
+          await jump2(context, Pay(id, rs['res']));
+        }
+        getSj();
+      }
+    }
   }
 }

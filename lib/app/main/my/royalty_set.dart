@@ -886,7 +886,7 @@ class _RoyaltySetState extends State<RoyaltySet> {
     var rs = await post('raise_edit_details', data: {
       'staff': widget.id,
     });
-    print(rs);
+    //print(rs);
     if (rs != null) {
       if (rs['code'] == 1) {
         setState(() {
@@ -1074,7 +1074,7 @@ class _RoyaltySetState extends State<RoyaltySet> {
         'cp_xf_state': cp['isAdd'] ? 1 : 0,
       },
     });
-    print(rs);
+    //print(rs);
     if (rs != null) {
       if (rs['code'] == 1) {
         ok(context, rs['Msg']);

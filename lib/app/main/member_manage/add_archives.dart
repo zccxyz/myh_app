@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:myh_shop/app/main/member_manage/add_archives2.dart';
 import 'package:myh_shop/common.dart';
 import 'package:myh_shop/widget/MyAppBar.dart';
 import 'package:myh_shop/widget/MyButton.dart';
@@ -9,8 +10,7 @@ import 'package:flutter/cupertino.dart';
 class AddArchives extends StatefulWidget {
   final int id;
 
-  const AddArchives(
-    this.id, {
+  const AddArchives(this.id, {
     Key key,
   }) : super(key: key);
 
@@ -36,7 +36,7 @@ class _AddArchivesState extends State<AddArchives> {
           height: 50,
           child: Padding(
             padding:
-                const EdgeInsets.only(left: 30, right: 30, top: 5, bottom: 5),
+            const EdgeInsets.only(left: 30, right: 30, top: 5, bottom: 5),
             child: MyButton(
               title: '提交',
               onPressed: () {
@@ -59,10 +59,10 @@ class _AddArchivesState extends State<AddArchives> {
                   children: skin != null
                       ? pf()
                       : [
-                          Center(
-                            child: loading(),
-                          )
-                        ],
+                    Center(
+                      child: loading(),
+                    )
+                  ],
                 ),
               ],
             ),
@@ -81,10 +81,10 @@ class _AddArchivesState extends State<AddArchives> {
                     children: body != null
                         ? st()
                         : [
-                            Center(
-                              child: loading(),
-                            )
-                          ],
+                      Center(
+                        child: loading(),
+                      )
+                    ],
                   ),
                 )
               ],
@@ -111,7 +111,7 @@ class _AddArchivesState extends State<AddArchives> {
               style: TextStyle(
                   color: isCheck2(v['id']) ? Colors.white : Colors.black),
             ),
-            backgroundColor: isCheck2(v['id']) ? c1:hintColor,
+            backgroundColor: isCheck2(v['id']) ? c1 : hintColor,
           ),
         ),
       ));
@@ -135,7 +135,7 @@ class _AddArchivesState extends State<AddArchives> {
               style: TextStyle(
                   color: isCheck2(v['id']) ? Colors.white : Colors.black),
             ),
-            backgroundColor: isCheck2(v['id']) ? c1:hintColor,
+            backgroundColor: isCheck2(v['id']) ? c1 : hintColor,
           ),
         ),
       ));
@@ -147,7 +147,7 @@ class _AddArchivesState extends State<AddArchives> {
     bool zt = false;
     check.forEach((k, v) {
       if (k == id) {
-        if(v.length>0){
+        if (v.length > 0) {
           zt = true;
           return;
         }
@@ -159,13 +159,31 @@ class _AddArchivesState extends State<AddArchives> {
   @override
   void initState() {
     super.initState();
-    getSj();
+    if(widget.id==-1){
+      getSj2();
+    }else{
+      getSj();
+    }
   }
 
   void getSj() async {
     var rs = await get('HealthyAdd', data: {
       'type': 'list',
       'id': widget.id,
+    });
+    if (rs != null) {
+      if (rs['code'] == 0) {
+        setState(() {
+          skin = rs['data']['skin'];
+          body = rs['data']['body'];
+        });
+      }
+    }
+  }
+
+  void getSj2() async {
+    var rs = await get('HealthSearch', data: {
+      'type': 'list',
     });
     if (rs != null) {
       if (rs['code'] == 0) {
@@ -201,7 +219,8 @@ class _AddArchivesState extends State<AddArchives> {
   void show(Map data) async {
     showCupertinoDialog(
         context: context,
-        builder: (_) => StatefulBuilder(builder: (_, s) {
+        builder: (_) =>
+            StatefulBuilder(builder: (_, s) {
               this.state = s;
               return CupertinoAlertDialog(
                 title: Text('${data['body']}'),
@@ -213,10 +232,10 @@ class _AddArchivesState extends State<AddArchives> {
                         children: list != null && list.length > 0
                             ? listWidget(data)
                             : [
-                                Center(
-                                    child:
-                                        list == null ? loading() : Text('暂无数据'))
-                              ],
+                          Center(
+                              child:
+                              list == null ? loading() : Text('暂无数据'))
+                        ],
                       )
                     ],
                   ),
@@ -258,9 +277,7 @@ class _AddArchivesState extends State<AddArchives> {
           check[id] = [v['id']];
         }
         state(() {});
-        setState(() {
-
-        });
+        setState(() {});
       },
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -294,27 +311,31 @@ class _AddArchivesState extends State<AddArchives> {
   }
 
   void sub() async {
-    if(check.length==0){
-      return tip(context, '请选择问题');
-    }
     List data = [];
-    check.forEach((k ,v){
-      if(v.length>0){
+    check.forEach((k, v) {
+      if (v.length > 0) {
         List l = [];
-        for(var x in v) {
+        for (var x in v) {
           l.add(x);
         }
         l.add(k);
         data.add(l);
       }
     });
-    var rs = await post('HealthyAdd', data: {
-      'data': data,
-      'mid': widget.id
-    });print(rs);
-    if(rs!=null){
-      if(rs['code']==1){
-
+    if (data.length == 0) {
+      return tip(context, '请选择问题');
+    }
+    var rs = await post(widget.id==-1?'HealthSearch':'HealthyAdd', data: {'data': data, 'mid': widget.id});
+    if (rs != null) {
+      if (rs['code'] == 1) {
+        if(widget.id==-1){
+          Navigator.pop(context, rs['res'].toString());
+          return;
+        }
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) =>
+            AddArchives2(int.parse(rs['arc'].toString()), widget.id)));
+        /*jump2(
+            context, AddArchives2(int.parse(rs['arc'].toString()), widget.id));*/
       }
     }
   }
