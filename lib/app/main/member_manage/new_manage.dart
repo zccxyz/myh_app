@@ -168,12 +168,9 @@ class _ManageState extends State<NewManage> {
           color: Colors.white,
           child: ListTile(
             contentPadding: EdgeInsets.only(left: 10),
-            onTap: () {
-              jump2(context, MemberInfo(1));
-            },
             leading: circularImg(
                 'http://www.caisheng.net/UploadFiles/img_0_3534166376_2649719102_27.jpg',
-                55),
+                55, t: 2),
             title: Row(
               children: <Widget>[
                 Container(

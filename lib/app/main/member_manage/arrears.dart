@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myh_shop/app/main/buy/pay.dart';
 import 'package:myh_shop/common.dart';
 import 'package:myh_shop/widget/MyAppBar.dart';
 import 'package:myh_shop/widget/MyButton.dart';
@@ -93,7 +94,10 @@ class _ArrearsState extends State<MyArrears> {
                             overflow: TextOverflow.ellipsis))),
                 MyButton(
                   title: '补款',
-                  onPressed: () {},
+                  onPressed: ()async {
+                    await jump2(context, Pay(list[i]['id'], 0));
+                    getSj();
+                  },
                   width: 60,
                   height: 30,
                   titleStyle: TextStyle(fontSize: 14),

@@ -25,7 +25,7 @@ class _AddMemberState extends State<AddMember> {
   TextEditingController _numCont;
   int marital = 2;
   int birType = 1;
-  String adviser = '';
+  Map adviser;
   List advisers = [];
   Map gw;
   String birthday = '';
@@ -56,7 +56,7 @@ class _AddMemberState extends State<AddMember> {
         marital = int.parse(widget.data['marital'].toString());
       }
       if (widget.data['adviser'] != null) {
-        adviser = widget.data['adviser'].toString();
+        adviser = widget.data['adviser'];
       }
       if (widget.data['bir_type'] != null) {
         birType = int.parse(widget.data['bir_type'].toString());
@@ -89,7 +89,7 @@ class _AddMemberState extends State<AddMember> {
       'marital': marital,
       'bir_type': birType,
       'birthday': birthday,
-      'adviser': adviser,
+      'adviser': adviser==null?'':adviser['id'],
     }:{
       'name': _nameCont.text,
       'age': _ageCont.text,
@@ -106,9 +106,9 @@ class _AddMemberState extends State<AddMember> {
     //print(rs);
     if(rs!=null){
       if(rs['code']==1){
-        return ok(context, rs['msg']);
+        ok(context, rs['msg']);
       }else{
-        return tip(context, rs['error']);
+        tip(context, rs['error']);
       }
     }
   }
@@ -230,7 +230,7 @@ class _AddMemberState extends State<AddMember> {
                 return tip(context, '暂无顾问');
               }
               setState(() {
-                adviser = advisers[0]['name'];
+                adviser = advisers[0];
               });
               showMyPicker(context);
             },
@@ -241,11 +241,11 @@ class _AddMemberState extends State<AddMember> {
                   children: <Widget>[
                     Expanded(
                         child: Text(
-                      adviser.length == 0 ? '请选择顾问名字' : adviser,
+                      adviser==null ? '请选择顾问' : adviser['name'],
                       style: TextStyle(
                           fontSize: 16,
                           color:
-                              adviser.length == 0 ? hintColor : Colors.black),
+                              adviser==null ? hintColor : Colors.black),
                     )),
                     IconButton(
                         icon: Icon(
@@ -290,7 +290,7 @@ class _AddMemberState extends State<AddMember> {
                     magnification: 1.2,
                     onSelectedItemChanged: (v) {
                       setState(() {
-                        adviser = advisers[v]['name'];
+                        adviser = advisers[v];
                       });
                     },
                     children: advisers

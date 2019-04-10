@@ -40,10 +40,17 @@ class _ComeShopState extends State<ComeShop> {
             ],
           ),
           body: list != null
-              ? ListView.builder(
-                  itemBuilder: (_, i) => _item(i),
-                  itemCount: list.length,
-                )
+              ? list.length > 0
+                  ? ListView.builder(
+                      itemBuilder: (_, i) => _item(i),
+                      itemCount: list.length,
+                    )
+                  : Center(
+                      child: Text(
+                        '没有到店客户',
+                        style: TextStyle(fontSize: 16, color: textColor),
+                      ),
+                    )
               : Center(
                   child: loading(),
                 ),
@@ -72,7 +79,8 @@ class _ComeShopState extends State<ComeShop> {
                       padding: const EdgeInsets.only(right: 10),
                       child: circularImg(
                           'http://www.caisheng.net/UploadFiles/img_0_3534166376_2649719102_27.jpg',
-                          60),
+                          60,
+                          t: 2),
                     ),
                     Expanded(
                       child: Column(

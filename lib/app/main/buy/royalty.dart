@@ -56,7 +56,7 @@ class _RoyaltyState extends State<Royalty> with TickerProviderStateMixin {
                   style: TextStyle(color: c1),
                 ),
                 onPressed: ()async {
-                  if(await showAlert(context, '取消后可到【业绩核对-未提成业绩】查看')){
+                  if(await showAlert(context, '取消后可到【业绩核对-消费未提成业绩】查看')){
                     back(context);
                   }
                 })
@@ -118,25 +118,29 @@ class _RoyaltyState extends State<Royalty> with TickerProviderStateMixin {
                           color: bg,
                           height: 10,
                         ),
-                        Container(
-                          margin: EdgeInsets.only(top: 10),
-                          padding: EdgeInsets.only(left: 10),
-                          color: bg2,
-                          alignment: Alignment.centerLeft,
-                          height: 50,
-                          child: Text(
-                            '消费提成录入',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                        _item(1, 1),
-                        _item(1, 2),
-                        _item(1, 3),
-                        Container(
-                          color: bg,
-                          height: 10,
-                        ),
+                        total>0?Column(
+                          children: <Widget>[
+                            Container(
+                              margin: EdgeInsets.only(top: 10),
+                              padding: EdgeInsets.only(left: 10),
+                              color: bg2,
+                              alignment: Alignment.centerLeft,
+                              height: 50,
+                              child: Text(
+                                '消费提成录入',
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.w500),
+                              ),
+                            ),
+                            _item(1, 1),
+                            _item(1, 2),
+                            _item(1, 3),
+                            Container(
+                              color: bg,
+                              height: 10,
+                            ),
+                          ],
+                        ):Offstage()
                       ],
                     ),
                     acCardTotal>0?Column(
@@ -277,7 +281,7 @@ class _RoyaltyState extends State<Royalty> with TickerProviderStateMixin {
         'type': widget.type,
       };
     }print(d);
-    var rs = await get('save_commission', data: data);print(rs);
+    var rs = await get('save_commission', data: data);//print(rs);
     if (rs != null) {
       if (rs['code'] == 1) {
         setState(() {
@@ -323,12 +327,16 @@ class _RoyaltyState extends State<Royalty> with TickerProviderStateMixin {
 
   Widget _item(int m, n) {
     String name = '';
+    List data2 = [];
     if (n == 1) {
       name = '美容师';
+      data2 = this.m;
     } else if (n == 2) {
       name = '顾问';
+      data2 = this.g;
     } else if (n == 3) {
       name = '店长';
+      data2 = this.d;
     }
     Map now;
     List data;
@@ -375,7 +383,14 @@ class _RoyaltyState extends State<Royalty> with TickerProviderStateMixin {
                 padding: EdgeInsets.only(left: 8, right: 2),
                 child: GestureDetector(
                   onTap: () {
+                    if(data2.length>0){
+                      setState(() {
+                        now['id'] = data2[0]['id'];
+                        now['name'] = data2[0]['name'];
+                      });
+                    }
                     showMyPicker(context, n, now);
+
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

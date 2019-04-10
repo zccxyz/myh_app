@@ -85,7 +85,7 @@ class _CustomerAllocationState extends State<CustomerAllocation> {
                                   padding: const EdgeInsets.only(right: 15),
                                   child: circularImg(
                                       'http://www.caisheng.net/UploadFiles/img_0_3534166376_2649719102_27.jpg',
-                                      80),
+                                      80, t: 2),
                                 ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -212,7 +212,7 @@ class _CustomerAllocationState extends State<CustomerAllocation> {
           ListTile(
             leading: circularImg(
                 'http://www.caisheng.net/UploadFiles/img_0_3534166376_2649719102_27.jpg',
-                55),
+                55, t: 2),
             title: Text('${no[i]['name']}'),
             subtitle: Text('${no[i]['tel']}'),
             trailing: MyButton(
@@ -233,7 +233,7 @@ class _CustomerAllocationState extends State<CustomerAllocation> {
           ListTile(
             leading: circularImg(
                 'http://www.caisheng.net/UploadFiles/img_0_3534166376_2649719102_27.jpg',
-                55),
+                55, t: 2),
             title: Text('${my[i]['name']}'),
             subtitle: Text('${my[i]['tel']}'),
             trailing: MyButton(

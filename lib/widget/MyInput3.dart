@@ -14,8 +14,9 @@ class MyInput3 extends StatelessWidget {
             onChanged: onChanged,
             onTap: onPressed,
             keyboardType: keyboardType,
+            textAlign: TextAlign.center,
             decoration: InputDecoration(
-                contentPadding: null,
+                contentPadding: EdgeInsets.only(top: 10, bottom: 10),
                 suffixIcon: suffixIcon,
                 fillColor: fillColor ?? Colors.white,
                 filled: true,

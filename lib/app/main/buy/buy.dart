@@ -220,7 +220,7 @@ class _BuyState extends State<Buy> {
                                     style: TextStyle(fontSize: 16),
                                   ),
                                   Text(
-                                    '¥${getTotal()}',
+                                    '¥${getTotal().toStringAsFixed(2)}',
                                     style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         color: c1,
@@ -299,7 +299,7 @@ class _BuyState extends State<Buy> {
                 ),
                 width: 120,
               ),
-              priceWidget('${car[i]['t'] == 2 ? 0 : car[i]['price']}'),
+              priceWidget('${car[i]['t'] == 2 ? 0 : double.parse(car[i]['price'].toString()).toStringAsFixed(2)}'),
             ],
           ),
           trailing: Container(
@@ -454,7 +454,7 @@ class _BuyState extends State<Buy> {
     Map d = car[i];
     _priceCon.text =
         (double.parse(d['price'].toString()) * int.parse(d['sum'].toString()))
-            .toString();
+            .toStringAsFixed(2);
     _disCon.text = d['dis'].toString();
     showCupertinoDialog(
         context: context,
@@ -478,9 +478,9 @@ class _BuyState extends State<Buy> {
                               10 *
                               double.parse(d['price'].toString());
 
-                          _priceCon.text = rs.toString();
+                          _priceCon.text = rs.toStringAsFixed(2);
                         } else {
-                          _priceCon.text = d['price'].toString();
+                          _priceCon.text = double.parse(d['price'].toString()).toStringAsFixed(2);
                         }
                       },
                       prefix: Text('打折'),
@@ -519,7 +519,7 @@ class _BuyState extends State<Buy> {
                     double price = double.parse(_priceCon.text) /
                         double.parse(car[i]['sum'].toString());
                     car[i]['dis'] = dis;
-                    car[i]['price'] = price;
+                    car[i]['price'] = price.toStringAsFixed(2);
                     state(() {});
                     back(context);
                   },

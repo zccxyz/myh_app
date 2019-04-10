@@ -13,7 +13,7 @@ class _MyState extends State<My> {
     {'name': '权限管理', 'img': '5.0_16', 'id': 1},
     {'name': '客户分配', 'img': '5.0_19', 'id': 2},
     {'name': '店员管理', 'img': '5.0_22', 'id': 3},
-    {'name': '负载率', 'img': '5.0_27', 'id': 4},
+    {'name': '负债率', 'img': '5.0_27', 'id': 4},
     {'name': '订单中心', 'img': '5.0_28', 'id': 5},
     {'name': '员工工资', 'img': '5.0_29', 'id': 6},
     {'name': '积分管理', 'img': '5.0_33', 'id': 7},
@@ -100,7 +100,7 @@ class _MyState extends State<My> {
                                     padding: const EdgeInsets.only(right: 10),
                                     child: circularImg(
                                         '${(v.loginData['type'] == 1 ? v.loginData['logo'] : v.loginData['head_img']) ?? 'http://www.caisheng.net/UploadFiles/img_0_3534166376_2649719102_27.jpg'}',
-                                        80),
+                                        80, t: (v.loginData['type'] == 1 ? v.loginData['logo'] : v.loginData['head_img'])==null?2:1),
                                   ),
                                   Expanded(
                                     child: Column(

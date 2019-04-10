@@ -121,10 +121,12 @@ class _PayState extends State<Pay> {
     if (orderDetail['type'] == 5) {
       return '卡项';
     }
+    return '';
   }
 
   @override
   Widget build(BuildContext context) {
+    //print(cardList);
     return Scaffold(
       appBar: MyAppBar(
         title: Text('订单结算'),
@@ -707,7 +709,7 @@ class _PayState extends State<Pay> {
                           Divider(
                             height: 0,
                           ),
-                          AnimatedCrossFade(
+                          cardList.length>0?AnimatedCrossFade(
                               firstChild: Offstage(),
                               secondChild: Container(
                                 color: bg2,
@@ -773,7 +775,7 @@ class _PayState extends State<Pay> {
                               crossFadeState: zt3
                                   ? CrossFadeState.showSecond
                                   : CrossFadeState.showFirst,
-                              duration: Duration(milliseconds: 300)),
+                              duration: Duration(milliseconds: 300)):Offstage(),
                         ],
                       ),
                       widget.arrears == 0
@@ -1125,7 +1127,7 @@ class _PayState extends State<Pay> {
         return tip(context, '请输入积分');
       }
     }
-    /*//print({
+    /*print({
       'order': widget.id,
       'arrears': widget.arrears,
       'card': nowCard['id'],

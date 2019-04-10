@@ -134,13 +134,44 @@ class _PopularityIndexState extends State<PopularityIndex> {
       d = clothes[i];
       k = 4;
     }
+    String img = '';
+    //print(name);
+    if(name=='头部'){
+      img = '7.0_03';
+    }else if(name=='面部'){
+      img = '7.0_05';
+    }else if(name=='眼部'){
+      img = '7.0_07';
+    }else if(name=='身体'){
+      img = '7.0_09';
+    }else if(name=='减肥'){
+      img = '7.0_15';
+    }else if(name=='私密'){
+      img = '7.0_16';
+    }else if(name=='仪器类'){
+      img = '7.0_17';
+    }else if(name=='大项目'){
+      img = '7.0_21';
+    }else if(name=='修饰美容'){
+      img = '7.0_21';
+    }else if(name=='其它'){
+      img = '7.0_22';
+    }else if(name=='保健品'){
+      img = 'bjp';
+    }else if(name=='保养品'){
+      img = 'byp';
+    }else if(name=='内衣'){
+      img = 'ny3';
+    }else if(name=='胸衣'){
+      img = 'ny3';
+    }
     return GestureDetector(
       child: Column(
         children: <Widget>[
           Image.asset(
-            'img/1_34.png',
-            height: 65.0,
-            width: 65.0,
+            getImg(img),
+            height: 60.0,
+            width: 60.0,
           ),
           Text(
             name,

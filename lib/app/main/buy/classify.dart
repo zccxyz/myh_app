@@ -19,9 +19,13 @@ class Classify extends StatelessWidget {
       body: ListView(
         children: <Widget>[
           ListTile(
-            leading: Icon(
-              Icons.flash_on,
-              color: c1,
+            leading: Padding(
+              padding: const EdgeInsets.only(top: 3),
+              child: Image.asset(
+                getImg('2.0.2_03'),
+                width: 20,
+                height: 20,
+              ),
             ),
             title: Text('产品'),
             trailing: Icon(Icons.chevron_right),
@@ -33,7 +37,14 @@ class Classify extends StatelessWidget {
             height: 0,
           ),
           ListTile(
-            leading: Icon(Icons.flash_on, color: c1),
+            leading: Padding(
+              padding: const EdgeInsets.only(top: 3),
+              child: Image.asset(
+                getImg('2.0.2_06'),
+                width: 20,
+                height: 20,
+              ),
+            ),
             title: Text('套盒'),
             trailing: Icon(Icons.chevron_right),
             onTap: () {
@@ -49,7 +60,14 @@ class Classify extends StatelessWidget {
             height: 0,
           ),
           ListTile(
-            leading: Icon(Icons.flash_on, color: c1),
+            leading: Padding(
+              padding: const EdgeInsets.only(top: 3),
+              child: Image.asset(
+                getImg('2.0.2_08'),
+                width: 20,
+                height: 20,
+              ),
+            ),
             title: Text('项目'),
             trailing: Icon(Icons.chevron_right),
             onTap: () {
@@ -65,7 +83,14 @@ class Classify extends StatelessWidget {
             height: 0,
           ),
           ListTile(
-            leading: Icon(Icons.flash_on, color: c1),
+            leading: Padding(
+              padding: const EdgeInsets.only(top: 3),
+              child: Image.asset(
+                getImg('ny'),
+                width: 20,
+                height: 20,
+              ),
+            ),
             title: Text('内衣'),
             trailing: Icon(Icons.chevron_right),
             onTap: () {
@@ -81,7 +106,14 @@ class Classify extends StatelessWidget {
             height: 0,
           ),
           ListTile(
-            leading: Icon(Icons.flash_on, color: c1),
+            leading: Padding(
+              padding: const EdgeInsets.only(top: 3),
+              child: Image.asset(
+                getImg('2.0.2_10'),
+                width: 20,
+                height: 20,
+              ),
+            ),
             title: Text('卡项'),
             trailing: Icon(Icons.chevron_right),
             onTap: () {
@@ -97,7 +129,14 @@ class Classify extends StatelessWidget {
             height: 0,
           ),
           ListTile(
-            leading: Icon(Icons.flash_on, color: c1),
+            leading: Padding(
+              padding: const EdgeInsets.only(top: 3),
+              child: Image.asset(
+                getImg('2.0.2_12'),
+                width: 20,
+                height: 20,
+              ),
+            ),
             title: Text('方案'),
             trailing: Icon(Icons.chevron_right),
             onTap: () {
@@ -113,7 +152,14 @@ class Classify extends StatelessWidget {
             height: 0,
           ),
           ListTile(
-            leading: Icon(Icons.flash_on, color: c1),
+            leading: Padding(
+              padding: const EdgeInsets.only(top: 3),
+              child: Image.asset(
+                getImg('2.0.2_14'),
+                width: 20,
+                height: 20,
+              ),
+            ),
             title: Text('充值'),
             trailing: Icon(Icons.chevron_right),
             onTap: () {

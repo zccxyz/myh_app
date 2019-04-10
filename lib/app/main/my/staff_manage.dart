@@ -116,7 +116,7 @@ class _StaffManageState extends State<StaffManage> {
             },
             leading: circularImg(
                 'http://www.caisheng.net/UploadFiles/img_0_3534166376_2649719102_27.jpg',
-                50),
+                50, t: 2),
             title: Row(
               children: <Widget>[
                 Padding(

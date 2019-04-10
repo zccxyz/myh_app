@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:myh_shop/app/main/buy/royalty.dart';
 import 'package:myh_shop/common.dart';
 import 'package:myh_shop/widget/MyAppBar.dart';
 import 'package:myh_shop/widget/MyButton.dart';
@@ -80,7 +81,10 @@ class _NoCommissionState extends State<NoCommission> {
     String zt = '未付款';
     Widget ws = MyButton(
       width: getRange(context) / 5,
-      onPressed: () {},
+      onPressed: ()async {
+        await jump2(context, Royalty(list[i]['id']));
+        getSj();
+      },
       titleStyle: TextStyle(fontSize: 13),
       title: '补提',
     );

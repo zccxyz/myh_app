@@ -95,7 +95,7 @@ class _ManageState extends State<ClerkManage> {
             },
             leading: circularImg(
                 'http://www.caisheng.net/UploadFiles/img_0_3534166376_2649719102_27.jpg',
-                60),
+                60, t: 2),
             title: Text('${list[i]['name']}'),
             trailing: Icon(Icons.chevron_right),
           ),

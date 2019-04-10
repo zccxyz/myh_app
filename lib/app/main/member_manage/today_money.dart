@@ -261,7 +261,7 @@ class _AnalysisState extends State<TodayMoney> {
       if (v['status'] == 2 && v['type'] != 6) {
         return '消耗';
       }
-      if (v['type'] == 6 && v['status'] == 1) {
+      if (v['type'] == 3) {
         return '充值';
       }
     }

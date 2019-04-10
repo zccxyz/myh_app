@@ -133,7 +133,10 @@ class _RoyaltySetState extends State<RoyaltySet> {
       child: Column(
         children: <Widget>[
           ListTile(
-            title: Text(title),
+            title: Text(
+              title,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
           ),
           Divider(),
           Container(
@@ -349,7 +352,10 @@ class _RoyaltySetState extends State<RoyaltySet> {
         child: Column(
           children: <Widget>[
             ListTile(
-              title: Text(title),
+              title: Text(
+                title,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
             ),
             Divider(),
             Padding(
@@ -528,7 +534,10 @@ class _RoyaltySetState extends State<RoyaltySet> {
       child: Column(
         children: <Widget>[
           ListTile(
-            title: Text(title),
+            title: Text(
+              title,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
           ),
           Divider(),
           Column(
@@ -877,7 +886,7 @@ class _RoyaltySetState extends State<RoyaltySet> {
   @override
   void initState() {
     super.initState();
-    if(widget.type!=2){
+    if (widget.type != 2) {
       getSj();
     }
   }
@@ -966,7 +975,7 @@ class _RoyaltySetState extends State<RoyaltySet> {
                             keyboardType: TextInputType.numberWithOptions(),
                             showBottomLine: true,
                           ),
-                          width: 40,
+                          width: 50,
                         ),
                         Text('元', style: TextStyle(color: c1, fontSize: 16))
                       ],
@@ -982,7 +991,7 @@ class _RoyaltySetState extends State<RoyaltySet> {
                             keyboardType: TextInputType.numberWithOptions(),
                             showBottomLine: true,
                           ),
-                          width: 40,
+                          width: 50,
                         ),
                         Text('%', style: TextStyle(color: c1, fontSize: 16))
                       ],

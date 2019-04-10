@@ -263,7 +263,6 @@ class _AddArchives2State extends State<AddArchives2> {
         'id': detail['id'],
         'body': bodyOk.text,
         'face': skinOk.text,
-        'id': detail['id'],
         'mid': detail['mid'],
         'next_time': time,
         'one_opera': oneOpera.text,

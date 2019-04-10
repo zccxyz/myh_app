@@ -8,7 +8,7 @@ class Goods extends StatelessWidget {
     {'img': '21_08', 'text': '项目管理', 'id': 3},
     {'img': '21_13', 'text': '方案管理', 'id': 4},
     {'img': '21_14', 'text': '卡项管理', 'id': 5},
-    {'img': '21_14', 'text': '内衣管理', 'id': 12},
+    {'img': 'ny2', 'text': '内衣管理', 'id': 12},
     {'img': '21_15', 'text': '仓库管理', 'id': 6},
     {'img': '21_19', 'text': '优惠券', 'id': 7},
     {'img': '21_20', 'text': '院装消耗', 'id': 8},
