@@ -103,10 +103,10 @@ class _AddMemberState extends State<AddMember> {
       'adviser': adviser,
       'id': widget.data['id'],
     });
-    //print(rs);
+    print(rs);
     if(rs!=null){
       if(rs['code']==1){
-        return ok(context, rs['msg']);
+        ok(context, rs['msg']);
       }else{
         return tip(context, rs['error']);
       }
