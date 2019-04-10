@@ -26,6 +26,7 @@ class _AddMemberState extends State<AddMember> {
   int marital = 2;
   int birType = 1;
   Map adviser;
+  int adviser2;
   List advisers = [];
   Map gw;
   String birthday = '';
@@ -35,6 +36,7 @@ class _AddMemberState extends State<AddMember> {
   void initState() {
     super.initState();
     getData();
+    print(widget.data);
     _nameCont = TextEditingController(
         text: widget.data == null || widget.data['name'] == null
             ? ''
@@ -56,7 +58,7 @@ class _AddMemberState extends State<AddMember> {
         marital = int.parse(widget.data['marital'].toString());
       }
       if (widget.data['adviser'] != null) {
-        adviser = widget.data['adviser'];
+        adviser2 = widget.data['adviser'];
       }
       if (widget.data['bir_type'] != null) {
         birType = int.parse(widget.data['bir_type'].toString());
@@ -76,38 +78,41 @@ class _AddMemberState extends State<AddMember> {
         birthday.length == 0) {
       return tip(context, '姓名，电话，生日为必填');
     }
-    if(_telCont.text.length!=11){
+    if (_telCont.text.length != 11) {
       return tip(context, '电话必须11位');
     }
-    var rs = await post(widget.data==null?'addvip':'viplevel', data: widget.data==null?{
-      'name': _nameCont.text,
-      'age': _ageCont.text,
-      'num': _numCont.text,
-      'password': password,
-      'sex': sex,
-      'tel': _telCont.text,
-      'marital': marital,
-      'bir_type': birType,
-      'birthday': birthday,
-      'adviser': adviser==null?'':adviser['id'],
-    }:{
-      'name': _nameCont.text,
-      'age': _ageCont.text,
-      'num': _numCont.text,
-      'password': password,
-      'sex': sex,
-      'tel': _telCont.text,
-      'marital': marital,
-      'bir_type': birType,
-      'birthday': birthday,
-      'adviser': adviser,
-      'id': widget.data['id'],
-    });
-    print(rs);
-    if(rs!=null){
-      if(rs['code']==1){
+    var rs = await post(widget.data == null ? 'addvip' : 'viplevel',
+        data: widget.data == null
+            ? {
+                'name': _nameCont.text,
+                'age': _ageCont.text,
+                'num': _numCont.text,
+                'password': password,
+                'sex': sex,
+                'tel': _telCont.text,
+                'marital': marital,
+                'bir_type': birType,
+                'birthday': birthday,
+                'adviser': adviser == null ? '' : adviser['id'],
+              }
+            : {
+                'name': _nameCont.text,
+                'age': _ageCont.text,
+                'num': _numCont.text,
+                'password': password,
+                'sex': sex,
+                'tel': _telCont.text,
+                'marital': marital,
+                'bir_type': birType,
+                'birthday': birthday,
+                'adviser': adviser2,
+                'id': widget.data['id'],
+              });
+    if (rs != null) {
+      if (rs['code'] == 1) {
+        back(context);
         ok(context, rs['msg']);
-      }else{
+      } else {
         tip(context, rs['error']);
       }
     }
@@ -158,7 +163,7 @@ class _AddMemberState extends State<AddMember> {
           MyInput2(
             label: '密$kg码',
             hintText: '默认密码为：123456',
-            onChanged: (v){
+            onChanged: (v) {
               password = v;
             },
           ),
@@ -241,11 +246,10 @@ class _AddMemberState extends State<AddMember> {
                   children: <Widget>[
                     Expanded(
                         child: Text(
-                      adviser==null ? '请选择顾问' : adviser['name'],
+                      adviser == null ? '请选择顾问' : adviser['name'],
                       style: TextStyle(
                           fontSize: 16,
-                          color:
-                              adviser==null ? hintColor : Colors.black),
+                          color: adviser == null ? hintColor : Colors.black),
                     )),
                     IconButton(
                         icon: Icon(

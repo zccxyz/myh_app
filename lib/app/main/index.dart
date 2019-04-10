@@ -229,19 +229,9 @@ class _IndexState extends State<Index> {
                                                         0
                                                 ? Expanded(
                                                     child: Swiper(
-<<<<<<< HEAD
                                                       itemCount: data['bir_member'].length,
                                                       itemBuilder: (_, i) => _item(i),
                                                       scrollDirection: Axis.vertical,
-=======
-                                                      itemCount:
-                                                          data['bir_member']
-                                                              .length,
-                                                      itemBuilder: (_, i) =>
-                                                          _item(i),
-                                                      scrollDirection:
-                                                          Axis.vertical,
->>>>>>> af8103d360746fec4b4f6f45292b2d4c0cd3f884
                                                       autoplay: true,
                                                     ),
                                                   )

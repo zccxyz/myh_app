@@ -113,40 +113,40 @@ class _ManageState extends State<NewManage> {
     showCupertinoDialog(
         context: context,
         builder: (_) => CupertinoAlertDialog(
-          title: Text('请输入房间号'),
-          content: CupertinoTextField(
-            placeholder: '请输入房间号',
-            keyboardType: TextInputType.numberWithOptions(),
-            autofocus: true,
-            onChanged: (v) {
-              room = v;
-            },
-          ),
-          actions: <Widget>[
-            CupertinoDialogAction(
-              child: Text('取消'),
-              onPressed: () {
-                back(context);
-              },
-            ),
-            CupertinoDialogAction(
-              child: Text('确定'),
-              onPressed: () async {
-                if (room.length == 0) {
-                  return tip(context, '请输入房间号');
-                }
-                var rs = await addArrive(id, room);
-                if (rs['code'] == 1) {
-                  room = '';
-                  ok(context, rs['Msg']);
-                } else {
-                  tip(context, rs['errorMsg']);
-                }
-                //print(rs);
-              },
-            ),
-          ],
-        ));
+              title: Text('请输入房间号'),
+              content: CupertinoTextField(
+                placeholder: '请输入房间号',
+                keyboardType: TextInputType.numberWithOptions(),
+                autofocus: true,
+                onChanged: (v) {
+                  room = v;
+                },
+              ),
+              actions: <Widget>[
+                CupertinoDialogAction(
+                  child: Text('取消'),
+                  onPressed: () {
+                    back(context);
+                  },
+                ),
+                CupertinoDialogAction(
+                  child: Text('确定'),
+                  onPressed: () async {
+                    if (room.length == 0) {
+                      return tip(context, '请输入房间号');
+                    }
+                    var rs = await addArrive(id, room);
+                    if (rs['code'] == 1) {
+                      room = '';
+                      ok(context, rs['Msg']);
+                    } else {
+                      tip(context, rs['errorMsg']);
+                    }
+                    //print(rs);
+                  },
+                ),
+              ],
+            ));
   }
 
   Widget _item(int i) {
@@ -170,7 +170,8 @@ class _ManageState extends State<NewManage> {
             contentPadding: EdgeInsets.only(left: 10),
             leading: circularImg(
                 'http://www.caisheng.net/UploadFiles/img_0_3534166376_2649719102_27.jpg',
-                55, t: 2),
+                55,
+                t: 2),
             title: Row(
               children: <Widget>[
                 Container(
@@ -185,7 +186,7 @@ class _ManageState extends State<NewManage> {
                 Padding(
                   padding: const EdgeInsets.only(left: 5.0, right: 5.0),
                   child: Image.asset(
-                    getImg(list[i]['sex']==1?'woman':'man'),
+                    getImg(list[i]['sex'] == 1 ? 'woman' : 'man'),
                     height: 15.0,
                     color: textColor,
                   ),
@@ -206,8 +207,13 @@ class _ManageState extends State<NewManage> {
                   MyButton(
                     title: '升级',
                     color: c2,
-                    onPressed: () {
-                      jump2(context, AddMember(data: list[i],));
+                    onPressed: () async {
+                      await jump2(
+                          context,
+                          AddMember(
+                            data: list[i],
+                          ));
+                      getData();
                     },
                     width: 60,
                     height: 30,
