@@ -18,6 +18,7 @@ class _IndexState extends State<Index> {
 
   @override
   Widget build(BuildContext context) {
+//    print(userModel.loginData);
     return ScopedModel<IndexModel>(
         model: indexModel,
         child: ScopedModelDescendant<IndexModel>(builder: (_, __, v) {
@@ -228,9 +229,19 @@ class _IndexState extends State<Index> {
                                                         0
                                                 ? Expanded(
                                                     child: Swiper(
+<<<<<<< HEAD
                                                       itemCount: data['bir_member'].length,
                                                       itemBuilder: (_, i) => _item(i),
                                                       scrollDirection: Axis.vertical,
+=======
+                                                      itemCount:
+                                                          data['bir_member']
+                                                              .length,
+                                                      itemBuilder: (_, i) =>
+                                                          _item(i),
+                                                      scrollDirection:
+                                                          Axis.vertical,
+>>>>>>> af8103d360746fec4b4f6f45292b2d4c0cd3f884
                                                       autoplay: true,
                                                     ),
                                                   )
@@ -574,7 +585,7 @@ class _IndexState extends State<Index> {
                                             )
                                           ],
                                         ),
-                                        ware.length > 0
+                                        ware != null && ware.length > 0
                                             ? Positioned(
                                                 top: 0,
                                                 right: 25.0,
@@ -595,7 +606,8 @@ class _IndexState extends State<Index> {
                                       ],
                                     ),
                                   ),
-                                  type == 1
+                                  type == 1 &&
+                                          userModel.loginData['store_type'] == 1
                                       ? GestureDetector(
                                           onTap: () async {
                                             await jump(context, 'my_shop');

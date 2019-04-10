@@ -166,7 +166,7 @@ class _PopuMemberState extends State<PopuMember> with TickerProviderStateMixin {
             onTap: () {},
             leading: circularImg(
                 'http://www.caisheng.net/UploadFiles/img_0_3534166376_2649719102_27.jpg',
-                60),
+                60, t: 2),
             title: Row(
               children: <Widget>[
                 Text(name),

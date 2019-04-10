@@ -36,7 +36,7 @@ class _AddBoxState extends State<AddItem> {
   TextEditingController _jsCon = TextEditingController(text: '');
   TextEditingController _dayCon = TextEditingController(text: '');
   int cycle = 1;
-  int duration = 2;
+  int duration = 1;
   String end = '';
 
   void del() async {
@@ -258,7 +258,7 @@ class _AddBoxState extends State<AddItem> {
                       text: '否',
                     )),
                 Offstage(
-                  offstage: duration == 1 ? false : true,
+                  offstage: duration == 1 ? true : false,
                   child: InkWell(
                     onTap: () {
                       if (category.length > 0) {
@@ -331,7 +331,7 @@ class _AddBoxState extends State<AddItem> {
         return tip(context, '请输入护理周期');
       }
     }
-    if (duration == 1) {
+    if (duration == 2) {
       if (end.length == 0) {
         return tip(context, '请选择过期时间');
       }

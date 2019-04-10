@@ -53,13 +53,14 @@ import 'package:myh_shop/app/main/popularity/index.dart';
 import 'package:myh_shop/app/main/warehouse/early_warning.dart';
 import 'package:myh_shop/app/main/warehouse/ware_list.dart';
 import 'package:myh_shop/common.dart';
+import 'package:myh_shop/widget/MyButton.dart';
 
-var now = 0;  //0未登录
+var now = 0; //0未登录
 
 void main() async {
   var rs = await getData('loginData');
   ////print(rs);
-  if (rs != null){
+  if (rs != null) {
     //登录
     now = 1;
     userModel.loginData = formData(rs);
@@ -71,6 +72,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    errorPage(context);
     return MaterialApp(
       title: '美约会',
       routes: {
@@ -131,7 +133,22 @@ class MyApp extends StatelessWidget {
           hintColor: hintColor,
           primaryTextTheme:
               TextTheme(title: TextStyle(color: Colors.black, fontSize: 20.0))),
-      home: now==0?Login():BottomBar(),
+      home: now == 0 ? Login() : BottomBar(),
     );
   }
+}
+
+void errorPage(BuildContext c) {
+  ErrorWidget.builder = (FlutterErrorDetails flutterErrorDetails) {
+    return Container(
+      color: bg2,
+      padding: EdgeInsets.all(15),
+      child: Center(
+        child: Text(
+          "程序出错，请联系开发人员：" + flutterErrorDetails.exceptionAsString(),
+          style: TextStyle(fontSize: 16, color: Colors.red),
+        ),
+      ),
+    );
+  };
 }

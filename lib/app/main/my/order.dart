@@ -29,9 +29,10 @@ class _OrderState extends State<Order> {
     var rs = await get('get_order', data: {
       'type': 'all',
       'status': '',
-      'start': start==null?'':start,
-      'end': end==null?'':end,
-    });print(rs);
+      'start': start == null ? '' : start,
+      'end': end == null ? '' : end,
+    });
+    //print(rs);
     if (rs != null) {
       if (rs['code'] == 1) {
         list = rs['res']['list'];
@@ -55,9 +56,9 @@ class _OrderState extends State<Order> {
 
   int getNum(int s) {
     int n = 0;
-    for(var v in list) {
-      if(v['status'] == s){
-        n ++;
+    for (var v in list) {
+      if (v['status'] == s) {
+        n++;
       }
     }
     //print(n);
@@ -135,7 +136,7 @@ class _OrderState extends State<Order> {
                     padding:
                         const EdgeInsets.only(bottom: 15, left: 30, right: 30),
                     child: MyInput(
-                      onChanged: (v){
+                      onChanged: (v) {
                         setState(() {
                           input = v;
                         });
@@ -183,76 +184,88 @@ class _OrderState extends State<Order> {
         body: TabBarView(children: [
           list != null
               ? ListView.builder(
-            itemBuilder: (_, i) => _item(i,),
-            itemCount: list.length,
-          )
+                  itemBuilder: (_, i) => _item(
+                        i,
+                      ),
+                  itemCount: list.length,
+                )
               : Center(
-            child: loading(),
-          ),
+                  child: loading(),
+                ),
           list != null
               ? ListView.builder(
-            itemBuilder: (_, i) => _item(i, status: 0),
-            itemCount: list.length,
-          )
+                  itemBuilder: (_, i) => _item(i, status: 0),
+                  itemCount: list.length,
+                )
               : Center(
-            child: loading(),
-          ),
+                  child: loading(),
+                ),
           list != null
               ? ListView.builder(
-            itemBuilder: (_, i) => _item(i, status: 1),
-            itemCount: list.length,
-          )
+                  itemBuilder: (_, i) => _item(i, status: 1),
+                  itemCount: list.length,
+                )
               : Center(
-            child: loading(),
-          ),
+                  child: loading(),
+                ),
           list != null
               ? ListView.builder(
-            itemBuilder: (_, i) => _item(i, status: 2),
-            itemCount: list.length,
-          )
+                  itemBuilder: (_, i) => _item(i, status: 2),
+                  itemCount: list.length,
+                )
               : Center(
-            child: loading(),
-          ),
+                  child: loading(),
+                ),
           list != null
               ? ListView.builder(
-            itemBuilder: (_, i) => _item(i, status: 3),
-            itemCount: list.length,
-          )
+                  itemBuilder: (_, i) => _item(i, status: 3),
+                  itemCount: list.length,
+                )
               : Center(
-            child: loading(),
-          ),
+                  child: loading(),
+                ),
           list != null
               ? ListView.builder(
-            itemBuilder: (_, i) => _item(i, status: 4),
-            itemCount: list.length,
-          )
+                  itemBuilder: (_, i) => _item(i, status: 4),
+                  itemCount: list.length,
+                )
               : Center(
-            child: loading(),
-          ),
+                  child: loading(),
+                ),
         ]),
       ),
       length: 6,
     );
   }
 
-  Widget _item(int i, {int status=-1}) {
-    if(input.length>0) {
+  Widget _item(int i, {int status = -1}) {
+    if (input.length > 0) {
       int t = 0;
-      if(input == '产品'){
+      if (input == '产品') {
         t = 1;
-      }else if(input == '套盒'){
+      } else if (input == '套盒') {
         t = 2;
-      }else if(input == '项目'){
+      } else if (input == '项目') {
         t = 3;
-      }else if(input == '方案'){
+      } else if (input == '方案') {
         t = 4;
-      }else if(input == '卡项'){
+      } else if (input == '卡项') {
         t = 5;
       }
-      if(t==0 && list[i]['name'].toString().toLowerCase().indexOf(input.toLowerCase()) < 0){
+      if (t == 0 &&
+          list[i]['name']
+                  .toString()
+                  .toLowerCase()
+                  .indexOf(input.toLowerCase()) <
+              0) {
         return Offstage();
-      }else{
-        if(list[i]['type'] != t && list[i]['name'].toString().toLowerCase().indexOf(input.toLowerCase()) < 0) {
+      } else {
+        if (list[i]['type'] != t &&
+            list[i]['name']
+                    .toString()
+                    .toLowerCase()
+                    .indexOf(input.toLowerCase()) <
+                0) {
           return Offstage();
         }
       }
@@ -263,7 +276,7 @@ class _OrderState extends State<Order> {
       children: <Widget>[
         MyButton(
           width: getRange(context) / 5,
-          onPressed: ()async {
+          onPressed: () async {
             getArr(list[i]['id']);
           },
           titleStyle: TextStyle(fontSize: 13),
@@ -274,7 +287,7 @@ class _OrderState extends State<Order> {
           width: getRange(context) / 5,
           onPressed: () async {
             var rs = await showAlert(context, '是否取消该订单？');
-            if(rs){
+            if (rs) {
               cancelOrder(list[i]['id']);
             }
           },
@@ -301,7 +314,7 @@ class _OrderState extends State<Order> {
             width: getRange(context) / 5,
             onPressed: () async {
               var rs = await showAlert(context, '是否退款？');
-              if(rs){
+              if (rs) {
                 refundOrder(list[i]['id']);
               }
             },
@@ -319,7 +332,7 @@ class _OrderState extends State<Order> {
             width: getRange(context) / 5,
             onPressed: () async {
               var rs = await showAlert(context, '是否退款？');
-              if(rs){
+              if (rs) {
                 refundOrder(list[i]['id']);
               }
             },
@@ -336,15 +349,15 @@ class _OrderState extends State<Order> {
       zt = "已退款";
       ws = Offstage();
     }
-    if(status>=0){
-      if(status==list[i]['status']){
+    if (status >= 0) {
+      if (status == list[i]['status']) {
         return GestureDetector(
           onTap: () {
             showModel(list[i]['id']);
           },
           child: Container(
-            decoration:
-            BoxDecoration(color: bg2, borderRadius: BorderRadius.circular(10)),
+            decoration: BoxDecoration(
+                color: bg2, borderRadius: BorderRadius.circular(10)),
             height: 200,
             margin: EdgeInsets.only(left: 15, right: 15, top: 15),
             padding: EdgeInsets.all(15),
@@ -352,26 +365,26 @@ class _OrderState extends State<Order> {
               children: <Widget>[
                 Expanded(
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Row(
                       children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Image.asset(
-                              getImg('3_14'),
-                              height: 15,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 5),
-                              child: Text('${list[i]['store_name']}'),
-                            ),
-                          ],
+                        Image.asset(
+                          getImg('3_14'),
+                          height: 15,
                         ),
-                        Text(
-                          zt,
-                          style: TextStyle(color: c1),
-                        )
+                        Padding(
+                          padding: const EdgeInsets.only(left: 5),
+                          child: Text('${list[i]['store_name']}'),
+                        ),
                       ],
-                    )),
+                    ),
+                    Text(
+                      zt,
+                      style: TextStyle(color: c1),
+                    )
+                  ],
+                )),
                 Padding(
                   padding: const EdgeInsets.only(top: 10, bottom: 10),
                   child: Divider(
@@ -391,19 +404,19 @@ class _OrderState extends State<Order> {
                                   text: '会员：',
                                   style: TextStyle(color: textColor),
                                   children: [
-                                    TextSpan(
-                                        text: '${list[i]['name']}',
-                                        style: TextStyle(color: Colors.black))
-                                  ])),
+                                TextSpan(
+                                    text: '${list[i]['name']}',
+                                    style: TextStyle(color: Colors.black))
+                              ])),
                           RichText(
                               text: TextSpan(
                                   text: '品项：',
                                   style: TextStyle(color: textColor),
                                   children: [
-                                    TextSpan(
-                                        text: getType(list[i]['type']),
-                                        style: TextStyle(color: Colors.black))
-                                  ])),
+                                TextSpan(
+                                    text: getType(list[i]['type']),
+                                    style: TextStyle(color: Colors.black))
+                              ])),
                         ],
                       ),
                       Padding(
@@ -413,24 +426,24 @@ class _OrderState extends State<Order> {
                                 text: '订单编号：',
                                 style: TextStyle(color: textColor),
                                 children: [
-                                  TextSpan(
-                                      text: '${list[i]['sn']}',
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w500))
-                                ])),
+                              TextSpan(
+                                  text: '${list[i]['sn']}',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500))
+                            ])),
                       ),
                       RichText(
                           text: TextSpan(
                               text: '订单时间：',
                               style: TextStyle(color: textColor),
                               children: [
-                                TextSpan(
-                                    text: '${list[i]['create_time']}',
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500))
-                              ])),
+                            TextSpan(
+                                text: '${list[i]['create_time']}',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w500))
+                          ])),
                     ],
                   ),
                   flex: 3,
@@ -443,35 +456,35 @@ class _OrderState extends State<Order> {
                 ),
                 Expanded(
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        RichText(
-                            text: TextSpan(
-                                text: '价格：',
-                                style: TextStyle(color: textColor),
-                                children: [
-                                  TextSpan(
-                                      text: '¥${list[i]['price']}',
-                                      style:
-                                      TextStyle(color: c1, fontWeight: FontWeight.w500))
-                                ])),
-                        ws
-                      ],
-                    )),
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    RichText(
+                        text: TextSpan(
+                            text: '价格：',
+                            style: TextStyle(color: textColor),
+                            children: [
+                          TextSpan(
+                              text: '¥${list[i]['price']}',
+                              style: TextStyle(
+                                  color: c1, fontWeight: FontWeight.w500))
+                        ])),
+                    ws
+                  ],
+                )),
               ],
             ),
           ),
         );
       }
       return Offstage();
-    }else{
+    } else {
       return GestureDetector(
         onTap: () {
           showModel(list[i]['id']);
         },
         child: Container(
-          decoration:
-          BoxDecoration(color: bg2, borderRadius: BorderRadius.circular(10)),
+          decoration: BoxDecoration(
+              color: bg2, borderRadius: BorderRadius.circular(10)),
           height: 200,
           margin: EdgeInsets.only(left: 15, right: 15, top: 15),
           padding: EdgeInsets.all(15),
@@ -479,26 +492,26 @@ class _OrderState extends State<Order> {
             children: <Widget>[
               Expanded(
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Row(
                     children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          Image.asset(
-                            getImg('3_14'),
-                            height: 15,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 5),
-                            child: Text('${list[i]['store_name']}'),
-                          ),
-                        ],
+                      Image.asset(
+                        getImg('3_14'),
+                        height: 15,
                       ),
-                      Text(
-                        zt,
-                        style: TextStyle(color: c1),
-                      )
+                      Padding(
+                        padding: const EdgeInsets.only(left: 5),
+                        child: Text('${list[i]['store_name']}'),
+                      ),
                     ],
-                  )),
+                  ),
+                  Text(
+                    zt,
+                    style: TextStyle(color: c1),
+                  )
+                ],
+              )),
               Padding(
                 padding: const EdgeInsets.only(top: 10, bottom: 10),
                 child: Divider(
@@ -518,19 +531,19 @@ class _OrderState extends State<Order> {
                                 text: '会员：',
                                 style: TextStyle(color: textColor),
                                 children: [
-                                  TextSpan(
-                                      text: '${list[i]['name']}',
-                                      style: TextStyle(color: Colors.black))
-                                ])),
+                              TextSpan(
+                                  text: '${list[i]['name']}',
+                                  style: TextStyle(color: Colors.black))
+                            ])),
                         RichText(
                             text: TextSpan(
                                 text: '品项：',
                                 style: TextStyle(color: textColor),
                                 children: [
-                                  TextSpan(
-                                      text: getType(list[i]['type']),
-                                      style: TextStyle(color: Colors.black))
-                                ])),
+                              TextSpan(
+                                  text: getType(list[i]['type']),
+                                  style: TextStyle(color: Colors.black))
+                            ])),
                       ],
                     ),
                     Padding(
@@ -540,24 +553,24 @@ class _OrderState extends State<Order> {
                               text: '订单编号：',
                               style: TextStyle(color: textColor),
                               children: [
-                                TextSpan(
-                                    text: '${list[i]['sn']}',
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500))
-                              ])),
+                            TextSpan(
+                                text: '${list[i]['sn']}',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w500))
+                          ])),
                     ),
                     RichText(
                         text: TextSpan(
                             text: '订单时间：',
                             style: TextStyle(color: textColor),
                             children: [
-                              TextSpan(
-                                  text: '${list[i]['create_time']}',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500))
-                            ])),
+                          TextSpan(
+                              text: '${list[i]['create_time']}',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500))
+                        ])),
                   ],
                 ),
                 flex: 3,
@@ -570,21 +583,21 @@ class _OrderState extends State<Order> {
               ),
               Expanded(
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      RichText(
-                          text: TextSpan(
-                              text: '价格：',
-                              style: TextStyle(color: textColor),
-                              children: [
-                                TextSpan(
-                                    text: '¥${list[i]['price']}',
-                                    style:
-                                    TextStyle(color: c1, fontWeight: FontWeight.w500))
-                              ])),
-                      ws
-                    ],
-                  )),
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  RichText(
+                      text: TextSpan(
+                          text: '价格：',
+                          style: TextStyle(color: textColor),
+                          children: [
+                        TextSpan(
+                            text: '¥${list[i]['price']}',
+                            style: TextStyle(
+                                color: c1, fontWeight: FontWeight.w500))
+                      ])),
+                  ws
+                ],
+              )),
             ],
           ),
         ),
@@ -593,38 +606,34 @@ class _OrderState extends State<Order> {
   }
 
   void cancelOrder(int id) async {
-    var rs = await post('CancelOrder', data: {
-      'id': id
-    });
-    if(rs!=null){
-      if(rs['code']==1){
-        getSj(start: begin??'', end: end??'');
+    var rs = await post('CancelOrder', data: {'id': id});
+    if (rs != null) {
+      if (rs['code'] == 1) {
+        getSj(start: begin ?? '', end: end ?? '');
       }
     }
   }
 
   void refundOrder(int id) async {
-    var rs = await post('refund_order', data: {
-      'oid': id
-    });
-    if(rs!=null){
-      if(rs['code']==1){
-        getSj(start: begin??'', end: end??'');
+    var rs = await post('refund_order', data: {'oid': id});
+    if (rs != null) {
+      if (rs['code'] == 1) {
+        getSj(start: begin ?? '', end: end ?? '');
       }
     }
   }
 
   String getType(int i) {
     String str = '';
-    if(i==1){
+    if (i == 1) {
       str = '产品';
-    }else if(i==2){
+    } else if (i == 2) {
       str = '套盒';
-    }else if(i==3){
+    } else if (i == 3) {
       str = '项目';
-    }else if(i==4){
+    } else if (i == 4) {
       str = '方案';
-    }else if(i==5){
+    } else if (i == 5) {
       str = '卡项';
     }
     return str;
@@ -632,15 +641,15 @@ class _OrderState extends State<Order> {
 
   String getStatus(int i) {
     String str = '';
-    if(i==0){
+    if (i == 0) {
       str = '未付款';
-    }else if(i==1){
+    } else if (i == 1) {
       str = '未付清';
-    }else if(i==2){
+    } else if (i == 2) {
       str = '已付清';
-    }else if(i==3){
+    } else if (i == 3) {
       str = '已取消';
-    }else if(i==4){
+    } else if (i == 4) {
       str = '已退款';
     }
     return str;
@@ -650,45 +659,65 @@ class _OrderState extends State<Order> {
     showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (_) => StatefulBuilder(builder: (_, state){
-          if(detail==null){
-            getDetail(id, state);
-          }
-          return Container(
-            margin: EdgeInsets.only(
-                top: getRange(context, type: 2) / 8,
-                bottom: getRange(context, type: 2) / 8,
-                left: 15,
-                right: 15),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(5),
-              child: Scaffold(
-                backgroundColor: bg2,
-                appBar: MyAppBar(
-                  title: Text('订单详情'),
-                  leading: Offstage(),
-                  actions: <Widget>[
-                    IconButton(
-                        icon: Icon(Icons.close),
-                        onPressed: () {
-                          detail = null;
-                          back(context);
-                        })
-                  ],
+        builder: (_) => StatefulBuilder(builder: (_, state) {
+              if (detail == null) {
+                getDetail(id, state);
+              }
+              return Container(
+                margin: EdgeInsets.only(
+                    top: getRange(context, type: 2) / 8,
+                    bottom: getRange(context, type: 2) / 8,
+                    left: 15,
+                    right: 15),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(5),
+                  child: Scaffold(
+                    backgroundColor: bg2,
+                    appBar: MyAppBar(
+                      title: Text('订单详情'),
+                      leading: Offstage(),
+                      actions: <Widget>[
+                        IconButton(
+                            icon: Icon(Icons.close),
+                            onPressed: () {
+                              detail = null;
+                              back(context);
+                            })
+                      ],
+                    ),
+                    body: detail != null
+                        ? Column(
+                            children: <Widget>[
+                              Container(
+                                height: 50,
+                                color: bg2,
+                                child: Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                        child: Center(child: Text('名称')), flex: 2,),
+                                    Expanded(
+                                        child: Center(child: Text('数量'))),
+                                    Expanded(
+                                        child: Center(child: Text('价格'))),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: ListView.builder(
+                                  padding: EdgeInsets.all(15),
+                                  itemBuilder: (_, i) => _item2(i),
+                                  itemCount: detail.length,
+                                ),
+                              ),
+                            ],
+                          )
+                        : Center(
+                            child: loading(),
+                          ),
+                  ),
                 ),
-                body: detail != null
-                    ? ListView.builder(
-                  padding: EdgeInsets.all(15),
-                  itemBuilder: (_, i) => _item2(i),
-                  itemCount: detail.length,
-                )
-                    : Center(
-                  child: loading(),
-                ),
-              ),
-            ),
-          );
-        }));
+              );
+            }));
   }
 
   Widget _item2(int i) => Column(
@@ -736,15 +765,15 @@ class _OrderState extends State<Order> {
     });
   }
 
-  void getArr(int id, {t=1}) async {
+  void getArr(int id, {t = 1}) async {
     var rs = await post('check_arrears', data: {
       'oid': id,
     });
-    if(rs!=null){
-      if(rs['code']==1){
-        if(t==2){
+    if (rs != null) {
+      if (rs['code'] == 1) {
+        if (t == 2) {
           await jump2(context, Pay(rs['res'], 0));
-        }else{
+        } else {
           await jump2(context, Pay(id, rs['res']));
         }
         getSj();

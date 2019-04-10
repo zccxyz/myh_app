@@ -160,7 +160,7 @@ class _AddBoxState extends State<AddBox> {
                   child: MyItem(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      now == null ? '点击选择' : now['name'],
+                      now == null ? '点击选择(必填)' : now['name'],
                       style: TextStyle(
                           fontSize: 16,
                           color: now == null ? textColor : Colors.black),
@@ -181,7 +181,7 @@ class _AddBoxState extends State<AddBox> {
                   controller: _feeCon,
                   keyboardType: TextInputType.numberWithOptions(),
                   label: '手  工  费',
-                  hintText: '请填写项目手工费',
+                  hintText: '请填写项目手工费(必填)',
                   suffixText: '元',
                   alignment: Alignment.centerLeft,
                 ),

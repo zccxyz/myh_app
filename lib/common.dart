@@ -250,14 +250,14 @@ String getImg(String name, {String e = 'png'}) {
   return 'img/' + name + '.' + e;
 }
 
-Widget circularImg(String url, double w) {
+Widget circularImg(String url, double w, {t=1}) {
   return ClipRRect(
     borderRadius: BorderRadius.circular(w / 2),
-    child: CachedNetworkImage(
+    child: t==1?CachedNetworkImage(
       imageUrl: url,
       height: w,
       width: w,
-    ),
+    ):Image.asset(getImg('people',), width: w,),
   );
 }
 
@@ -508,8 +508,8 @@ void getComeShop() async {
 
 void getCountData({String start = '', end = ''}) async {
   var rs = await get('index_detail', data: {
-    'start': '2019-02-21',
-    'end': '2019-03-21',
+    'start': start,
+    'end': end,
   });
   //print(rs);
   if (rs != null) {
@@ -555,7 +555,7 @@ void getWare() async {
   if (rs != null) {
     if (rs['code'] == 1) {
       indexModel.ware = rs['res']['ware_details'];
-      print(rs);
+      //print(rs);
     } else {
       tip(myContext, rs['error']);
     }

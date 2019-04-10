@@ -115,6 +115,28 @@ flutter:
     - img/5.1_10.png
     - img/5.1_12.png
     - img/5.1_14.png
+    - img/2.0.2_03.png
+    - img/2.0.2_06.png
+    - img/2.0.2_08.png
+    - img/2.0.2_10.png
+    - img/2.0.2_12.png
+    - img/2.0.2_14.png
+    - img/2.0.2_031.png
+    - img/ny.png
+    - img/ny2.png
+    - img/people.png
+    - img/7.0_03.png
+    - img/7.0_05.png
+    - img/7.0_07.png
+    - img/7.0_09.png
+    - img/7.0_15.png
+    - img/7.0_16.png
+    - img/7.0_17.png
+    - img/7.0_21.png
+    - img/7.0_22.png
+    - img/bjp.png
+    - img/byp.png
+    - img/ny3.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

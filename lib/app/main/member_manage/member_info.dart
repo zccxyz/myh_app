@@ -224,7 +224,7 @@ class _MemberInfoState extends State<MemberInfo> {
                               child: Center(
                                 child: circularImg(
                                     'http://www.caisheng.net/UploadFiles/img_0_3534166376_2649719102_27.jpg',
-                                    width),
+                                    width, t: 2),
                               ),
                               bottom: 50,
                               left: getRange(context) / 2 - width / 2,

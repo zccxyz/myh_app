@@ -300,7 +300,7 @@ class _StaffDetailState extends State<StaffDetail> {
                                     padding: const EdgeInsets.only(right: 10),
                                     child: circularImg(
                                         'http://www.caisheng.net/UploadFiles/img_0_3534166376_2649719102_27.jpg',
-                                        70),
+                                        70, t: 2),
                                   ),
                                   Column(
                                     mainAxisAlignment:

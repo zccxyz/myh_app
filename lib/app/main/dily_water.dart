@@ -253,7 +253,7 @@ class _DilyWaterState extends State<DilyWater> {
     if (list[i]['status'] == 3 && list[i]['money'] != 0) {
       t = '充值';
     }
-    if (list[i]['money'] == 0) {
+    if (double.parse(list[i]['money'].toString()) == 0) {
       t = '欠款';
     }
     return Column(

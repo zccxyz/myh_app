@@ -232,7 +232,7 @@ class _CpManageState extends State<BoxManage> {
               ))),
               Expanded(
                   child: Center(
-                      child: Text('${list[i]['sn']}',
+                      child: Text('${list[i]['sn']??''}',
                           style: TextStyle(fontWeight: FontWeight.bold)))),
               Expanded(
                   child: Center(

@@ -44,7 +44,7 @@ class CheckList extends StatelessWidget {
               Icons.date_range,
               color: c1,
             ),
-            title: Text('未提成业绩'),
+            title: Text('消费未提成业绩'),
             trailing: Icon(Icons.chevron_right),
           ),
           Divider(height: 0,),

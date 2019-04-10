@@ -95,7 +95,7 @@ class _RechargeState extends State<Recharge> {
   }
 
   void sub() async {
-    if (one.length == 0 || two.length == 0) {
+    if (one.length == 0 && two.length == 0) {
       return tip(context, '至少输入一项');
     }
     var rs = await post('RechargeAccount', data: {

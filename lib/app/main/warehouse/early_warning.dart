@@ -50,7 +50,7 @@ class _EarlyWarningState extends State<EarlyWarning> {
             child: Row(
               children: <Widget>[
                 Expanded(
-                  child: Center(child: Text('所属仓库')),
+                  child: Center(child: Text('品项')),
                   flex: 2,
                 ),
                 Expanded(child: Center(child: Text('商品名称')), flex: 2),
@@ -72,6 +72,20 @@ class _EarlyWarningState extends State<EarlyWarning> {
     );
   }
 
+  String getName(int c) {
+    String str = '';
+    if (c == 1) {
+      str = '产品';
+    } else if (c == 2) {
+      str = '套盒';
+    } else if (c == 3) {
+      str = '耗材';
+    } else if (c == 4) {
+      str = '内衣';
+    }
+    return str;
+  }
+
   Widget _item(int i) => Column(
         children: <Widget>[
           Container(
@@ -84,7 +98,7 @@ class _EarlyWarningState extends State<EarlyWarning> {
                     flex: 2,
                     child: Center(
                         child: Text(
-                      '${list[i]['ware_name']}',
+                      '${getName(list[i]['cate'])}',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ))),

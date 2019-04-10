@@ -406,7 +406,7 @@ class _ConsumptionEntryState extends State<ConsumptionEntry>
   }
 
   bool isShowKa() {
-    if(now['id'] == 0){
+    if(now!=null&&now['id'] == 0){
       return false;
     }
     for(var v in storeItems) {
