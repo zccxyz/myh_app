@@ -109,14 +109,12 @@ class _AddBoxState extends State<AddBox> {
                   ],
                 ),*/
                 MyInput2(
-                  keyboardType: TextInputType.numberWithOptions(),
                   controller: _snCon,
                   label: '套盒编号',
                   hintText: '请填写产品编号(非必填)',
                   alignment: Alignment.centerLeft,
                 ),
                 MyInput2(
-                  keyboardType: TextInputType.numberWithOptions(),
                   controller: _nameCon,
                   label: '套盒名称',
                   hintText: '请填写产品名称(必填)',

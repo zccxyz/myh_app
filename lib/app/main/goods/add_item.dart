@@ -379,7 +379,7 @@ class _AddBoxState extends State<AddItem> {
         return tip(context, '请输入护理周期');
       }
     }
-    if (duration == 1) {
+    if (duration == 2) {
       if (end.length == 0) {
         return tip(context, '请选择过期时间');
       }
@@ -396,7 +396,7 @@ class _AddBoxState extends State<AddItem> {
         'pro_name': name,
         'price': price,
         'sn': sn,
-        'end_time': duration == 1 ? end : '',
+        'end_time': duration == 2 ? end : '',
         'img': '',
         'introduce': _jsCon.text,
         'id': widget.id,
@@ -485,7 +485,8 @@ class _AddBoxState extends State<AddItem> {
       _jsCon.text = d['introduce'] == null ? '' : d['introduce'].toString();
       if (d['duration'] == 1) {
         end = d['end_time'];
-        duration = 1;
+        print(end);
+        duration = 2;
       }
       if (d['cycle'] == 2 && d['days'] != 7) {
         _dayCon.text = d['days'].toString();
