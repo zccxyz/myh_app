@@ -193,20 +193,23 @@ class _PayState extends State<Pay> {
                       Column(
                         children: <Widget>[
                           ListTile(
-                            leading: Row(
-                              children: <Widget>[
-                                Icon(
-                                  Icons.account_balance_wallet,
-                                  color: c1,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 10),
-                                  child: Text(
-                                    '现金支付',
-                                    style: TextStyle(fontSize: 17),
+                            leading: Container(
+                              width: getRange(context) / 2,
+                              child: Row(
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.account_balance_wallet,
+                                    color: c1,
                                   ),
-                                )
-                              ],
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      '现金支付',
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                             trailing: Container(
                               margin: EdgeInsets.only(top: 8),
@@ -235,20 +238,23 @@ class _PayState extends State<Pay> {
                                 three = !three;
                               });
                             },
-                            leading: Row(
-                              children: <Widget>[
-                                Icon(
-                                  Icons.account_balance_wallet,
-                                  color: c1,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 10),
-                                  child: Text(
-                                    '第三方支付',
-                                    style: TextStyle(fontSize: 17),
+                            leading: Container(
+                              width: getRange(context) / 2,
+                              child: Row(
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.account_balance_wallet,
+                                    color: c1,
                                   ),
-                                )
-                              ],
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      '第三方支付',
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                             trailing: AnimatedCrossFade(
                                 firstChild: Icon(Icons.chevron_right),
@@ -268,21 +274,24 @@ class _PayState extends State<Pay> {
                                 child: Column(
                                   children: <Widget>[
                                     ListTile(
-                                      leading: Row(
-                                        children: <Widget>[
-                                          Icon(
-                                            Icons.account_balance_wallet,
-                                            color: c1,
-                                          ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 10),
-                                            child: Text(
-                                              '支付宝',
-                                              style: TextStyle(fontSize: 17),
+                                      leading: Container(
+                                        width: getRange(context) / 2,
+                                        child: Row(
+                                          children: <Widget>[
+                                            Icon(
+                                              Icons.account_balance_wallet,
+                                              color: c1,
                                             ),
-                                          )
-                                        ],
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10),
+                                              child: Text(
+                                                '支付宝',
+                                                style: TextStyle(fontSize: 17),
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                       trailing: Container(
                                         margin: EdgeInsets.only(top: 8),
@@ -304,21 +313,24 @@ class _PayState extends State<Pay> {
                                       height: 0,
                                     ),
                                     ListTile(
-                                      leading: Row(
-                                        children: <Widget>[
-                                          Icon(
-                                            Icons.account_balance_wallet,
-                                            color: c1,
-                                          ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 10),
-                                            child: Text(
-                                              '微信支付',
-                                              style: TextStyle(fontSize: 17),
+                                      leading: Container(
+                                        width: getRange(context) / 2,
+                                        child: Row(
+                                          children: <Widget>[
+                                            Icon(
+                                              Icons.account_balance_wallet,
+                                              color: c1,
                                             ),
-                                          )
-                                        ],
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10),
+                                              child: Text(
+                                                '微信支付',
+                                                style: TextStyle(fontSize: 17),
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                       trailing: Container(
                                         margin: EdgeInsets.only(top: 8),
@@ -340,21 +352,24 @@ class _PayState extends State<Pay> {
                                       height: 0,
                                     ),
                                     ListTile(
-                                      leading: Row(
-                                        children: <Widget>[
-                                          Icon(
-                                            Icons.account_balance_wallet,
-                                            color: c1,
-                                          ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 10),
-                                            child: Text(
-                                              'POS机',
-                                              style: TextStyle(fontSize: 17),
+                                      leading: Container(
+                                        width: getRange(context) / 2,
+                                        child: Row(
+                                          children: <Widget>[
+                                            Icon(
+                                              Icons.account_balance_wallet,
+                                              color: c1,
                                             ),
-                                          )
-                                        ],
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10),
+                                              child: Text(
+                                                'POS机',
+                                                style: TextStyle(fontSize: 17),
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                       trailing: Container(
                                         margin: EdgeInsets.only(top: 8),
@@ -376,21 +391,24 @@ class _PayState extends State<Pay> {
                                       height: 0,
                                     ),
                                     ListTile(
-                                      leading: Row(
-                                        children: <Widget>[
-                                          Icon(
-                                            Icons.account_balance_wallet,
-                                            color: c1,
-                                          ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 10),
-                                            child: Text(
-                                              '大众点评',
-                                              style: TextStyle(fontSize: 17),
+                                      leading: Container(
+                                        width: getRange(context) / 2,
+                                        child: Row(
+                                          children: <Widget>[
+                                            Icon(
+                                              Icons.account_balance_wallet,
+                                              color: c1,
                                             ),
-                                          )
-                                        ],
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10),
+                                              child: Text(
+                                                '大众点评',
+                                                style: TextStyle(fontSize: 17),
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                       trailing: Container(
                                         margin: EdgeInsets.only(top: 8),
@@ -412,21 +430,24 @@ class _PayState extends State<Pay> {
                                       height: 0,
                                     ),
                                     ListTile(
-                                      leading: Row(
-                                        children: <Widget>[
-                                          Icon(
-                                            Icons.account_balance_wallet,
-                                            color: c1,
-                                          ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 10),
-                                            child: Text(
-                                              '收钱吧',
-                                              style: TextStyle(fontSize: 17),
+                                      leading: Container(
+                                        width: getRange(context) / 2,
+                                        child: Row(
+                                          children: <Widget>[
+                                            Icon(
+                                              Icons.account_balance_wallet,
+                                              color: c1,
                                             ),
-                                          )
-                                        ],
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10),
+                                              child: Text(
+                                                '收钱吧',
+                                                style: TextStyle(fontSize: 17),
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                       trailing: Container(
                                         margin: EdgeInsets.only(top: 8),
@@ -448,21 +469,24 @@ class _PayState extends State<Pay> {
                                       height: 0,
                                     ),
                                     ListTile(
-                                      leading: Row(
-                                        children: <Widget>[
-                                          Icon(
-                                            Icons.account_balance_wallet,
-                                            color: c1,
-                                          ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 10),
-                                            child: Text(
-                                              '美团',
-                                              style: TextStyle(fontSize: 17),
+                                      leading: Container(
+                                        width: getRange(context) / 2,
+                                        child: Row(
+                                          children: <Widget>[
+                                            Icon(
+                                              Icons.account_balance_wallet,
+                                              color: c1,
                                             ),
-                                          )
-                                        ],
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10),
+                                              child: Text(
+                                                '美团',
+                                                style: TextStyle(fontSize: 17),
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                       trailing: Container(
                                         margin: EdgeInsets.only(top: 8),
@@ -500,20 +524,23 @@ class _PayState extends State<Pay> {
                                 zt = !zt;
                               });
                             },
-                            leading: Row(
-                              children: <Widget>[
-                                Icon(
-                                  Icons.account_balance_wallet,
-                                  color: c1,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 10),
-                                  child: Text(
-                                    '余额抵扣',
-                                    style: TextStyle(fontSize: 17),
+                            leading: Container(
+                              width: getRange(context) / 2,
+                              child: Row(
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.account_balance_wallet,
+                                    color: c1,
                                   ),
-                                )
-                              ],
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      '余额抵扣',
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                             trailing: AnimatedCrossFade(
                                 firstChild: Icon(Icons.chevron_right),
@@ -594,21 +621,24 @@ class _PayState extends State<Pay> {
                                       zt2 = !zt2;
                                     });
                                   },
-                                  leading: Row(
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.account_balance_wallet,
-                                        color: c1,
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 10),
-                                        child: Text(
-                                          '积分抵扣',
-                                          style: TextStyle(fontSize: 17),
+                                  leading: Container(
+                                    width: getRange(context) / 2,
+                                    child: Row(
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.account_balance_wallet,
+                                          color: c1,
                                         ),
-                                      )
-                                    ],
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 10),
+                                          child: Text(
+                                            '积分抵扣',
+                                            style: TextStyle(fontSize: 17),
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                   trailing: AnimatedCrossFade(
                                       firstChild: Icon(Icons.chevron_right),
@@ -683,20 +713,23 @@ class _PayState extends State<Pay> {
                                 zt3 = !zt3;
                               });
                             },
-                            leading: Row(
-                              children: <Widget>[
-                                Icon(
-                                  Icons.account_balance_wallet,
-                                  color: c1,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 10),
-                                  child: Text(
-                                    '储值卡',
-                                    style: TextStyle(fontSize: 17),
+                            leading: Container(
+                              width: getRange(context) / 2,
+                              child: Row(
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.account_balance_wallet,
+                                    color: c1,
                                   ),
-                                )
-                              ],
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      '储值卡',
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                             trailing: AnimatedCrossFade(
                                 firstChild: Icon(Icons.chevron_right),
@@ -709,73 +742,79 @@ class _PayState extends State<Pay> {
                           Divider(
                             height: 0,
                           ),
-                          cardList.length>0?AnimatedCrossFade(
-                              firstChild: Offstage(),
-                              secondChild: Container(
-                                color: bg2,
-                                child: Column(
-                                  children: <Widget>[
-                                    MyInput2(
-                                      label: '卡类型',
-                                      enabled: false,
-                                      hintStyle: TextStyle(color: Colors.black),
-                                      hintText: nowCard['card_type'] == 1
-                                          ? '储值卡'
-                                          : nowCard['card_type'] == 2
-                                              ? '消费折扣卡'
-                                              : nowCard['card_type'] == 3
-                                                  ? '全场折扣卡'
-                                                  : '无',
-                                    ),
-                                    MyInput2(
-                                      label: '卡内余额',
-                                      enabled: false,
-                                      hintStyle: TextStyle(color: Colors.black),
-                                      hintText: '${nowCard['amount'] ?? 0}元',
-                                    ),
-                                    nowCard['card_type'] == 3
-                                        ? MyInput2(
-                                            label: '卡折扣',
-                                            enabled: false,
-                                            hintStyle:
-                                                TextStyle(color: Colors.black),
-                                            hintText:
-                                                '${double.parse(nowCard['discount'].toString()) * 10}折',
-                                          )
-                                        : Offstage(),
-                                    GestureDetector(
-                                      onTap: () {
-                                        showMyPicker(context);
-                                      },
-                                      child: MyItem(
-                                        child: Text(
-                                          nowCard != null
-                                              ? nowCard['name']
-                                              : '',
-                                          style: TextStyle(color: Colors.black),
+                          cardList.length > 0
+                              ? AnimatedCrossFade(
+                                  firstChild: Offstage(),
+                                  secondChild: Container(
+                                    color: bg2,
+                                    child: Column(
+                                      children: <Widget>[
+                                        MyInput2(
+                                          label: '卡类型',
+                                          enabled: false,
+                                          hintStyle:
+                                              TextStyle(color: Colors.black),
+                                          hintText: nowCard['card_type'] == 1
+                                              ? '储值卡'
+                                              : nowCard['card_type'] == 2
+                                                  ? '消费折扣卡'
+                                                  : nowCard['card_type'] == 3
+                                                      ? '全场折扣卡'
+                                                      : '无',
                                         ),
-                                        label: '可用卡项',
-                                      ),
+                                        MyInput2(
+                                          label: '卡内余额',
+                                          enabled: false,
+                                          hintStyle:
+                                              TextStyle(color: Colors.black),
+                                          hintText:
+                                              '${nowCard['amount'] ?? 0}元',
+                                        ),
+                                        nowCard['card_type'] == 3
+                                            ? MyInput2(
+                                                label: '卡折扣',
+                                                enabled: false,
+                                                hintStyle: TextStyle(
+                                                    color: Colors.black),
+                                                hintText:
+                                                    '${double.parse(nowCard['discount'].toString()) * 10}折',
+                                              )
+                                            : Offstage(),
+                                        GestureDetector(
+                                          onTap: () {
+                                            showMyPicker(context);
+                                          },
+                                          child: MyItem(
+                                            child: Text(
+                                              nowCard != null
+                                                  ? nowCard['name']
+                                                  : '',
+                                              style: TextStyle(
+                                                  color: Colors.black),
+                                            ),
+                                            label: '可用卡项',
+                                          ),
+                                        ),
+                                        MyInput2(
+                                          onChanged: (v) {
+                                            setState(() {
+                                              cardPay = v;
+                                            });
+                                          },
+                                          keyboardType:
+                                              TextInputType.numberWithOptions(),
+                                          label: '划扣金额',
+                                          hintText: '0.00',
+                                          suffixText: '元',
+                                        ),
+                                      ],
                                     ),
-                                    MyInput2(
-                                      onChanged: (v) {
-                                        setState(() {
-                                          cardPay = v;
-                                        });
-                                      },
-                                      keyboardType:
-                                          TextInputType.numberWithOptions(),
-                                      label: '划扣金额',
-                                      hintText: '0.00',
-                                      suffixText: '元',
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              crossFadeState: zt3
-                                  ? CrossFadeState.showSecond
-                                  : CrossFadeState.showFirst,
-                              duration: Duration(milliseconds: 300)):Offstage(),
+                                  ),
+                                  crossFadeState: zt3
+                                      ? CrossFadeState.showSecond
+                                      : CrossFadeState.showFirst,
+                                  duration: Duration(milliseconds: 300))
+                              : Offstage(),
                         ],
                       ),
                       widget.arrears == 0
@@ -788,21 +827,24 @@ class _PayState extends State<Pay> {
                                       zt4 = !zt4;
                                     });
                                   },
-                                  leading: Row(
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.account_balance_wallet,
-                                        color: c1,
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 10),
-                                        child: Text(
-                                          '赠送',
-                                          style: TextStyle(fontSize: 17),
+                                  leading: Container(
+                                    width: getRange(context) / 2,
+                                    child: Row(
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.account_balance_wallet,
+                                          color: c1,
                                         ),
-                                      )
-                                    ],
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 10),
+                                          child: Text(
+                                            '赠送',
+                                            style: TextStyle(fontSize: 17),
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                   trailing: AnimatedCrossFade(
                                       firstChild: Icon(Icons.chevron_right),
@@ -874,21 +916,24 @@ class _PayState extends State<Pay> {
                                       zt5 = !zt5;
                                     });
                                   },
-                                  leading: Row(
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.account_balance_wallet,
-                                        color: c1,
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 10),
-                                        child: Text(
-                                          '优惠券(${couponList.length})',
-                                          style: TextStyle(fontSize: 17),
+                                  leading: Container(
+                                    width: getRange(context) / 2,
+                                    child: Row(
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.account_balance_wallet,
+                                          color: c1,
                                         ),
-                                      )
-                                    ],
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 10),
+                                          child: Text(
+                                            '优惠券(${couponList.length})',
+                                            style: TextStyle(fontSize: 17),
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                   trailing: AnimatedCrossFade(
                                       firstChild: Icon(Icons.chevron_right),

@@ -437,67 +437,70 @@ class _AddPlanState extends State<AddPlan> {
       child: Column(
         children: <Widget>[
           ListTile(
-            leading: Row(
-              children: <Widget>[
-                Expanded(
-                  child: Column(
-                    children: <Widget>[
-                      Text(
-                        name,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      Text((type == 3 ? '库存：' : '次数：') + time),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Column(
-                    children: <Widget>[
-                      priceWidget(price),
-                      Text(
-                        '期限：',
-                        style: TextStyle(color: Colors.transparent),
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+            leading: Container(
+              width: getRange(context)-70,
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Column(
                       children: <Widget>[
-                        MyButton2(
-                          icon: Icons.remove,
-                          color: needNum > 0 ? c1 : myColor(204, 205, 206),
-                          onPress: () {
-                            if (needNum > 0) {
-                              rm(type, id);
-                              state(() {});
-                            }
-                          },
+                        Text(
+                          name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 5, right: 5),
-                          child: Text(
-                            '$needNum',
-                            style: TextStyle(color: textColor, fontSize: 18),
-                          ),
-                        ),
-                        MyButton2(
-                          icon: Icons.add,
-                          onPress: () {
-                            add(type, name, price, id, time);
-                            state(() {});
-                          },
-                        ),
-                        //IconButton(icon: Icon(Icons.add), onPressed: (){}),
+                        Text((type == 3 ? '库存：' : '次数：') + time),
                       ],
                     ),
                   ),
-                )
-              ],
+                  Expanded(
+                    child: Column(
+                      children: <Widget>[
+                        priceWidget(price),
+                        Text(
+                          '期限：',
+                          style: TextStyle(color: Colors.transparent),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          MyButton2(
+                            icon: Icons.remove,
+                            color: needNum > 0 ? c1 : myColor(204, 205, 206),
+                            onPress: () {
+                              if (needNum > 0) {
+                                rm(type, id);
+                                state(() {});
+                              }
+                            },
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 5, right: 5),
+                            child: Text(
+                              '$needNum',
+                              style: TextStyle(color: textColor, fontSize: 18),
+                            ),
+                          ),
+                          MyButton2(
+                            icon: Icons.add,
+                            onPress: () {
+                              add(type, name, price, id, time);
+                              state(() {});
+                            },
+                          ),
+                          //IconButton(icon: Icon(Icons.add), onPressed: (){}),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
           Divider(),
