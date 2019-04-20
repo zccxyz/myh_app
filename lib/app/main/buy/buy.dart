@@ -288,19 +288,22 @@ class _BuyState extends State<Buy> {
       children: <Widget>[
         ListTile(
           contentPadding: EdgeInsets.only(left: 0, right: 10),
-          leading: Row(
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(left: 10, right: 10),
-                child: Text(
-                  '${car[i]['name']}',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+          leading: Container(
+            width: getRange(context)*3/4,
+            child: Row(
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(left: 10, right: 10),
+                  child: Text(
+                    '${car[i]['name']}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  width: 120,
                 ),
-                width: 120,
-              ),
-              priceWidget('${car[i]['t'] == 2 ? 0 : double.parse(car[i]['price'].toString()).toStringAsFixed(2)}'),
-            ],
+                priceWidget('${car[i]['t'] == 2 ? 0 : double.parse(car[i]['price'].toString()).toStringAsFixed(2)}'),
+              ],
+            ),
           ),
           trailing: Container(
             width: getRange(context) / 4,
@@ -433,7 +436,7 @@ class _BuyState extends State<Buy> {
                                 showBottomLine: true,
                                 keyboardType: TextInputType.numberWithOptions(),
                               ),
-                              width: 50,
+                              width: 70,
                             ),
                           ],
                         )
