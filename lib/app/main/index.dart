@@ -46,8 +46,10 @@ class _IndexState extends State<Index> {
                                   'img/1_03.png',
                                   width: 25.0,
                                 ),
-                                onPressed: () {
-                                  jump(context, 'subscribe');
+                                onPressed: () async {
+                                  await jump(context, 'subscribe');
+                                  getWare();
+                                  getManage();
                                 })
                           ],
                           pinned: true,
@@ -74,8 +76,10 @@ class _IndexState extends State<Index> {
                                   child: Column(
                                     children: <Widget>[
                                       GestureDetector(
-                                        onTap: () {
-                                          jump(context, 'today_money');
+                                        onTap: () async {
+                                          await jump(context, 'today_money');
+                                          getWare();
+                                          getManage();
                                         },
                                         child: Row(
                                           mainAxisAlignment:
@@ -112,8 +116,11 @@ class _IndexState extends State<Index> {
                                               MainAxisAlignment.spaceBetween,
                                           children: <Widget>[
                                             GestureDetector(
-                                              onTap: () {
-                                                jump(context, 'today_consume');
+                                              onTap: () async {
+                                                await jump(
+                                                    context, 'today_consume');
+                                                getWare();
+                                                getManage();
                                               },
                                               child: RichText(
                                                 text: TextSpan(
@@ -129,8 +136,11 @@ class _IndexState extends State<Index> {
                                               ),
                                             ),
                                             GestureDetector(
-                                              onTap: () {
-                                                jump(context, 'today_shop');
+                                              onTap: () async {
+                                                await jump(
+                                                    context, 'today_shop');
+                                                getWare();
+                                                getManage();
                                               },
                                               child: RichText(
                                                 text: TextSpan(
@@ -156,8 +166,11 @@ class _IndexState extends State<Index> {
                                               MainAxisAlignment.spaceBetween,
                                           children: <Widget>[
                                             GestureDetector(
-                                              onTap: () {
-                                                jump(context, 'today_consume');
+                                              onTap: () async {
+                                                await jump(
+                                                    context, 'today_consume');
+                                                getWare();
+                                                getManage();
                                               },
                                               child: RichText(
                                                 text: TextSpan(
@@ -172,8 +185,11 @@ class _IndexState extends State<Index> {
                                               ),
                                             ),
                                             GestureDetector(
-                                              onTap: () {
-                                                jump(context, 'today_shop');
+                                              onTap: () async {
+                                                await jump(
+                                                    context, 'today_shop');
+                                                getWare();
+                                                getManage();
                                               },
                                               child: RichText(
                                                 text: TextSpan(
@@ -213,8 +229,10 @@ class _IndexState extends State<Index> {
                                       width: MediaQuery.of(context).size.width,
                                       color: Colors.white,
                                       child: GestureDetector(
-                                        onTap: () {
-                                          jump(context, 'birthday');
+                                        onTap: () async {
+                                          await jump(context, 'birthday');
+                                          getWare();
+                                          getManage();
                                         },
                                         child: Row(
                                           mainAxisAlignment:
@@ -229,9 +247,13 @@ class _IndexState extends State<Index> {
                                                         0
                                                 ? Expanded(
                                                     child: Swiper(
-                                                      itemCount: data['bir_member'].length,
-                                                      itemBuilder: (_, i) => _item(i),
-                                                      scrollDirection: Axis.vertical,
+                                                      itemCount:
+                                                          data['bir_member']
+                                                              .length,
+                                                      itemBuilder: (_, i) =>
+                                                          _item(i),
+                                                      scrollDirection:
+                                                          Axis.vertical,
                                                       autoplay: true,
                                                     ),
                                                   )
@@ -270,8 +292,11 @@ class _IndexState extends State<Index> {
                                         children: <Widget>[
                                           Expanded(
                                               child: GestureDetector(
-                                            onTap: () {
-                                              jump(context, 'lost_member');
+                                            onTap: () async {
+                                              await jump(
+                                                  context, 'lost_member');
+                                              getWare();
+                                              getManage();
                                             },
                                             child: Container(
                                               height: 88.0,
@@ -307,8 +332,11 @@ class _IndexState extends State<Index> {
                                           )),
                                           Expanded(
                                               child: GestureDetector(
-                                            onTap: () {
-                                              jump(context, 'warn_member');
+                                            onTap: () async {
+                                              await jump(
+                                                  context, 'warn_member');
+                                              getWare();
+                                              getManage();
                                             },
                                             child: Container(
                                               height: 88.0,
@@ -339,8 +367,10 @@ class _IndexState extends State<Index> {
                                           )),
                                           Expanded(
                                               child: GestureDetector(
-                                            onTap: () {
-                                              jump(context, 'new_manage');
+                                            onTap: () async {
+                                              await jump(context, 'new_manage');
+                                              getWare();
+                                              getManage();
                                             },
                                             child: Container(
                                               height: 88.0,
@@ -422,8 +452,10 @@ class _IndexState extends State<Index> {
                                     ),
                                   ),
                                   GestureDetector(
-                                    onTap: () {
-                                      jump(context, 'consumption');
+                                    onTap: () async {
+                                      await jump(context, 'consumption');
+                                      getWare();
+                                      getManage();
                                     },
                                     child: Column(
                                       children: <Widget>[
@@ -442,8 +474,10 @@ class _IndexState extends State<Index> {
                                     ),
                                   ),
                                   GestureDetector(
-                                    onTap: () {
-                                      jump(context, 'arrears');
+                                    onTap: () async {
+                                      await jump(context, 'arrears');
+                                      getWare();
+                                      getManage();
                                     },
                                     child: Column(
                                       children: <Widget>[
@@ -464,8 +498,10 @@ class _IndexState extends State<Index> {
                                 ]),
                                 TableRow(children: [
                                   GestureDetector(
-                                    onTap: () {
-                                      jump(context, 'dily_water');
+                                    onTap: () async {
+                                      await jump(context, 'dily_water');
+                                      getWare();
+                                      getManage();
                                     },
                                     child: Padding(
                                       padding:
@@ -488,8 +524,10 @@ class _IndexState extends State<Index> {
                                     ),
                                   ),
                                   GestureDetector(
-                                    onTap: () {
-                                      jump(context, 'check_list');
+                                    onTap: () async {
+                                      await jump(context, 'check_list');
+                                      getWare();
+                                      getManage();
                                     },
                                     child: Column(
                                       children: <Widget>[
@@ -508,8 +546,10 @@ class _IndexState extends State<Index> {
                                     ),
                                   ),
                                   GestureDetector(
-                                    onTap: () {
-                                      jump(context, 'popularity_index');
+                                    onTap: () async {
+                                      await jump(context, 'popularity_index');
+                                      getWare();
+                                      getManage();
                                     },
                                     child: Column(
                                       children: <Widget>[
@@ -554,8 +594,10 @@ class _IndexState extends State<Index> {
                                     ),
                                   ),
                                   GestureDetector(
-                                    onTap: () {
-                                      jump(context, 'early_warning');
+                                    onTap: () async {
+                                      await jump(context, 'early_warning');
+                                      getWare();
+                                      getManage();
                                     },
                                     child: Stack(
                                       alignment: Alignment.center,

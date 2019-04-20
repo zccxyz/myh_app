@@ -64,39 +64,42 @@ class _PlanManageState extends State<PlanManage> with TickerProviderStateMixin {
   Widget _item(int i) => Column(
         children: <Widget>[
           ListTile(
-            leading: Row(
-              children: <Widget>[
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      list[i]['zt'] = !list[i]['zt'];
-                    });
-                  },
-                  child: CircleAvatar(
-                    radius: 15,
-                    child: Icon(
-                      list[i]['zt']
-                          ? Icons.keyboard_arrow_down
-                          : Icons.chevron_right,
-                      color: Colors.white,
+            leading: Container(
+              width: getRange(context)*3 / 4,
+              child: Row(
+                children: <Widget>[
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        list[i]['zt'] = !list[i]['zt'];
+                      });
+                    },
+                    child: CircleAvatar(
+                      radius: 15,
+                      child: Icon(
+                        list[i]['zt']
+                            ? Icons.keyboard_arrow_down
+                            : Icons.chevron_right,
+                        color: Colors.white,
+                      ),
+                      backgroundColor: list[i]['zt']
+                          ? myColor(96, 97, 98)
+                          : myColor(204, 205, 206),
                     ),
-                    backgroundColor: list[i]['zt']
-                        ? myColor(96, 97, 98)
-                        : myColor(204, 205, 206),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(right: 10),
-                  padding: const EdgeInsets.only(left: 8),
-                  child: Text(
-                    '${list[i]['name']}',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                  Container(
+                    margin: EdgeInsets.only(right: 10),
+                    padding: const EdgeInsets.only(left: 8),
+                    child: Text(
+                      '${list[i]['name']}',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    width: getRange(context) / 4,
                   ),
-                  width: getRange(context) / 4,
-                ),
-                priceWidget('${list[i]['sale']}')
-              ],
+                  priceWidget('${list[i]['sale']}')
+                ],
+              ),
             ),
             trailing: MyButton(
               onPressed: () async {

@@ -116,15 +116,14 @@ class _BuyState extends State<Buy> {
       appBar: MyAppBar(
         title: Text(title),
         actions: <Widget>[
-          Builder(
-              builder: (c) => IconButton(
-                  icon: Icon(
-                    Icons.shopping_cart,
-                    color: c1,
-                  ),
-                  onPressed: () {
-                    showModel(c);
-                  }))
+          /*IconButton(
+              icon: Icon(
+                Icons.shopping_cart,
+                color: c1,
+              ),
+              onPressed: () {
+
+              })*/
         ],
         bottom: PreferredSize(
             child: Container(
@@ -143,6 +142,54 @@ class _BuyState extends State<Buy> {
               padding: EdgeInsets.only(left: 20, right: 20, bottom: 10),
             ),
             preferredSize: Size(getRange(context), 50)),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: Container(
+          height: 50,
+          padding: EdgeInsets.only(left: 15, right: 15),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Expanded(
+                child: Builder(
+                    builder: (BuildContext c) => GestureDetector(
+                          onTap: () {
+                            showModel(c);
+                          },
+                          child: Row(
+                            children: <Widget>[
+                              Text(
+                                '合计：',
+                                style: TextStyle(fontSize: 16),
+                              ),
+                              Text(
+                                '¥${getTotal().toStringAsFixed(2)}',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    color: c1,
+                                    fontSize: 16),
+                              ),
+                              Icon(Icons.keyboard_arrow_up)
+                            ],
+                          ),
+                        )),
+              ),
+              Container(
+                width: 100,
+                child: MyButton(
+                  onPressed: () {
+                    if (!loadState) {
+                      //jump2(context, Pay(1));
+                      buy();
+                    }
+                  },
+                  load: loadState,
+                  title: '确认购买',
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
       body: Container(
         color: Colors.white,
@@ -172,91 +219,43 @@ class _BuyState extends State<Buy> {
         context: c,
         builder: (_) => StatefulBuilder(builder: (_, state) {
               this.state = state;
-              return PhysicalShape(
-                clipper: ShapeBorderClipper(shape: RoundedRectangleBorder()),
-                color: c1,
-                elevation: 10,
-                child: Container(
-                  child: Scaffold(
-                    backgroundColor: bg2,
-                    appBar: MyAppBar(
-                      title: Text('购物车'),
-                      leading: IconButton(
-                          icon: Icon(Icons.close),
-                          onPressed: () {
-                            back(context);
-                          }),
-                      elevation: 0.3,
-                      actions: <Widget>[
-                        IconButton(
-                            icon: Icon(Icons.delete_outline),
-                            onPressed: () async {
-                              var ok = await showAlert(context, '是否清空购物车？');
-                              if (ok) {
-                                car = [];
-                                for (var v in list) {
-                                  v['sum'] = 0;
-                                }
-                                setState(() {});
-                                state(() {});
+              return Container(
+                child: Scaffold(
+                  backgroundColor: bg2,
+                  appBar: MyAppBar(
+                    title: Text('购物车'),
+                    leading: IconButton(
+                        icon: Icon(Icons.close),
+                        onPressed: () {
+                          back(context);
+                        }),
+                    elevation: 0.3,
+                    actions: <Widget>[
+                      IconButton(
+                          icon: Icon(Icons.delete_outline),
+                          onPressed: () async {
+                            var ok = await showAlert(context, '是否清空购物车？');
+                            if (ok) {
+                              car = [];
+                              for (var v in list) {
+                                v['sum'] = 0;
                               }
-                            })
-                      ],
-                    ),
-                    bottomNavigationBar: BottomAppBar(
-                      child: Container(
-                        height: 50,
-                        padding: EdgeInsets.only(left: 15, right: 15),
-                        margin:
-                            EdgeInsets.only(bottom: getRange(context, type: 4)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Expanded(
-                              child: Row(
-                                children: <Widget>[
-                                  Text(
-                                    '合计：',
-                                    style: TextStyle(fontSize: 16),
-                                  ),
-                                  Text(
-                                    '¥${getTotal().toStringAsFixed(2)}',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        color: c1,
-                                        fontSize: 16),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              width: 100,
-                              child: MyButton(
-                                onPressed: () {
-                                  if (!loadState) {
-                                    //jump2(context, Pay(1));
-                                    buy();
-                                  }
-                                },
-                                load: loadState,
-                                title: '确认购买',
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    body: car.length == 0
-                        ? Center(
-                            child: Text('请选择商品'),
-                          )
-                        : ListView.builder(
-                            itemBuilder: (c, i) => _item2(c, i, state),
-                            itemCount: car.length,
-                          ),
+                              setState(() {});
+                              state(() {});
+                            }
+                          })
+                    ],
                   ),
-                  height: getRange(context, type: 2) / 2,
+                  body: car.length == 0
+                      ? Center(
+                          child: Text('请选择商品'),
+                        )
+                      : ListView.builder(
+                          itemBuilder: (c, i) => _item2(c, i, state),
+                          itemCount: car.length,
+                        ),
                 ),
+                height: 300,
               );
             }));
     /*showDialog(
@@ -289,7 +288,7 @@ class _BuyState extends State<Buy> {
         ListTile(
           contentPadding: EdgeInsets.only(left: 0, right: 10),
           leading: Container(
-            width: getRange(context)*3/4,
+            width: getRange(context) * 3 / 4,
             child: Row(
               children: <Widget>[
                 Container(
@@ -301,7 +300,8 @@ class _BuyState extends State<Buy> {
                   ),
                   width: 120,
                 ),
-                priceWidget('${car[i]['t'] == 2 ? 0 : double.parse(car[i]['price'].toString()).toStringAsFixed(2)}'),
+                priceWidget(
+                    '${car[i]['t'] == 2 ? 0 : double.parse(car[i]['price'].toString()).toStringAsFixed(2)}'),
               ],
             ),
           ),
@@ -483,7 +483,8 @@ class _BuyState extends State<Buy> {
 
                           _priceCon.text = rs.toStringAsFixed(2);
                         } else {
-                          _priceCon.text = double.parse(d['price'].toString()).toStringAsFixed(2);
+                          _priceCon.text = double.parse(d['price'].toString())
+                              .toStringAsFixed(2);
                         }
                       },
                       prefix: Text('打折'),
@@ -594,6 +595,9 @@ class _BuyState extends State<Buy> {
         widget.type,
         onChanged: (v) {
           change(v);
+          setState(() {
+
+          });
         },
       );
     }
@@ -612,6 +616,9 @@ class _BuyState extends State<Buy> {
         widget.type,
         onChanged: (v) {
           change(v);
+          setState(() {
+
+          });
         },
       );
     }
@@ -630,6 +637,9 @@ class _BuyState extends State<Buy> {
         widget.type,
         onChanged: (v) {
           change(v);
+          setState(() {
+
+          });
         },
       );
     }
@@ -648,6 +658,9 @@ class _BuyState extends State<Buy> {
         widget.type,
         onChanged: (v) {
           change(v);
+          setState(() {
+
+          });
         },
       );
     }
@@ -665,6 +678,9 @@ class _BuyState extends State<Buy> {
         list[i],
         onChanged: (v) {
           change(v);
+          setState(() {
+
+          });
         },
       );
     }
@@ -682,6 +698,9 @@ class _BuyState extends State<Buy> {
         list[i],
         onChanged: (v) {
           change(v);
+          setState(() {
+
+          });
         },
       );
     }
@@ -744,9 +763,13 @@ class _BuyState extends State<Buy> {
             context,
             Pay(int.parse(rs['res']['orderId'].toString()),
                 int.parse(rs['res']['arrearsRes'].toString())));*/
+        getWare();
+        getManage();
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => Pay(int.parse(rs['res']['orderId'].toString()),
-            int.parse(rs['res']['arrearsRes'].toString()))));
+            context,
+            MaterialPageRoute(
+                builder: (_) => Pay(int.parse(rs['res']['orderId'].toString()),
+                    int.parse(rs['res']['arrearsRes'].toString()))));
       }
     }
   }

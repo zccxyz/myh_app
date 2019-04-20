@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -51,7 +50,7 @@ const Map<String, String> methods = {
   'ArrearsList': 'Arrears/ArrearsList',
   'DailyIncomeDetail': 'store/DailyIncomeDetail',
   'check_popularity_rate_category':
-  'achievement/check_popularity_rate_category',
+      'achievement/check_popularity_rate_category',
   'get_popularity_detail': 'Achievement/get_popularity_detail',
   'ArriveList': 'arrive/ArriveList',
   'get_role': 'authority/get_role',
@@ -206,7 +205,7 @@ final IndexModel indexModel = IndexModel();
 BuildContext myContext;
 
 void launcherTel(String tel) async {
-  String url = 'tel:+'+tel;
+  String url = 'tel:+' + tel;
   if (await canLaunch(url)) {
     await launch(url);
   } else {
@@ -250,14 +249,21 @@ String getImg(String name, {String e = 'png'}) {
   return 'img/' + name + '.' + e;
 }
 
-Widget circularImg(String url, double w, {t=1}) {
+Widget circularImg(String url, double w, {t = 1}) {
   return ClipRRect(
     borderRadius: BorderRadius.circular(w / 2),
-    child: t==1?CachedNetworkImage(
-      imageUrl: url,
-      height: w,
-      width: w,
-    ):Image.asset(getImg('people',), width: w,),
+    child: t == 1
+        ? CachedNetworkImage(
+            imageUrl: url,
+            height: w,
+            width: w,
+          )
+        : Image.asset(
+            getImg(
+              'people',
+            ),
+            width: w,
+          ),
   );
 }
 
@@ -303,7 +309,7 @@ Future<bool> del(key) async {
   return await prefs.remove(key);
 }
 
-dynamic post(String m, {Map<String, dynamic> data, int t=0}) async {
+dynamic post(String m, {Map<String, dynamic> data, int t = 0}) async {
   dio.options.baseUrl = ym;
   if (m == 'login') {
     dio.options.queryParameters = {'source': 'myh_app'};
@@ -312,7 +318,7 @@ dynamic post(String m, {Map<String, dynamic> data, int t=0}) async {
       'source': 'myh_app',
       'user': toString(userModel.loginData)
     };
-    if(t!=0){
+    if (t != 0) {
       dio.options.queryParameters['id'] = t;
     }
   }
@@ -325,19 +331,19 @@ dynamic post(String m, {Map<String, dynamic> data, int t=0}) async {
     if (jg is String) {
       jg = formData(rs.data);
     }
-    if(jg is List){
+    if (jg is List) {
       return jg;
-    }else{
+    } else {
       if (jg['msg'] != null) {
-        tip(myContext, jg['msg'], type: jg['code']==-10?2:1);
+        tip(myContext, jg['msg'], type: jg['code'] == -10 ? 2 : 1);
       } else if (jg['code'] == -1) {
         if (jg['info'] != null) {
-          tip(myContext, jg['info'], type: jg['code']==-10?2:1);
+          tip(myContext, jg['info'], type: jg['code'] == -10 ? 2 : 1);
         } else {
           if (jg['error'] == null) {
-            tip(myContext, jg['errorMsg'], type: jg['code']==-10?2:1);
+            tip(myContext, jg['errorMsg'], type: jg['code'] == -10 ? 2 : 1);
           } else {
-            tip(myContext, jg['error'], type: jg['code']==-10?2:1);
+            tip(myContext, jg['error'], type: jg['code'] == -10 ? 2 : 1);
           }
         }
       }
@@ -369,15 +375,15 @@ dynamic get(String m, {Map<String, dynamic> data}) async {
       jg = formData(rs.data);
     }
     if (jg['msg'] != null) {
-      tip(myContext, jg['msg'], type: jg['code']==-10?2:1);
+      tip(myContext, jg['msg'], type: jg['code'] == -10 ? 2 : 1);
     } else if (jg['code'] == -1) {
       if (jg['info'] != null) {
-        tip(myContext, jg['info'], type: jg['code']==-10?2:1);
+        tip(myContext, jg['info'], type: jg['code'] == -10 ? 2 : 1);
       } else {
         if (jg['error'] == null) {
-          tip(myContext, jg['errorMsg'], type: jg['code']==-10?2:1);
+          tip(myContext, jg['errorMsg'], type: jg['code'] == -10 ? 2 : 1);
         } else {
-          tip(myContext, jg['error'], type: jg['code']==-10?2:1);
+          tip(myContext, jg['error'], type: jg['code'] == -10 ? 2 : 1);
         }
       }
     }
@@ -407,9 +413,9 @@ void tip(BuildContext context, String msg,
                   if (type == 2) {
                     back(context);
                   }
-                  if(Navigator.canPop(context)){
+                  if (Navigator.canPop(context)) {
                     back(context);
-                  }else{
+                  } else {
 //                    SystemNavigator.pop();
                   }
                 },
