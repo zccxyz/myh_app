@@ -738,7 +738,7 @@ class _BuyState extends State<Buy> {
       }
       data.add(d);
     }
-    state(() {
+    setState(() {
       loadState = true;
     });
     String m = 'buygoods';
@@ -754,7 +754,7 @@ class _BuyState extends State<Buy> {
       m = 'buyplan';
     }
     var rs = await post(m, data: {'type': 1, 'data': data, 'id': widget.id});
-    state(() {
+    setState(() {
       loadState = false;
     });
     if (rs != null) {
